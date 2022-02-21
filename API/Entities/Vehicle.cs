@@ -22,7 +22,10 @@ namespace API.Entities
     {
         public int Id { get; set; }
         public string Title { get; set; }
+
+        public int CountryId {get; set;}
         public Country Country { get; set; }
+        public string LogoImage { get; set; }
         public bool Active { get; set; }
     }
 }

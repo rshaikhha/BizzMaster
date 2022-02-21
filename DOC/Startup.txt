@@ -12,6 +12,18 @@ Build Up Solution and Projects:
     dotnet sln add API
     dotnet new gitignore
 
+    npx create-react-app client --template typescript --use-npm
+
+    npm install @mui/material @emotion/react @emotion/styled
+    npm install @mui/material @mui/styled-engine-sc styled-components
+    npm install react-router-dom@5 @types/react-router-dom
+    npm install axios
+    npm install redux react-redux
+    npm install react-hook-form
+    npm install react-toastify
+    
+
+
 
 Git Repository:
     git init
@@ -37,4 +49,6 @@ VSCode Extensions:
 Nuget Packages:
     Microsoft.EntityFrameworkCore.Sqlite by Microsoft
     Microsoft.EntityFrameworkCore.Design by Microsoft
+    Microsoft.EntityFrameworkCore.Tools by Microsoft
+    dotnet-ef installed via : dotnet tool install --global dotnet-ef --version 5.0.14
 

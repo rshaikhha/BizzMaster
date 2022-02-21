@@ -1,0 +1,40 @@
+Versions:
+git version 2.35.1.windows.2
+dotnet version 6.0.200
+node version v16.14.0
+npm version 8.3.1
+
+Build Up Solution and Projects:
+    dotnet new sln
+        -- BizzMaster.Sln
+    dotnet new webapi -o API
+        -- API/API.cproj
+    dotnet sln add API
+    dotnet new gitignore
+
+
+Git Repository:
+    git init
+    git add .
+    git commit -m "initial commit"
+    git remote add origin https://github.com/rshaikhha/BizzMaster.git
+    git remote -v #verifies the remote path
+    
+    git clone https://github.com/rshaikhha/BizzMaster.git #get token from github
+    git push origin main
+
+VSCode Extensions:
+    c# - C# for Visual Studio Code (powered by OmniSharp)
+        ** To use the .NET 6 build, set omnisharp.useModernNet to true in your VS Code settings and restart OmniSharp.
+        
+    C# Extensions - C# IDE Extensions for VSCode (By JosKreativ)
+    Auto Rename Tag - Auto rename paired HTML/XML tag (By Jun Han)
+    Bracket Pair Colorizer 2 - A customizable extension for colorizing matching brackets (By CoenraadS)
+    Material Icon Theme - Material Design Icons for Visual Studio Code (By Philipp Kief)
+    NuGet Gallery - NuGet Gallery Extension makes installing and uninstalling NuGet packages easier (By pcislo)
+    SQLite - Explore and query SQLite databases (By alexcvzz)
+
+Nuget Packages:
+    Microsoft.EntityFrameworkCore.Sqlite by Microsoft
+    Microsoft.EntityFrameworkCore.Design by Microsoft
+

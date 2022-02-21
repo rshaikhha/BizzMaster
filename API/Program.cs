@@ -1,25 +1,51 @@
-var builder = WebApplication.CreateBuilder(args);
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using API.Data;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+namespace API
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    public class Program
+    {
+        public static async Task Main(string[] args)
+        {
+            var host = CreateHostBuilder(args).Build();
+            using var scope = host.Services.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<BMContext>();
+
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+            try
+            {
+                await context.Database.MigrateAsync();
+                await DbInitializer.Initialize(context);
+            }
+            catch (System.Exception ex)
+            {
+                
+                logger.LogError(ex, "Problem Migrating Data");
+            }
+
+
+
+
+            await host.RunAsync();
+            
+
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+    }
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();

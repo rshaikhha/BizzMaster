@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@emotion/react";
-import { Container, createTheme, CssBaseline } from "@mui/material";
+import { Box, Container, createTheme, CssBaseline, Divider, Drawer, Grid, List, ListItem, ListItemIcon, ListItemText, Paper, Toolbar } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { Route, Switch } from "react-router-dom";
 import AboutPage from "../../features/about/AboutPage";
@@ -20,12 +20,12 @@ function App() {
       await dispatch(fetchCurrentUser());
     } catch (error) {
       console.log(error);
-      
+
     }
   }, [dispatch])
 
-  useEffect(()=>{
-    initApp().then(()=> setLoading(false));
+  useEffect(() => {
+    initApp().then(() => setLoading(false));
   }, [initApp])
 
   const [darkMode, setDarkMode] = useState(false);
@@ -39,16 +39,16 @@ function App() {
     }
   });
 
-  function handleThemeChange(){
+  function handleThemeChange() {
     setDarkMode(!darkMode);
   }
 
-  if (loading) return <Loadingcomponent message= 'Initializing App'></Loadingcomponent>
+  if (loading) return <Loadingcomponent message='Initializing App'></Loadingcomponent>
 
   return (
-    <ThemeProvider theme= {theme}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Header darkMode= {darkMode} handleThemeChange={handleThemeChange}/>
+      <Header darkMode={darkMode} handleThemeChange={handleThemeChange} />
       <Container>
         <Switch>
           <Route exact path='/' component={HomePage} />

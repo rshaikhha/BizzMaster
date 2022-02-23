@@ -5,12 +5,10 @@ using System.Threading.Tasks;
 
 namespace API.Entities
 {
-    public class Vehicle
+    public class Vehicle : BaseEntity
     {
-        public int Id { get; set; }
-
         public int VehicleBrandId { get; set; }
-        public VehicleBrand VehicleBrand { get; set; }
+        public Brand Brand { get; set; }
         public string Platform { get; set; }
         public string Model { get; set; }
         public string Years { get; set; }
@@ -18,14 +16,11 @@ namespace API.Entities
     }
 
 
-    public class VehicleBrand
+    public class Brand : BaseEntity
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
-
         public int CountryId {get; set;}
         public Country Country { get; set; }
         public string LogoImage { get; set; }
-        public bool Active { get; set; }
+        public string TypeHint { get; set; }
     }
 }

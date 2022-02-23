@@ -15,8 +15,12 @@ namespace API.Data
 
         public DbSet<Country> Countries { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
-        public DbSet<VehicleBrand> VehicleBrands { get; set; }
+        public DbSet<Brand> Brands { get; set; }
         
+        public DbSet<Product> Products {get; set;}
+        //public DbSet<ProductCategory> ProductCategories {get; set;}
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

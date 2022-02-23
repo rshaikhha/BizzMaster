@@ -30,75 +30,13 @@ namespace API.Controllers
             return await _context.Vehicles.ToListAsync();
         }
 
-        [HttpGet("brands")]
-        public async Task<ActionResult<List<VehicleBrandDto>>> GetBrands()
-        {
-            return await _context.VehicleBrands
-            .Where(x => x.Active)
-            .Include(x => x.Country)
-            .Select(x => new VehicleBrandDto
-            {
-                Title = x.Title,
-                CountryName = x.Country.Title,
-                CountryAbbr = x.Country.Abbr,
-                LogoImage = x.LogoImage,
-                CountryFlagImage = x.Country.FlagImageUrl,
-                Active = x.Active
-
-            })
-            .ToListAsync();
-        }
 
 
 
 
 
-        [HttpPost("ImportBrands")]
-        public async Task<ActionResult<List<VehicleBrand>>> ImportBrands([FromBody] List<VehicleBrandDto> values)
-        {
-
-            if (!ModelState.IsValid)
-            {
-                var message = string.Join(" | ", ModelState.Values
-                    .SelectMany(v => v.Errors)
-                    .Select(e => e.ErrorMessage));
-                return BadRequest(new ProblemDetails { Title = message });
-            }
-            var brands = await CreateBrandListFromDto(values);
-            await _context.VehicleBrands.AddRangeAsync(brands);
-            var result = await _context.SaveChangesAsync() > 0;
-
-            if (result)
-            {
-                return StatusCode(201);
-            }
-            return BadRequest(new ProblemDetails { Title = "Cannot Read The Imported Data" });
-        }
 
 
 
-        private async Task<List<VehicleBrand>> CreateBrandListFromDto(List<VehicleBrandDto> Dtos)
-        {
-            var countries = await _context.Countries.ToListAsync();
-            var list = new List<VehicleBrand>();
-            Dtos = Dtos.Where(x => !_context.VehicleBrands.Any(b => b.Title == x.Title)).ToList();
-            foreach (var item in Dtos)
-            {
-                try
-                {
-                    var brand = new VehicleBrand()
-                    {
-                        Title = item.Title,
-                        CountryId = countries.Single(x => x.Abbr == item.CountryAbbr).Id,
-                        LogoImage = string.IsNullOrEmpty(item.LogoImage) ? item.Title + ".jpg" : item.LogoImage,
-                        Active = item.Active
-                    };
-                    list.Add(brand);
-                }
-                catch (Exception) { }
-            }
-
-            return list;
-        }
     }
 }

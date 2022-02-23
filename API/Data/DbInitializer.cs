@@ -14,16 +14,15 @@ namespace API.Data
         {
             _context = context;
             if (context.Countries.Any()) return;
-            Console.WriteLine("hahaha");
 
             var Countries = CreateCountries();
             _context.Countries.AddRange(Countries);
-
             await _context.SaveChangesAsync();
-            var brands = CreateVehicleBrands();
-            _context.VehicleBrands.AddRange(brands);
 
 
+
+            var brands = CreateBrands();
+            _context.Brands.AddRange(brands);
             await _context.SaveChangesAsync();
         }
 
@@ -47,32 +46,43 @@ namespace API.Data
             return Countries;
         }
 
-        private static List<VehicleBrand> CreateVehicleBrands()
+        private static List<Brand> CreateBrands()
         {
             var jp = _context.Countries.Single(x => x.Abbr == "JP").Id;
             var kr = _context.Countries.Single(x => x.Abbr == "KR").Id;
             var fr = _context.Countries.Single(x => x.Abbr == "FR").Id;
             var se = _context.Countries.Single(x => x.Abbr == "SE").Id;
+            var de = _context.Countries.Single(x => x.Abbr == "DE").Id;
 
-            var brands = new List<VehicleBrand>(){
-                new VehicleBrand { Title="Toyota", CountryId = jp},
-                new VehicleBrand { Title="Hyundai", CountryId = kr},
-                new VehicleBrand { Title="Isuzu", CountryId = jp},
-                new VehicleBrand { Title="Peugeot", CountryId = jp},
-                new VehicleBrand { Title="Kia", CountryId = kr},
-                new VehicleBrand { Title="Renault", CountryId = fr},
-                new VehicleBrand { Title="Volvo", CountryId = se},
-                new VehicleBrand { Title="Nissan", CountryId = jp},
-                new VehicleBrand { Title="Mazda", CountryId = jp},
+            var brands = new List<Brand>(){
+                new Brand { Title="Toyota", CountryId = jp, TypeHint = "vehicle"},
+                new Brand { Title="Hyundai", CountryId = kr, TypeHint = "vehicle"},
+                new Brand { Title="Isuzu", CountryId = jp, TypeHint = "vehicle"},
+                new Brand { Title="Peugeot", CountryId = jp, TypeHint = "vehicle"},
+                new Brand { Title="Kia", CountryId = kr, TypeHint = "vehicle"},
+                new Brand { Title="Renault", CountryId = fr, TypeHint = "vehicle"},
+                new Brand { Title="Volvo", CountryId = se, TypeHint = "vehicle"},
+                new Brand { Title="Nissan", CountryId = jp, TypeHint = "vehicle"},
+                new Brand { Title="Mazda", CountryId = jp, TypeHint = "vehicle"},
+
+                new Brand { Title="AISIN", CountryId = jp, TypeHint = "product,lubricant"},
+                new Brand { Title="WOLVER", CountryId = de, TypeHint = "product,lubricant"},
+                new Brand { Title="LIQUIMOLY", CountryId = de, TypeHint = "product,lubricant"},
+                new Brand { Title="MOBIS", CountryId = kr, TypeHint = "product,lubricant"},
+
+                new Brand { Title="HENDEL", CountryId = kr, TypeHint = "product,spare part"},
+                new Brand { Title="DPH", CountryId = kr, TypeHint = "product,spare part"},       
             };
 
-            brands.ForEach(x=>{
-                x.Active = true;
-                x.LogoImage = "Images/VehicleBrands/" + x.Title + ".jpg";
+            brands.ForEach(x =>
+            {
+                x.LogoImage = "Images/Brands/" + x.Title + ".jpg";
             }
             );
             return brands;
         }
+
+        
 
     }
 }

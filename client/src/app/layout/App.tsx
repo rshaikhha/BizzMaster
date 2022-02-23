@@ -10,6 +10,7 @@ import Header from "./Header";
 import Loadingcomponent from "./Loadingcomponent";
 import { fetchCurrentUser } from "../../features/account/accountSlice";
 import Countries from "../../features/basics/Countries";
+import VehicleBrands from "../../features/basics/VehicleBrands";
 
 function App() {
 
@@ -55,6 +56,7 @@ function App() {
           <Route exact path='/' component={HomePage} />
           <Route path='/about' component={AboutPage} />
           <Route path='/countries' component={Countries} />
+          <Route path='/VehicleBrands' component={VehicleBrands} />
         </Switch>
       </Container>
     </ThemeProvider>

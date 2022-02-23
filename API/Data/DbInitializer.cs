@@ -66,6 +66,11 @@ namespace API.Data
                 new VehicleBrand { Title="Mazda", CountryId = jp},
             };
 
+            brands.ForEach(x=>{
+                x.Active = true;
+                x.LogoImage = "Images/VehicleBrands/" + x.Title + ".jpg";
+            }
+            );
             return brands;
         }
 

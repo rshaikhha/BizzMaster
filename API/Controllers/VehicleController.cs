@@ -31,10 +31,26 @@ namespace API.Controllers
         }
 
         [HttpGet("brands")]
-        public async Task<ActionResult<List<VehicleBrand>>> GetBrands()
+        public async Task<ActionResult<List<VehicleBrandDto>>> GetBrands()
         {
-            return await _context.VehicleBrands.ToListAsync();
+            return await _context.VehicleBrands
+            .Where(x => x.Active)
+            .Include(x => x.Country)
+            .Select(x => new VehicleBrandDto
+            {
+                Title = x.Title,
+                CountryName = x.Country.Title,
+                CountryAbbr = x.Country.Abbr,
+                LogoImage = x.LogoImage,
+                CountryFlagImage = x.Country.FlagImageUrl,
+                Active = x.Active
+
+            })
+            .ToListAsync();
         }
+
+
+
 
 
         [HttpPost("ImportBrands")]

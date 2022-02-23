@@ -67,6 +67,9 @@ const countries = {
     list: () => requests.get('country'),
     details: (id: number) => requests.get(`country/${id}`)
 }
+const Vehicles = {
+    brands: () => requests.get('Vehicle/brands'),
+}
 
 const Catalog = {
     list: (params: URLSearchParams) => requests.get('products', params),
@@ -97,6 +100,7 @@ const Account = {
 
 const agent = {
     countries,
+    Vehicles,
     Catalog,
     TestErrors,
     Basket,

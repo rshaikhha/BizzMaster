@@ -1,5 +1,5 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import TableRowsIcon from '@mui/icons-material/TableRows';
 
 interface Props {
     list : any[],
@@ -15,7 +15,9 @@ export default function SimpleTable(props : Props) {
     return (
         <>
         <Paper sx={{ padding: 2 }}>
-        <Typography variant='h4'>&gt;&gt; {title}</Typography>
+
+        <Typography variant='h4'> <TableRowsIcon fontSize="inherit" style={{verticalAlign:"middle"}} /> {title}</Typography>
+
         <TableContainer >
             <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                 <TableHead

@@ -21,6 +21,7 @@ Build Up Solution and Projects:
     npm install redux react-redux
     npm install react-hook-form
     npm install react-toastify
+    npm install @mui/icons-material
     
 
 

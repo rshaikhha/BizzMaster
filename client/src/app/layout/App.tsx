@@ -10,7 +10,7 @@ import Header from "./Header";
 import Loadingcomponent from "./Loadingcomponent";
 import { fetchCurrentUser } from "../../features/account/accountSlice";
 import Countries from "../../features/basics/Countries";
-import VehicleBrands from "../../features/basics/VehicleBrands";
+import VehicleBrands from "../../features/basics/Brands";
 
 function App() {
 

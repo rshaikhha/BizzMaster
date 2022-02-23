@@ -45,6 +45,12 @@ namespace API.Controllers
         {
             return await _context.Countries.ToListAsync();
         }
+
+        [HttpGet("categories")]
+        public async Task<ActionResult<List<Category>>> GetCategories()
+        {
+            return await _context.Categories.ToListAsync();
+        }
         
     }
 }

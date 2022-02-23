@@ -63,12 +63,14 @@ const requests = {
 }
 
 
-const countries = {
-    list: () => requests.get('country'),
+const basics = {
+    countries: () => requests.get('basics/countries'),
+    brands: () => requests.get('basics/brands'),
+    categories : ()=> requests.get('basics/categories'),
     details: (id: number) => requests.get(`country/${id}`)
 }
 const Vehicles = {
-    brands: () => requests.get('Vehicle/brands'),
+    brands: () => requests.get('vehicle'),
 }
 
 const Catalog = {
@@ -99,7 +101,7 @@ const Account = {
 }
 
 const agent = {
-    countries,
+    basics,
     Vehicles,
     Catalog,
     TestErrors,

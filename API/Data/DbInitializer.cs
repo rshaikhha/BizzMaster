@@ -24,6 +24,9 @@ namespace API.Data
             var brands = CreateBrands();
             _context.Brands.AddRange(brands);
             await _context.SaveChangesAsync();
+
+            await CreateCategoriesAsync();
+           
         }
 
 
@@ -82,7 +85,38 @@ namespace API.Data
             return brands;
         }
 
-        
+        private static async Task CreateCategoriesAsync()
+        {
+
+            var cat1 = new Category { Title="Lubricant", TypeHint = "product"};
+            var cat2 = new Category { Title="Spare Part", TypeHint = "product"};
+
+            _context.Categories.Add(cat1);
+            _context.Categories.Add(cat2);
+
+            await _context.SaveChangesAsync();
+
+
+
+            var cat11 = new Category { Title="Engine Oil", Parent = cat1, TypeHint = "product"};
+            var cat12 = new Category { Title="Transmission Fluid", Parent = cat1, TypeHint = "product"};
+            var cat13 = new Category { Title="Gear Oil", Parent = cat1, TypeHint = "product"};
+            var cat14 = new Category { Title="Brake Fluid", Parent = cat1, TypeHint = "product"};
+            var cat15 = new Category { Title="Coolant", Parent = cat1, TypeHint = "product"};
+
+            var cat21 = new Category { Title="Engine Parts", Parent = cat2, TypeHint = "product"};
+            var cat22 = new Category { Title="Suspension Parts", Parent = cat2, TypeHint = "product"};
+            var cat23 = new Category { Title="Body Parts", Parent = cat2, TypeHint = "product"};
+            var cat24 = new Category { Title="Electrical Parts", Parent = cat2, TypeHint = "product"};
+
+
+            _context.Categories.AddRange(
+                cat11,cat12,cat13,cat14,cat15,
+                cat21,cat22,cat23,cat24
+            );
+
+            await _context.SaveChangesAsync();
+        }
 
     }
 }

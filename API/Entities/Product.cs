@@ -20,11 +20,7 @@ namespace API.Entities
 
     }
 
-    public class Category : BaseEntity 
-    { 
-        public int ParentId { get; set; }
-        public Category Parent { get; set; }
-    }
+    
 
     public class MasterSystem : BaseEntity { }
 

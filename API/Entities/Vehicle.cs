@@ -16,11 +16,5 @@ namespace API.Entities
     }
 
 
-    public class Brand : BaseEntity
-    {
-        public int CountryId {get; set;}
-        public Country Country { get; set; }
-        public string LogoImage { get; set; }
-        public string TypeHint { get; set; }
-    }
+    
 }

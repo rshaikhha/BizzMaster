@@ -9,6 +9,7 @@ import { useAppDispatch } from "../store/configureStore";
 import Header from "./Header";
 import Loadingcomponent from "./Loadingcomponent";
 import { fetchCurrentUser } from "../../features/account/accountSlice";
+import Countries from "../../features/basics/Countries";
 
 function App() {
 
@@ -53,6 +54,7 @@ function App() {
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route path='/about' component={AboutPage} />
+          <Route path='/countries' component={Countries} />
         </Switch>
       </Container>
     </ThemeProvider>

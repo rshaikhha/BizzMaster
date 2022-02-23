@@ -62,6 +62,12 @@ const requests = {
     delete: (url: string) => axios.delete(url).then(responseBody),
 }
 
+
+const countries = {
+    list: () => requests.get('country'),
+    details: (id: number) => requests.get(`country/${id}`)
+}
+
 const Catalog = {
     list: (params: URLSearchParams) => requests.get('products', params),
     details: (id: number) => requests.get(`products/${id}`),
@@ -90,6 +96,7 @@ const Account = {
 }
 
 const agent = {
+    countries,
     Catalog,
     TestErrors,
     Basket,

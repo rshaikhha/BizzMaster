@@ -16,6 +16,7 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
     //const { basket } = useAppSelector(state => state.basket);
     const { user } = useAppSelector(state => state.account);
     //const itemCount = basket?.items.reduce((sum, item) => sum + item.quantity, 0)
+    const homeLink = {title: 'HOME', path: '/'}
     const midLinks = [
         { title: 'About', path: '/About' },
         { title: 'Catalog', path: '/Catalog' },
@@ -43,11 +44,11 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
                 <Box display='flex' alignItems='center'>
                     <Typography variant='h6'
                         component={NavLink}
-                        to='/'
-                        key='/'
+                        to={homeLink.path}
+                        key={homeLink.path}
                         sx={navStyles}
                     >
-                        ReStore
+                        {homeLink.title}
                     </Typography>
                     <Switch checked={darkMode} onChange={handleThemeChange} />
                 </Box>

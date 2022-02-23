@@ -14,14 +14,16 @@ namespace API.Data
         {
             _context = context;
             if (context.Countries.Any()) return;
+            Console.WriteLine("hahaha");
 
             var Countries = CreateCountries();
             _context.Countries.AddRange(Countries);
 
+            await _context.SaveChangesAsync();
             var brands = CreateVehicleBrands();
             _context.VehicleBrands.AddRange(brands);
 
-            
+
             await _context.SaveChangesAsync();
         }
 

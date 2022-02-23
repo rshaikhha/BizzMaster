@@ -28,7 +28,8 @@ namespace API.Data.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(type: "TEXT", nullable: true),
-                    CountryId = table.Column<int>(type: "INTEGER", nullable: true),
+                    CountryId = table.Column<int>(type: "INTEGER", nullable: false),
+                    LogoImage = table.Column<string>(type: "TEXT", nullable: true),
                     Active = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -39,7 +40,7 @@ namespace API.Data.Migrations
                         column: x => x.CountryId,
                         principalTable: "Countries",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

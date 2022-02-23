@@ -21,7 +21,6 @@ namespace API
             var context = scope.ServiceProvider.GetRequiredService<BMContext>();
 
             var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-
             try
             {
                 await context.Database.MigrateAsync();

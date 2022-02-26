@@ -10,7 +10,7 @@ export default function Categories() {
         agent.basics.categories().then((res) => setList(res))
     }, [])
 
-    const title = 'Vehicle Brands';
+    const title = 'Categories';
     const columns = [
         { header: 'Name', accessor: 'title'},
         { header: 'Country', accessor: 'countryName'}

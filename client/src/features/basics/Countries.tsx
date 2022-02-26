@@ -1,5 +1,7 @@
+import { count } from "console";
 import { useEffect, useState } from "react";
 import agent from "../../app/api/agent";
+import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import SimpleTable from "../shared/SimpleTable";
 export default function Countries() {
 
@@ -13,12 +15,13 @@ export default function Countries() {
     const title = 'Countries';
     const columns = [
         { header: 'Name', accessor: 'title'},
-        { header: 'Abbreviation', accessor: 'abbr'}
+        { header: 'Country', accessor: 'countryName'}
 
     ];
 
-    const props = {list, title, columns}
+    
 
+    const props = {list, title, columns}
     return (
         <SimpleTable {...props} />
 

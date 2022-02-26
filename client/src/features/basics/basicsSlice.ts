@@ -1,31 +1,39 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+import { FamilyRestroomRounded } from "@mui/icons-material";
+import {  createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { Component } from "react";
 import agent from "../../app/api/agent";
+import Countries from "./Countries";
 
 
-const initialState = {
 
-};
+interface basicsState {
+    status: string,
+    activeTable : Component | null,
+    
+}
 
-const fetchCountries = createAsyncThunk(
-    'basics/countries',
-    async () => {
-        return await agent.countries.list();
-    }
-)
+const initialState : basicsState = {
+    status : 'idle',
+    activeTable : null,
+
+}
+
+
 
 
 export const basicsSlice = createSlice({
     name: 'basics',
     initialState,
     reducers: {
-        getCountries: ()=> {
-
-        }
+        setActiveTable: (state, action) => {
+            state.activeTable = action.payload;
+        },
+        
     },
-    extraReducers: (Builder => 
-        Builder.addCase(fetchCountries.fulfilled, (state, action) => {
-            
-        })
-        )
+    
+    
     
 })
+
+export const {setActiveTable} = basicsSlice.actions;

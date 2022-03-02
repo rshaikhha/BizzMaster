@@ -12,6 +12,8 @@ import { fetchCurrentUser } from "../../features/account/accountSlice";
 import Countries from "../../features/basics/Countries";
 import VehicleBrands from "../../features/basics/Brands";
 import Basics from "../../features/basics/Basics";
+import Login from "../../features/account/login";
+import Register from "../../features/account/Register";
 
 function App() {
 
@@ -55,6 +57,8 @@ function App() {
       <Container>
         <Switch>
           <Route exact path='/' component={HomePage} />
+          <Route path='/login' component={Login} />
+          <Route path='/register' component={Register} />
           <Route path='/about' component={AboutPage} />
           <Route path='/basics' component={Basics} />
         </Switch>

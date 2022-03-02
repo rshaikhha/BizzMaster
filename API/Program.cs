@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
+using API.Entities;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,12 +21,14 @@ namespace API
             var host = CreateHostBuilder(args).Build();
             using var scope = host.Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<BMContext>();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 
+            
             var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
             try
             {
                 await context.Database.MigrateAsync();
-                await DbInitializer.Initialize(context);
+                await DbInitializer.Initialize(context, userManager);
             }
             catch (System.Exception ex)
             {

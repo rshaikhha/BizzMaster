@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace API.Data
 {
-    public class BMContext : DbContext
+    public class BMContext : IdentityDbContext<User>
     {
         public BMContext(DbContextOptions options) : base(options)
         {
@@ -25,7 +27,11 @@ namespace API.Data
         {
             base.OnModelCreating(builder);
 
-
+            builder.Entity<IdentityRole>()
+                .HasData(
+                    new IdentityRole{Name = "Member", NormalizedName = "MEMBER"},
+                    new IdentityRole{Name = "Admin", NormalizedName = "ADMIN" }
+                );
         }
     }
 }

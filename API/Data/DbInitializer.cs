@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace API.Data
 {
@@ -10,9 +11,32 @@ namespace API.Data
     {
         private static BMContext _context;
 
-        public static async Task Initialize(BMContext context)
+        public static async Task Initialize(BMContext context, UserManager<User> userManager)
         {
             _context = context;
+
+            if(!userManager.Users.Any())
+            {
+                var user = new User
+                {
+                    UserName = "user",
+                    Email = "user@bggt.ae"
+                };
+                await userManager.CreateAsync(user, "User@8827");
+                await userManager.AddToRoleAsync(user, "Member");
+
+                var admin = new User
+                {
+                    UserName = "admin",
+                    Email = "admin@bggt.ae"
+                };
+                await userManager.CreateAsync(user, "Admin@8827");
+                await userManager.AddToRolesAsync(user, new [] {"Member", "Admin"});
+            }
+
+
+
+
             if (context.Countries.Any()) return;
 
             var Countries = CreateCountries();

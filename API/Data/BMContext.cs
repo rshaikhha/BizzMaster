@@ -16,8 +16,9 @@ namespace API.Data
         }
 
         public DbSet<Country> Countries { get; set; }
-        public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<Brand> Brands { get; set; }
+        public DbSet<Platform> Platforms {get; set;}
+        public DbSet<Car> Cars { get; set; }
         public DbSet<Category> Categories {get; set;}
         //public DbSet<Product> Products {get; set;}
         

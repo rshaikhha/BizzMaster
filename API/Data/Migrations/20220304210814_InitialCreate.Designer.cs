@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(BMContext))]
-    [Migration("20220302122745_InitialCreate")]
+    [Migration("20220304210814_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,6 +46,28 @@ namespace API.Data.Migrations
                     b.ToTable("Brands");
                 });
 
+            modelBuilder.Entity("API.Entities.Car", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PlatformId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PlatformId");
+
+                    b.ToTable("Cars");
+                });
+
             modelBuilder.Entity("API.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -55,7 +77,7 @@ namespace API.Data.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ParentId")
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
@@ -66,7 +88,7 @@ namespace API.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentId");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Categories");
                 });
@@ -92,6 +114,28 @@ namespace API.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Countries");
+                });
+
+            modelBuilder.Entity("API.Entities.Platform", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("BrandId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BrandId");
+
+                    b.ToTable("Platforms");
                 });
 
             modelBuilder.Entity("API.Entities.User", b =>
@@ -158,40 +202,6 @@ namespace API.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("API.Entities.Vehicle", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("BrandId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Model")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Platform")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("VehicleBrandId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Years")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BrandId");
-
-                    b.ToTable("Vehicles");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -220,15 +230,15 @@ namespace API.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9a9e02c2-c0af-47cd-b759-592aaee1b4be",
-                            ConcurrencyStamp = "fda4bb98-a3a7-4c17-a09c-2a07537c38cd",
+                            Id = "4ef4a677-fcee-489a-b6e0-757431744be4",
+                            ConcurrencyStamp = "03637432-9469-4651-851a-8c54703b8780",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
-                            Id = "5710a236-96b5-437b-9a8e-6674441b06d2",
-                            ConcurrencyStamp = "b1f66951-909a-4748-bab3-6fc0e6e61093",
+                            Id = "e1baedc9-91fb-48b9-a9da-6396f507b68a",
+                            ConcurrencyStamp = "524c3284-43fe-49bf-a181-c32bbda97498",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -347,20 +357,31 @@ namespace API.Data.Migrations
                     b.Navigation("Country");
                 });
 
-            modelBuilder.Entity("API.Entities.Category", b =>
+            modelBuilder.Entity("API.Entities.Car", b =>
                 {
-                    b.HasOne("API.Entities.Category", "Parent")
+                    b.HasOne("API.Entities.Platform", "Platform")
                         .WithMany()
-                        .HasForeignKey("ParentId");
+                        .HasForeignKey("PlatformId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Parent");
+                    b.Navigation("Platform");
                 });
 
-            modelBuilder.Entity("API.Entities.Vehicle", b =>
+            modelBuilder.Entity("API.Entities.Category", b =>
+                {
+                    b.HasOne("API.Entities.Category", null)
+                        .WithMany("Children")
+                        .HasForeignKey("CategoryId");
+                });
+
+            modelBuilder.Entity("API.Entities.Platform", b =>
                 {
                     b.HasOne("API.Entities.Brand", "Brand")
                         .WithMany()
-                        .HasForeignKey("BrandId");
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Brand");
                 });
@@ -414,6 +435,11 @@ namespace API.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("API.Entities.Category", b =>
+                {
+                    b.Navigation("Children");
                 });
 #pragma warning restore 612, 618
         }

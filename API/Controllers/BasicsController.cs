@@ -21,10 +21,10 @@ namespace API.Controllers
         }
 
         [HttpGet("brands")]
-        public async Task<ActionResult<List<BrandDto>>> GetBrands()
+        public async Task<ActionResult<List<BrandDto>>> GetBrands(string typeHint = "")
         {
             return await _context.Brands
-            .Where(x => x.Active)
+            .Where(x => x.Active && (string.IsNullOrEmpty(typeHint) || x.TypeHint.Contains(typeHint)))
             .Include(x => x.Country)
             .Select(x => new BrandDto
             {
@@ -49,7 +49,7 @@ namespace API.Controllers
         [HttpGet("categories")]
         public async Task<ActionResult<List<Category>>> GetCategories()
         {
-            return await _context.Categories.ToListAsync();
+            return await _context.Categories.Include(x=>x.Children).ToListAsync();
         }
         
     }

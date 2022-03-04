@@ -52,4 +52,5 @@ Nuget Packages:
     Microsoft.EntityFrameworkCore.Design by Microsoft
     Microsoft.EntityFrameworkCore.Tools by Microsoft
     dotnet-ef installed via : dotnet tool install --global dotnet-ef --version 5.0.14
+    Microsoft.AspNetCore.Mvc.NewtonsoftJson by Microsoft
 

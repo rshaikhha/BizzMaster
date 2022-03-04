@@ -1,4 +1,7 @@
 
+using System.Collections;
+using System.Collections.Generic;
+
 namespace API.Entities
 {
     public class Country : BaseEntity
@@ -18,8 +21,9 @@ namespace API.Entities
 
     public class Category : BaseEntity 
     { 
-        public int? ParentId { get; set; }
-        public Category Parent { get; set; }
+        public virtual ICollection<Category> Children {get; set;}
         public string TypeHint {get; set;}
     }
+
+    
 }

@@ -5,12 +5,11 @@ namespace API.Entities
     {
         public string PartNumber { get; set; }
         public string Description { get; set; }
-        public string Brand { get; set; }
+
+        public int BrandId { get; set; }
+        public Brand Brand { get; set; }
 
         public Category Category { get; set; }
-        public MasterSystem MasterSystem { get; set; }
-        public SubSystem SubSystem { get; set; }
-        public ConsumptionType ConsumptionType { get; set; }
         public SetType SetType { get; set; }
 
         public double Volume { get; set; }
@@ -21,12 +20,6 @@ namespace API.Entities
     }
 
     
-
-    public class MasterSystem : BaseEntity { }
-
-    public class SubSystem : BaseEntity { }
-
-    public class ConsumptionType : BaseEntity { }
 
     public class SetType : BaseEntity { }
 

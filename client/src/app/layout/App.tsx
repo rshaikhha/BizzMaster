@@ -14,6 +14,7 @@ import VehicleBrands from "../../features/basics/Brands";
 import Basics from "../../features/basics/Basics";
 import Login from "../../features/account/login";
 import Register from "../../features/account/Register";
+import Cars from "../../features/cars/Cars";
 
 function App() {
 
@@ -61,6 +62,7 @@ function App() {
           <Route path='/register' component={Register} />
           <Route path='/about' component={AboutPage} />
           <Route path='/basics' component={Basics} />
+          <Route path='/cars' component={Cars} />
         </Switch>
       </Container>
     </ThemeProvider>

@@ -69,8 +69,11 @@ const basics = {
     categories : ()=> requests.get('basics/categories'),
     details: (id: number) => requests.get(`country/${id}`)
 }
-const Vehicles = {
-    brands: () => requests.get('vehicle'),
+const Cars = {
+    brands: () => requests.get('Car/Brands'),
+    platforms: (brandTitle: string = '') => requests.get(`Car/Platforms/${brandTitle}`),
+    cars: (platformTitle: string = '') => requests.get(`Car/Cars/${platformTitle}`),
+
 }
 
 const Catalog = {
@@ -102,7 +105,7 @@ const Account = {
 
 const agent = {
     basics,
-    Vehicles,
+    Cars,
     Catalog,
     TestErrors,
     Basket,

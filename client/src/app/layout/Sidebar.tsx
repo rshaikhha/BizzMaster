@@ -1,9 +1,9 @@
 import { Drawer, Toolbar, Box, List, ListItem, ListItemIcon, ListItemText, Divider, Collapse, ListItemButton } from "@mui/material";
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
-import Brands from "../../features/basics/Brands";
-import Categories from "../../features/basics/Categories";
-import Countries from "../../features/basics/Countries";
+import Brands from "../../features/system/Brands";
+import Categories from "../../features/system/Categories";
+import Countries from "../../features/system/Countries";
 import EarbudsIcon from '@mui/icons-material/Earbuds';
 import { useState } from "react";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
@@ -15,14 +15,17 @@ export default function Sidebar() {
     const drawerWidth = 240;
     
     const Menu = [
-        {
-            title: 'SYSTEM', icon: <EarbudsIcon />, subItems: [
+        { title: 'SYSTEM', subItems: [
                 { title: 'Countries', path: '/countries' },
                 { title: 'Brands', path: '/brands' },
-                { title: 'Categories', path: '/categories' },
-            ]
-        },
-        { title: 'Brands'},
+                { title: 'Categories', path: '/categories' }
+        ]},
+        { title: 'CARS' , subItems: [
+            { title: 'Car Finder', path: '/CarFinder'},
+            { title: 'Brands', path: '/CarBrands' },
+            { title: 'Platforms', path: '/platforms' },
+            { title: 'Cars', path: '/Cars' }
+        ]},
         { title: 'Categories' },
     ];
 
@@ -46,22 +49,21 @@ export default function Sidebar() {
                 [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
             }}
         >
-            <Toolbar />
-            <Box sx={{ overflow: 'auto' }}>
+            <Box sx={{ overflow: 'auto', mt:8 }}>
                 <List>
                     {
                         Menu.map((item, index) => (
-                            <>
-                                <ListItem button key={item.title} onClick={()=>handleClick(index)}>
-                                    <ListItemText primary={item.title} />
-                                    {(open === index) ? <ExpandLess /> : <ExpandMore />}
+                            <Box key = {index}>
+                                <ListItem button onClick={()=>handleClick(index)}>
+                                    <ListItemText primary={item.title}/>
+                                    {(open === index) ? <ExpandLess /> : <ExpandMore  />}
                                 </ListItem>
-                                <Collapse in={open === index} timeout="auto" unmountOnExit>
-                                    <List component="div" disablePadding>
-                                        {item.subItems?.map((sub) => (
+                                <Collapse in={open === index} timeout="auto" unmountOnExit >
+                                    <List component="div" disablePadding >
+                                        {item.subItems?.map((sub, subindex) => (
                                                 <ListItem
                                                     component={NavLink} to={sub.path}
-                                                    key={sub.title} 
+                                                    key={sub.path} 
                                                     sx={{ pl: 4, bgcolor : 'secondary' }} >
                                                     <ListItemText primary={sub.title} />
                                                 </ListItem>
@@ -69,7 +71,7 @@ export default function Sidebar() {
 
                                     </List>
                                 </Collapse>
-                            </>
+                            </Box>
                         ))
                     }
 

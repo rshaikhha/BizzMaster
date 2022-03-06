@@ -27,13 +27,13 @@ export default function CarsOld() {
   function handleBrandClick(brandTitle: string) {
     setPlatforms([]);
     if (openBrand !== brandTitle) { setOpenBrand(brandTitle) } else { setOpenBrand('') };
-    agent.Cars.platforms(brandTitle).then((res) => setPlatforms(res));
+    agent.Cars.brandPlatforms(brandTitle).then((res) => setPlatforms(res));
   }
 
   function handlePlatformClick(item: Platform) {
     if (!item.isOpen) {
       const platformTitle = item.title;
-      agent.Cars.cars(platformTitle).then((res) => setCars(res));
+      agent.Cars.platformCars(platformTitle).then((res) => setCars(res));
     }
     item.isOpen = !item.isOpen;
 

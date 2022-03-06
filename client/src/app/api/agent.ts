@@ -71,8 +71,10 @@ const basics = {
 }
 const Cars = {
     brands: () => requests.get('Car/Brands'),
-    platforms: (brandTitle: string = '') => requests.get(`Car/Platforms/${brandTitle}`),
-    cars: (platformTitle: string = '') => requests.get(`Car/Cars/${platformTitle}`),
+    platforms: () => requests.get(`Car/Platforms`),
+    brandPlatforms: (brandTitle: string = ' ') => requests.get(`Car/BrandPlatforms/${brandTitle}`),
+    cars: () => requests.get(`Car/Cars`),
+    platformCars: (platformTitle: string = ' ') => requests.get(`Car/PlatformCars/${platformTitle}`),
 
 }
 

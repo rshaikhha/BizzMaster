@@ -7,13 +7,12 @@ export default function Platforms() {
     const [list, setList] = useState<any[]>([]);
 
     useEffect(() => {
-        agent.Cars.cars().then((res) => setList(res))
+        agent.Cars.platforms().then((res) => setList(res))
     }, [])
 
     const title = 'Car Platforms';
     const columns = [
         { header: 'Name', accessor: 'title'},
-        { header: 'Platform', accessor: 'platformTitle'},
         { header: 'Brand', accessor: 'brandTitle'},
         { header: 'Country', accessor: 'countryName'}
 

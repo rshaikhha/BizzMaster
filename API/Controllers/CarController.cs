@@ -25,19 +25,29 @@ namespace API.Controllers
         }
 
         [HttpGet("Brands")]
-        public async Task<ActionResult<List<Brand>>> GetBrands()
+        public async Task<ActionResult<List<BrandDto>>> GetBrands()
         {
-            return await _context.Brands.Where(x=>x.TypeHint.Contains("#car")).ToListAsync();
+            return await _context.Brands.Where(x=>x.TypeHint.Contains("#car"))
+            .Select(x => new BrandDto
+            {
+                Title = x.Title,
+                CountryName = x.Country.Title,
+                CountryAbbr = x.Country.Abbr,
+                LogoImage = x.LogoImage,
+                CountryFlagImage = x.Country.FlagImageUrl,
+                Active = x.Active
+
+            })
+            .ToListAsync();
         }
 
-        [HttpGet("Platforms/{BrandTitle}")]
-        public async Task<ActionResult<List<PlatformDto>>> GetPlatforms(string BrandTitle)
+        [HttpGet("Platforms")]
+        public async Task<ActionResult<List<PlatformDto>>> GetPlatforms()
         {
-            var brandId = (await _context.Brands.FirstOrDefaultAsync(x=>x.Title == BrandTitle))?.Id;
+           
 
             return await _context.Platforms
                 .Where(x=>x.Active)
-                .Where(x=> String.IsNullOrEmpty(BrandTitle) || x.BrandId == brandId)
                 .Include(x=>x.Brand).ThenInclude(x=>x.Country)
                 .Select(x=>new PlatformDto{
                     Title = x.Title,
@@ -50,16 +60,33 @@ namespace API.Controllers
                 .ToListAsync();
         }
 
-        [HttpGet("Cars/{PlatformTitle}")]
-        public async Task<ActionResult<List<CarDto>>> GetCars(string PlatformTitle)
+        [HttpGet("BrandPlatforms/{BrandTitle}")]
+        public async Task<ActionResult<List<PlatformDto>>> GetBrandPlatforms(string BrandTitle)
         {
-            
-            var PlatformId = (await _context.Platforms.FirstOrDefaultAsync(x=>x.Title == PlatformTitle))?.Id;
+            var brandId = (await _context.Brands.FirstOrDefaultAsync(x=>x.Title == BrandTitle))?.Id;
+
+            return await _context.Platforms
+                .Where(x=>x.Active)
+                .Where(x=> x.BrandId == brandId)
+                .Include(x=>x.Brand).ThenInclude(x=>x.Country)
+                .Select(x=>new PlatformDto{
+                    Title = x.Title,
+                    BrandTitle = x.Brand.Title,
+                    CountryName = x.Brand.Country.Title,
+                    CountryAbbr = x.Brand.Country.Abbr,
+                    BrandLogoImage = x.Brand.LogoImage,
+                    CountryFlagImage = x.Brand.Country.FlagImageUrl
+                })
+                .ToListAsync();
+        }
+
+        [HttpGet("Cars")]
+        public async Task<ActionResult<List<CarDto>>> GetCars()
+        {
 
 
             return await _context.Cars
             .Where(x=>x.Active)
-            .Where(x=> string.IsNullOrEmpty(PlatformTitle) || x.PlatformId == PlatformId)
             .Include(x=>x.Platform)
             .ThenInclude(x=>x.Brand)
             .Select(x=>new CarDto{
@@ -74,6 +101,29 @@ namespace API.Controllers
             .ToListAsync();
         }
 
+        [HttpGet("PlatformCars/{PlatformTitle}")]
+        public async Task<ActionResult<List<CarDto>>> GetPlatformCars(string PlatformTitle)
+        {
+            
+            var PlatformId = (await _context.Platforms.FirstOrDefaultAsync(x=>x.Title == PlatformTitle))?.Id;
+
+
+            return await _context.Cars
+            .Where(x=>x.Active)
+            .Where(x=> x.PlatformId == PlatformId)
+            .Include(x=>x.Platform)
+            .ThenInclude(x=>x.Brand)
+            .Select(x=>new CarDto{
+                    Title = x.Title,
+                    platformTitle = x.Platform.Title,
+                    BrandTitle = x.Platform.Brand.Title,
+                    CountryName = x.Platform.Brand.Country.Title,
+                    CountryAbbr = x.Platform.Brand.Country.Abbr,
+                    BrandLogoImage = x.Platform.Brand.LogoImage,
+                    CountryFlagImage = x.Platform.Brand.Country.FlagImageUrl
+                })
+            .ToListAsync();
+        }
         
 
         

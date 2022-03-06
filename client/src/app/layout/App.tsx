@@ -10,14 +10,15 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Loadingcomponent from "./Loadingcomponent";
 import { fetchCurrentUser } from "../../features/account/accountSlice";
-import Countries from "../../features/basics/Countries";
-import VehicleBrands from "../../features/basics/Brands";
-import Basics from "../../features/basics/Basics";
+import Countries from "../../features/system/Countries";
 import Login from "../../features/account/login";
 import Register from "../../features/account/Register";
 import Cars from "../../features/cars/Cars";
-import Categories from "../../features/basics/Categories";
-import Brands from "../../features/basics/Brands";
+import Categories from "../../features/system/Categories";
+import Brands from "../../features/system/Brands";
+import CarBrands from "../../features/cars/CarBrands";
+import Platforms from "../../features/cars/Platforms";
+import CarFinder from "../../features/cars/CarFinder";
 
 function App() {
 
@@ -60,7 +61,7 @@ function App() {
 
         <CssBaseline />
         <Header darkMode={darkMode} handleThemeChange={handleThemeChange} />
-        <Sidebar></Sidebar>
+        <Sidebar ></Sidebar>
         <Box component="main" sx={{ flexGrow: 1, p: 3 , mt: 8}}>
           <Container>
             <Switch>
@@ -71,7 +72,11 @@ function App() {
               <Route path='/countries' component={Countries} />
               <Route path='/categories' component={Categories} />
               <Route path='/brands' component={Brands} />
+
               <Route path='/cars' component={Cars} />
+              <Route path='/carbrands' component={CarBrands} />
+              <Route path='/platforms' component={Platforms} />
+              <Route path='/carfinder' component={CarFinder} />
             </Switch>
           </Container>
         </Box>

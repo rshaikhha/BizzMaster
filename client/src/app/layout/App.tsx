@@ -7,6 +7,7 @@ import AboutPage from "../../features/about/AboutPage";
 import HomePage from "../../features/home/HomePage";
 import { useAppDispatch } from "../store/configureStore";
 import Header from "./Header";
+import Sidebar from "./Sidebar";
 import Loadingcomponent from "./Loadingcomponent";
 import { fetchCurrentUser } from "../../features/account/accountSlice";
 import Countries from "../../features/basics/Countries";
@@ -15,6 +16,8 @@ import Basics from "../../features/basics/Basics";
 import Login from "../../features/account/login";
 import Register from "../../features/account/Register";
 import Cars from "../../features/cars/Cars";
+import Categories from "../../features/basics/Categories";
+import Brands from "../../features/basics/Brands";
 
 function App() {
 
@@ -53,18 +56,26 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Header darkMode={darkMode} handleThemeChange={handleThemeChange} />
-      <Container>
-        <Switch>
-          <Route exact path='/' component={HomePage} />
-          <Route path='/login' component={Login} />
-          <Route path='/register' component={Register} />
-          <Route path='/about' component={AboutPage} />
-          <Route path='/basics' component={Basics} />
-          <Route path='/cars' component={Cars} />
-        </Switch>
-      </Container>
+      <Box sx={{ display: 'flex' }}>
+
+        <CssBaseline />
+        <Header darkMode={darkMode} handleThemeChange={handleThemeChange} />
+        <Sidebar></Sidebar>
+        <Box component="main" sx={{ flexGrow: 1, p: 3 , mt: 8}}>
+          <Container>
+            <Switch>
+              <Route exact path='/' component={HomePage} />
+              <Route path='/login' component={Login} />
+              <Route path='/register' component={Register} />
+              <Route path='/about' component={AboutPage} />
+              <Route path='/countries' component={Countries} />
+              <Route path='/categories' component={Categories} />
+              <Route path='/brands' component={Brands} />
+              <Route path='/cars' component={Cars} />
+            </Switch>
+          </Container>
+        </Box>
+      </Box>
     </ThemeProvider>
   );
 }

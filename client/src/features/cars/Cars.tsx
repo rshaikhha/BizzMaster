@@ -1,8 +1,10 @@
 import { ExpandLess, ExpandMore, StarBorder } from "@mui/icons-material";
-import { List, ListSubheader, ListItemButton, ListItemIcon, ListItemText, Collapse, ListItem, Skeleton, CircularProgress } from "@mui/material";
+import { List, ListSubheader, ListItemButton, ListItemIcon, ListItemText, Collapse, ListItem, Skeleton, CircularProgress, Box, AppBar, CssBaseline, Divider, Drawer, Toolbar, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import agent from "../../app/api/agent";
 import { Brand, Car, Platform } from "../../app/models/car"
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
 
 interface Props {
   title: string;
@@ -11,7 +13,7 @@ interface Props {
 
 
 
-export default function Cars() {
+export default function CarsOld() {
   const [brands, setBrands] = useState<Brand[]>([]);
   const [platforms, setPlatforms] = useState<Platform[]>([]);
   const [cars, setCars] = useState<Car[]>([]);
@@ -39,116 +41,39 @@ export default function Cars() {
 
   }
 
-
+  const drawerWidth = 240;
 
   return (
-
-    <List
-      sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-      component="nav"
-      aria-labelledby="nested-list-subheader"
-      subheader={
-        <ListSubheader component="div" id="nested-list-subheader">
-          Cars {openBrand}
-        </ListSubheader>
-      }
-    >
-      {brands.map((item) => (
-        <>
-          <ListItemButton key={item.title} onClick={() => handleBrandClick(item.title)}>
-            <ListItemText primary={item.title} />
-            {item.title === openBrand ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
-            
-              <Collapse in= {item.title === openBrand} timeout = "auto" unmountOnExit>
-              <List component="div" disablePadding>
-                {platforms.length == 0 ? (
-
-                  [1,2,3].map((_,index) => (
-
-                    <ListItemButton key={index} sx={{ paddingLeft: 6 }}>
-                      <ListItemIcon>
-                      <CircularProgress
-        variant="indeterminate"
-        disableShrink
-        sx={{
-          color: '#1a90ff',
-          animationDuration: '550ms',
-          //position: 'absolute',
-          //left: 0,
-        }}
-        size={25}
-        thickness={4}
-      />
-                      </ListItemIcon>
-                    <ListItemText primary="...Loading!" >
-                    <ExpandMore />
-                    </ListItemText>
-                    </ListItemButton>
-                  ))
-
-              ) : (
-                platforms.map((pf) => (
-                  <>
-                    <ListItemButton key={pf.title} sx={{ pl: 6 }} onClick={() => handlePlatformClick(pf)}>
-                      <ListItemText primary={pf.title} />
-                      {openBrand === pf.title ? <ExpandLess /> : <ExpandMore />}
-                    </ListItemButton>
-                    <Collapse in={openBrand === pf.title} timeout="auto" unmountOnExit>
-
-                      <List component="div" disablePadding>
-                        {cars.map((car) => (
-                          <>
-                            <ListItemButton key={car.title} sx={{ pl: 12 }} >
-                              <ListItemText primary={car.title} />
-                            </ListItemButton>
-                          </>
-                        ))}
-
-                      </List>
-                    </Collapse>
-                  </>
-                ))
-
-              )}
-              </List>
-              </Collapse>
-            
-          {/* <Collapse in={item.isOpen} timeout="auto" unmountOnExit>
-            <Skeleton animation="wave" />
-            <Skeleton animation="wave" />
-            <Skeleton animation="wave" />
-            <List component="div" disablePadding>
-              {platforms.map((pf) => (
-                <>
-                  <ListItemButton key={pf.title} sx={{ pl: 6 }} onClick={() => handlePlatformClick(pf)}>
-                    <ListItemText primary={pf.title} />
-                    {openBrand === pf.title ? <ExpandLess /> : <ExpandMore />}
-                  </ListItemButton>
-                  <Collapse in={openBrand === pf.title} timeout="auto" unmountOnExit>
-
-                    <List component="div" disablePadding>
-                      {cars.map((car) => (
-                        <>
-                          <ListItemButton key={car.title} sx={{ pl: 12 }} >
-                            <ListItemText primary={car.title} />
-                          </ListItemButton>
-                        </>
-                      ))}
-
-                    </List>
-                  </Collapse>
-                </>
-              ))}
-
-            </List>
-          </Collapse> */}
-        </>
-      ))}
-
-
-
-
-    </List>
-  );
+    
+    <Box>
+      <Typography paragraph>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
+        enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
+        imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
+        Convallis convallis tellus id interdum velit laoreet id donec ultrices.
+        Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
+        adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra
+        nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum
+        leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
+        feugiat vivamus at augue. At augue eget arcu dictum varius duis at
+        consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
+        sapien faucibus et molestie ac.
+      </Typography>
+      <Typography paragraph>
+        Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
+        eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
+        neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
+        tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis
+        sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
+        tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit
+        gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
+        et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis
+        tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
+        eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
+        posuere sollicitudin aliquam ultrices sagittis orci a.
+      </Typography>
+    </Box>
+    
+  )
 }

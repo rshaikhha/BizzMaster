@@ -104,7 +104,7 @@ namespace API.Data.DataInitializers
             var de = _context.Countries.Single(x => x.Abbr == "DE").Id;
 
             var brands = new List<Brand>(){
-                new Brand { Title="Toyota", CountryId = jp, TypeHint = "#car"},
+                new Brand { Title="Toyota", CountryId = jp, TypeHint = "#car,#product"},
                 new Brand { Title="Hyundai", CountryId = kr, TypeHint = "#car"},
                 new Brand { Title="Isuzu", CountryId = jp, TypeHint = "#car"},
                 new Brand { Title="Peugeot", CountryId = jp, TypeHint = "#car"},
@@ -121,6 +121,7 @@ namespace API.Data.DataInitializers
 
                 new Brand { Title="HENDEL", CountryId = kr, TypeHint = "#product,#sparepart"},
                 new Brand { Title="DPH", CountryId = kr, TypeHint = "#product,#sparepart"},
+
             };
 
             brands.ForEach(x =>
@@ -303,12 +304,13 @@ namespace API.Data.DataInitializers
 
             var aisin = _context.Brands.FirstOrDefault(x => x.Title == "AISIN").Id;
             var wolver = _context.Brands.FirstOrDefault(x => x.Title == "WOLVER").Id;
+            var toyota = _context.Brands.FirstOrDefault(x => x.Title == "toyota").Id;
 
             var E = _context.Categories.FirstOrDefault(x => x.Code == "1001").Id;
             var T = _context.Categories.FirstOrDefault(x => x.Code == "1002").Id;
             var C = _context.Categories.FirstOrDefault(x => x.Code == "1005").Id;
             var B = _context.Categories.FirstOrDefault(x => x.Code == "1004").Id;
-
+            var BP = _context.Categories.FirstOrDefault(x => x.Code == "200201").Id;
 
             var ps = new List<Product>{
                 new Product{ Title ="AISIN Engine Oil 10W-40 4L", PartNumber = "ESSN1044P", Description = "10W-40 4L",  BrandId = aisin ,  CategoryId =E,ItemVolume = 4, ItemWeight = 4, ItemPerSet = 4, Order =1},
@@ -380,6 +382,24 @@ namespace API.Data.DataInitializers
                 new Product{ Title ="WOLVER Engine Oil 0W30 ProTec 4L  (SN)", PartNumber = "WEPT0034S", Description = "W-0W30-ProTec-4L  (SN)",  BrandId = wolver ,  CategoryId =E,ItemVolume = 4, ItemWeight = 4, ItemPerSet = 4, Order =67},
                 new Product{ Title ="WOLVER Engine Oil 0W40 HighTec 1L  (SN)", PartNumber = "WEHT0041S", Description = "W-0W40-HighTec-1L  (SN)",  BrandId = wolver ,  CategoryId =E,ItemVolume = 1, ItemWeight = 1, ItemPerSet = 6, Order =68},
                 new Product{ Title ="WOLVER Engine Oil 0W40 HighTec 4L  (SN)", PartNumber = "WEHT0044S", Description = "W-0W40-HighTec-4L  (SN)",  BrandId = wolver ,  CategoryId =E,ItemVolume = 4, ItemWeight = 4, ItemPerSet = 4, Order =69},
+
+                new Product{ PartNumber = "04465-06110", Title = "04465-06110", Description = "BRAKE PAD",  BrandId = toyota ,  CategoryId = BP , ItemVolume = 0 , ItemWeight = 0, ItemPerSet = 2, Order =100},
+                new Product{ PartNumber = "04465-YZZE2", Title = "04465-YZZE2", Description = "BRAKE PAD KIT",  BrandId = toyota ,  CategoryId = BP , ItemVolume = 0 , ItemWeight = 0, ItemPerSet = 2, Order =101},
+                new Product{ PartNumber = "04465-YZZE3", Title = "04465-YZZE3", Description = "BRAKE PAD KIT",  BrandId = toyota ,  CategoryId = BP , ItemVolume = 0 , ItemWeight = 0, ItemPerSet = 2, Order =102},
+                new Product{ PartNumber = "04465-YZZE4", Title = "04465-YZZE4", Description = "BRAKE PAD KIT",  BrandId = toyota ,  CategoryId = BP , ItemVolume = 0 , ItemWeight = 0, ItemPerSet = 2, Order =103},
+                new Product{ PartNumber = "04465-YZZE8", Title = "04465-YZZE8", Description = "BRAKE PAD KIT",  BrandId = toyota ,  CategoryId = BP , ItemVolume = 0 , ItemWeight = 0, ItemPerSet = 2, Order =104},
+                new Product{ PartNumber = "04465-YZZE9", Title = "04465-YZZE9", Description = "BRAKE PAD KIT",  BrandId = toyota ,  CategoryId = BP , ItemVolume = 0 , ItemWeight = 0, ItemPerSet = 2, Order =105},
+                new Product{ PartNumber = "04465-YZZF6", Title = "04465-YZZF6", Description = "BRAKE PAD KIT",  BrandId = toyota ,  CategoryId = BP , ItemVolume = 0 , ItemWeight = 0, ItemPerSet = 2, Order =106},
+                new Product{ PartNumber = "04465-YZZF7", Title = "04465-YZZF7", Description = "BRAKE PAD KIT",  BrandId = toyota ,  CategoryId = BP , ItemVolume = 0 , ItemWeight = 0, ItemPerSet = 2, Order =107},
+                new Product{ PartNumber = "04465-YZZQ9", Title = "04465-YZZQ9", Description = "MVP BRAKE PAD",  BrandId = toyota ,  CategoryId = BP , ItemVolume = 0 , ItemWeight = 0, ItemPerSet = 2, Order =108},
+                new Product{ PartNumber = "04465-YZZR2", Title = "04465-YZZR2", Description = "MVP BRAKE PAD",  BrandId = toyota ,  CategoryId = BP , ItemVolume = 0 , ItemWeight = 0, ItemPerSet = 2, Order =109},
+                new Product{ PartNumber = "04465-YZZR4", Title = "04465-YZZR4", Description = "MVP BRAKE PAD",  BrandId = toyota ,  CategoryId = BP , ItemVolume = 0 , ItemWeight = 0, ItemPerSet = 2, Order =110},
+                new Product{ PartNumber = "04465-YZZR4", Title = "04465-YZZR4", Description = "MVP BRAKE PAD",  BrandId = toyota ,  CategoryId = BP , ItemVolume = 0 , ItemWeight = 0, ItemPerSet = 2, Order =111},
+                new Product{ PartNumber = "04465-YZZR5", Title = "04465-YZZR5", Description = "MVP BRAKE PAD",  BrandId = toyota ,  CategoryId = BP , ItemVolume = 0 , ItemWeight = 0, ItemPerSet = 2, Order =112},
+                new Product{ PartNumber = "04465-YZZR6", Title = "04465-YZZR6", Description = "MVP BRAKE PAD",  BrandId = toyota ,  CategoryId = BP , ItemVolume = 0 , ItemWeight = 0, ItemPerSet = 2, Order =113},
+                new Product{ PartNumber = "04466-YZZQ1", Title = "04466-YZZQ1", Description = "MVP BRAKE PAD",  BrandId = toyota ,  CategoryId = BP , ItemVolume = 0 , ItemWeight = 0, ItemPerSet = 2, Order =114},
+                new Product{ PartNumber = "47735-30011", Title = "47735-30011", Description = "PIN, DISC BRAKE PAD",  BrandId = toyota ,  CategoryId = BP , ItemVolume = 0 , ItemWeight = 0, ItemPerSet = 2, Order =115},
+                new Product{ PartNumber = "47735-50010", Title = "47735-50010", Description = "PIN, DISC BRAKE PAD",  BrandId = toyota ,  CategoryId = BP , ItemVolume = 0 , ItemWeight = 0, ItemPerSet = 2, Order =116},
 
             };
 

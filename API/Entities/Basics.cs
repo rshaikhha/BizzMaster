@@ -40,5 +40,20 @@ namespace API.Entities
 
      public class UsageType : BaseEntity {}
      public class MasterSystem : BaseEntity {}
+
+
+     public class Contact : BaseEntity 
+     {
+         public string FirstName { get; set; }
+         public string LastName { get; set; }
+         public string Initials { get; set; }
+         public string Position { get; set; }
+         public string Email { get; set; }
+         public string Mobile { get; set; }
+         public string Mobile2 { get; set; }
+         public string Mobile3 { get; set; }
+         public string WhatsApp { get; set; }
+
+     }
     
 }

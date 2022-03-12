@@ -86,6 +86,10 @@ const Catalog = {
     fetchFilters: () => requests.get('products/filters')
 }
 
+const Suppliers = {
+    list: () => requests.get('suppliers'),
+    details: (id: number) => requests.get(`suppliers/${id}`),
+}
 const TestErrors = {
     get400Error: () => requests.get('buggy/bad-request'),
     get401Error: () => requests.get('buggy/unauthorized'),
@@ -111,6 +115,7 @@ const agent = {
     basics,
     Cars,
     Catalog,
+    Suppliers,
     TestErrors,
     Basket,
     Account

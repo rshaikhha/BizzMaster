@@ -9,11 +9,11 @@ import RadioButtonGroup from "../../app/components/RadioButtonGroup";
 import Loadingcomponent from "../../app/layout/Loadingcomponent";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import SimpleTable from "../shared/SimpleTable";
-import { fetchFilters, fetchProductsAsync, productSeletors, setPageNumber, setProductParams } from "./catalogSlice";
+import { fetchFilters, fetchProductsAsync, productSelectors, setPageNumber, setProductParams } from "./catalogSlice";
 import ProductSearch from "./ProductSearch";
 export default function Products() {
 
-    const products = useSelector(productSeletors.selectAll);
+    const products = useSelector(productSelectors.selectAll);
     const { productsLoaded, filtersLoaded, brands, categories, productParams, metaData, viewMode } = useAppSelector(state => state.catalog);
     const dispatch = useAppDispatch();
 
@@ -43,9 +43,6 @@ export default function Products() {
         { header: 'Description', accessor: 'description'},
         { header: 'Category', accessor: 'category'},
         { header: 'Brand', accessor: 'brand'},
-        { header: 'Volume (L)', accessor: 'itemVolume'},
-        { header: 'weight (g)', accessor: 'itemWeight'},
-        { header: 'Item Per Set', accessor: 'itemPerSet'}
 
     ];
 

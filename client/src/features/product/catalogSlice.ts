@@ -154,6 +154,6 @@ export const catalogSlice = createSlice({
 })
 
 
-export const productSeletors = productAdapter.getSelectors((state: RootState) => state.catalog)
+export const productSelectors = productAdapter.getSelectors((state: RootState) => state.catalog)
 
 export const {setProductParams, resetProductParams, setMetaData, setPageNumber, setViewMode} = catalogSlice.actions;

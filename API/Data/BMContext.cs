@@ -38,6 +38,11 @@ namespace API.Data
 
         #endregion
 
+        #region Supplier
+        public DbSet<Supplier> Suppliers {get; set;}
+
+        #endregion
+
 
 
         protected override void OnModelCreating(ModelBuilder builder)

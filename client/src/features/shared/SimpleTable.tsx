@@ -1,5 +1,7 @@
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import TableRowsIcon from '@mui/icons-material/TableRows';
+import { NavLink } from "react-router-dom";
+import ReadMoreIcon from '@mui/icons-material/ReadMore';
 
 interface Props {
     list : any[],
@@ -26,6 +28,7 @@ export default function SimpleTable(props : Props) {
                     <TableRow>
                         <TableCell key="index">Index</TableCell>
                         {columns.map((item) => <TableCell key={item.header}>{item.header}</TableCell>)}
+                        <TableCell key="index">Details</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -38,6 +41,7 @@ export default function SimpleTable(props : Props) {
                             {columns.map((item, itemIndex) => (
                                 <TableCell key={itemIndex}>{row[item.accessor]}</TableCell>
                             ))}
+                            <TableCell key='link'><Button component={NavLink} to={`/Products/${row.id}`}><ReadMoreIcon /></Button></TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

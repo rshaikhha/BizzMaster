@@ -22,6 +22,7 @@ import CarFinder from "../../features/cars/CarFinder";
 import UsageTypes from "../../features/system/Usagetypes";
 import MasterSystems from "../../features/system/MasterSystems";
 import Products from "../../features/product/Products";
+import ProductDetails from "../../features/product/ProductDetails";
 
 function App() {
 
@@ -84,7 +85,9 @@ function App() {
               <Route path='/platforms' component={Platforms} />
               <Route path='/carfinder' component={CarFinder} />
 
-              <Route path='/products' component={Products} />
+              <Route exact path='/products' component={Products} />
+              <Route path='/products/:id' component={ProductDetails} />
+
             </Switch>
           </Container>
         </Box>

@@ -11,6 +11,8 @@ export interface Product {
     itemPerSet: number;
     order: number;
 
+    pictureUrl : string;
+
 }
 
 export interface ProductParams {

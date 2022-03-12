@@ -28,7 +28,12 @@ export default function Sidebar() {
             { title: 'Platforms', path: '/platforms' },
             { title: 'Cars', path: '/Cars' }
         ]},
-        { title: 'Categories' },
+        { title: 'PRODUCTS' , subItems: [
+            { title: 'Poduct List', path: '/Products'},
+            { title: 'Brands', path: '/CarBrands' },
+            { title: 'Platforms', path: '/platforms' },
+            { title: 'Cars', path: '/Cars' }
+        ]},
     ];
 
     function handleClick(index: number){

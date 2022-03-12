@@ -2,14 +2,15 @@ import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { accountSlice } from "../../features/account/accountSlice";
 import { basicsSlice } from "../../features/system/basicsSlice";
-
+import { catalogSlice } from "../../features/product/catalogSlice";
 
 
 
 export const store = configureStore({
     reducer: {
         basics: basicsSlice.reducer, 
-        account: accountSlice.reducer
+        account: accountSlice.reducer,
+        catalog: catalogSlice.reducer,
         
     }
 })

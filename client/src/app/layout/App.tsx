@@ -21,6 +21,7 @@ import Platforms from "../../features/cars/Platforms";
 import CarFinder from "../../features/cars/CarFinder";
 import UsageTypes from "../../features/system/Usagetypes";
 import MasterSystems from "../../features/system/MasterSystems";
+import Products from "../../features/product/Products";
 
 function App() {
 
@@ -82,6 +83,8 @@ function App() {
               <Route path='/carbrands' component={CarBrands} />
               <Route path='/platforms' component={Platforms} />
               <Route path='/carfinder' component={CarFinder} />
+
+              <Route path='/products' component={Products} />
             </Switch>
           </Container>
         </Box>

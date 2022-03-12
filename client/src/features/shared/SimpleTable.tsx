@@ -5,13 +5,13 @@ interface Props {
     list : any[],
     title : string,
     columns : {header : string, accessor: string} [],
+    startIndex? : number
 }
 
 export default function SimpleTable(props : Props) {
 
     const {list, title, columns} = props;
     
-
     return (
         <>
         <Paper sx={{ padding: 2 }}>
@@ -34,7 +34,7 @@ export default function SimpleTable(props : Props) {
                             key={index}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 }, '&:hover': { backgroundColor: 'grey.200' }, textDecoration: 'none' } }
                         >
-                            <TableCell>{index}</TableCell>
+                            <TableCell>{(props.startIndex || 1) + index}</TableCell>
                             {columns.map((item, itemIndex) => (
                                 <TableCell key={itemIndex}>{row[item.accessor]}</TableCell>
                             ))}

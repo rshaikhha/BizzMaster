@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
@@ -52,7 +53,11 @@ namespace API.Controllers
         public async Task<ActionResult<ProductDto>> GetProduct(int id)
         {
             var product = await _context.Products.FindAsync(id);
+
+
             if (product == null) return NotFound();
+            _context.Entry(product).Reference(x=>x.Brand).Load();
+            _context.Entry(product).Reference(x=>x.Category).Load();
             return ToDto(product);
             
         }

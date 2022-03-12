@@ -48,7 +48,11 @@ export default function Products() {
 
     
 
-    const tableprops = {list : products, title, columns, startIndex : (((metaData?.currentPage || 1) - 1) * (metaData?.pageSize || 0)) + 1}
+    const tableprops = {list : products, title, columns, 
+        startIndex : (((metaData?.currentPage || 1) - 1) * (metaData?.pageSize || 0)) + 1,
+        detailsAddress : "Products"
+
+    }
     return (
         <>
             <Grid container spacing={4}>

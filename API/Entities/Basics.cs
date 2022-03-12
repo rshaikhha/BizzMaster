@@ -53,6 +53,7 @@ namespace API.Entities
          public string Mobile2 { get; set; }
          public string Mobile3 { get; set; }
          public string WhatsApp { get; set; }
+         public bool IsMale {get; set;}
 
      }
     

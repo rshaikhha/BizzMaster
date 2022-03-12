@@ -73,6 +73,16 @@ namespace API.Data.DataInitializers
             context.Products.AddRange(prods);
             context.SaveChanges();
 
+            var supps = createSuppliers();
+            context.Suppliers.AddRange(supps);
+            context.SaveChanges();
+
+            var slines = createSupplyLines();
+            context.SupplyLines.AddRange(slines);
+            context.SaveChanges();
+            
+
+
         }
 
 
@@ -304,7 +314,7 @@ namespace API.Data.DataInitializers
 
             var aisin = _context.Brands.FirstOrDefault(x => x.Title == "AISIN").Id;
             var wolver = _context.Brands.FirstOrDefault(x => x.Title == "WOLVER").Id;
-            var toyota = _context.Brands.FirstOrDefault(x => x.Title == "toyota").Id;
+            var toyota = _context.Brands.FirstOrDefault(x => x.Title == "Toyota").Id;
 
             var E = _context.Categories.FirstOrDefault(x => x.Code == "1001").Id;
             var T = _context.Categories.FirstOrDefault(x => x.Code == "1002").Id;
@@ -404,6 +414,99 @@ namespace API.Data.DataInitializers
             };
 
             return ps;
+        }
+    
+        private static List<Supplier> createSuppliers()
+        {
+
+            var uae = _context.Countries.FirstOrDefault(x => x.Abbr == "AE").Id;
+            var de = _context.Countries.FirstOrDefault(x => x.Abbr == "DE").Id;
+            var supps = new List<Supplier>
+            {
+                new Supplier {
+                    Title = "NEWEAST",
+                    FullTitle = "New East General Trading",
+                    Website = "www.neweast.ae",
+                    Address = "P.O BOX  41534 Dubai, UAE",
+                    CountryId = uae,
+                    Contacts = new List<Contact>{
+                        new Contact {
+                            Title = "Ahmed NewEast",
+                            FirstName = "Ahmed Juma",
+                            LastName = "Ahli",
+                            Initials = "Mr.",
+                            Email = "ahmed@Neweast.co",
+                            Position = "CEO",
+                            Mobile = "+971-504534443",
+                            WhatsApp = "+971-048811195",
+                            IsMale = true
+                        },
+                        new Contact {
+                            Title = "Sima NewEast",
+                            FirstName = "Sima",
+                            LastName = "Abedi",
+                            Initials = "Ms.",
+                            Email = "Sima@Neweast.co",
+                            Position = "Executive Secretary",
+                            Mobile = "+971-564338724",
+                            WhatsApp = "+971-48811195",
+                            IsMale = false
+                        }
+                    }
+
+                },
+                new Supplier {
+                    Title = "WOLVER",
+                    FullTitle = "JV Yukoil LLC.",
+                    Website = "www.yuko.eu",
+                    Address = "-----",
+                    CountryId = de,
+                    Contacts = new List<Contact>{
+                        new Contact {
+                            Title = "Aleksey Khoroshun",
+                            FirstName = "Aleksey",
+                            LastName = "Khoroshun",
+                            Initials = "Mr.",
+                            Email = "horoshun@yukoil.com",
+                            Position = "Key Account Manager",
+                            Mobile = "+38 (050) 422-88-78",
+                            WhatsApp = "+38 (050) 422-88-78",
+                            IsMale = true
+                        }
+                    }
+
+                },
+            };
+
+            return supps;
+        }
+    
+        private static List<SupplyLine> createSupplyLines()
+        {
+            var ne = _context.Suppliers.FirstOrDefault(x=>x.Title == "NEWEAST").Id;
+            var wo = _context.Suppliers.FirstOrDefault(x=>x.Title == "WOLVER").Id;
+
+
+
+            var slines = new List<SupplyLine> 
+            {
+                new SupplyLine 
+                {
+                    Title = "Aisin Lubricants",
+                    SupplierId = ne,
+                    defaultPlanningType = PlanningType.Forward,
+                    Products = _context.Products.Where(x=>x.Brand.Title == "AISIN").ToList()
+                },
+                new SupplyLine 
+                {
+                    Title = "Wolver Lubricants",
+                    SupplierId = wo,
+                    defaultPlanningType = PlanningType.Forward,
+                    Products = _context.Products.Where(x=>x.Brand.Title == "WOLVER").ToList()
+                },
+            };
+
+            return slines;
         }
     }
 }

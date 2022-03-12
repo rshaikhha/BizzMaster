@@ -23,6 +23,10 @@ import UsageTypes from "../../features/system/Usagetypes";
 import MasterSystems from "../../features/system/MasterSystems";
 import Products from "../../features/product/Products";
 import ProductDetails from "../../features/product/ProductDetails";
+import Suppliers from "../../features/supply/Suppliers";
+import SupplierDetails from "../../features/supply/SupplierDetails";
+import SupplyLines from "../../features/supply/SupplyLines";
+import SupplyLineDetails from "../../features/supply/SupplyLineDetails";
 
 function App() {
 
@@ -87,6 +91,11 @@ function App() {
 
               <Route exact path='/products' component={Products} />
               <Route path='/products/:id' component={ProductDetails} />
+
+              <Route exact path='/suppliers' component={Suppliers} />
+              <Route path='/suppliers/:id' component={SupplierDetails} />
+              <Route exact path='/supplylines' component={SupplyLines} />
+              <Route path='/SupplyLineDetails/:id' component={SupplyLineDetails} />
 
             </Switch>
           </Container>

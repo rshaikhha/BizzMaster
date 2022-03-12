@@ -113,6 +113,58 @@ namespace API.Data.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("API.Entities.Contact", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Initials")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsMale")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Mobile")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Mobile2")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Mobile3")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Position")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("SupplierId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("WhatsApp")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SupplierId");
+
+                    b.ToTable("Contact");
+                });
+
             modelBuilder.Entity("API.Entities.Country", b =>
                 {
                     b.Property<int>("Id")
@@ -208,6 +260,9 @@ namespace API.Data.Migrations
                     b.Property<string>("PartNumber")
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("SupplyLineId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
@@ -217,7 +272,68 @@ namespace API.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("SupplyLineId");
+
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("API.Entities.Supplier", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("CountryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FullTitle")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Website")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
+
+                    b.ToTable("Suppliers");
+                });
+
+            modelBuilder.Entity("API.Entities.SupplyLine", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SupplierId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("defaultPlanningType")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SupplierId");
+
+                    b.ToTable("SupplyLines");
                 });
 
             modelBuilder.Entity("API.Entities.UsageType", b =>
@@ -329,15 +445,15 @@ namespace API.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4004d02d-562e-4b27-a706-4051c0daa36b",
-                            ConcurrencyStamp = "0315469b-2f7d-4cfa-9400-91334c6a1128",
+                            Id = "ef6fb176-2fc9-4407-9756-a7dc480fbeb9",
+                            ConcurrencyStamp = "0a0a70e5-6fe2-47ff-bdf7-bb55fcfda744",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
-                            Id = "7d34aa84-95e1-474c-b5b6-5e7b9fda15d1",
-                            ConcurrencyStamp = "73cf5aeb-1fd8-4efc-aa83-03f3b4f89539",
+                            Id = "f2b87d61-3bb5-4d5d-ab47-37c0596a72fd",
+                            ConcurrencyStamp = "dc962855-92ad-411d-a917-1c19894a22a3",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -486,6 +602,13 @@ namespace API.Data.Migrations
                     b.Navigation("UsageType");
                 });
 
+            modelBuilder.Entity("API.Entities.Contact", b =>
+                {
+                    b.HasOne("API.Entities.Supplier", null)
+                        .WithMany("Contacts")
+                        .HasForeignKey("SupplierId");
+                });
+
             modelBuilder.Entity("API.Entities.Platform", b =>
                 {
                     b.HasOne("API.Entities.Brand", "Brand")
@@ -511,9 +634,35 @@ namespace API.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("API.Entities.SupplyLine", null)
+                        .WithMany("Products")
+                        .HasForeignKey("SupplyLineId");
+
                     b.Navigation("Brand");
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("API.Entities.Supplier", b =>
+                {
+                    b.HasOne("API.Entities.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Country");
+                });
+
+            modelBuilder.Entity("API.Entities.SupplyLine", b =>
+                {
+                    b.HasOne("API.Entities.Supplier", "Supplier")
+                        .WithMany()
+                        .HasForeignKey("SupplierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Supplier");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -570,6 +719,16 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.Category", b =>
                 {
                     b.Navigation("Children");
+                });
+
+            modelBuilder.Entity("API.Entities.Supplier", b =>
+                {
+                    b.Navigation("Contacts");
+                });
+
+            modelBuilder.Entity("API.Entities.SupplyLine", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

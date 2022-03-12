@@ -22,13 +22,9 @@ namespace API.Entities
 
     }
 
+    
 
-
-    public class ProductLine : BaseEntity
-    {
-        public IList<Product> Products {get; set;} = new List<Product>();
-
-    }
+    
     
      
 

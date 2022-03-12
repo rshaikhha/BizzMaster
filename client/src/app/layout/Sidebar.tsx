@@ -30,9 +30,12 @@ export default function Sidebar() {
         ]},
         { title: 'PRODUCTS' , subItems: [
             { title: 'Poduct List', path: '/Products'},
-            { title: 'Brands', path: '/CarBrands' },
-            { title: 'Platforms', path: '/platforms' },
-            { title: 'Cars', path: '/Cars' }
+
+        ]},
+        { title: 'SUPPLIERS' , subItems: [
+            { title: 'Supplier List', path: '/Suppliers'},
+            { title: 'Supply Lines', path: '/Supplylines'},
+
         ]},
     ];
 

@@ -13,8 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace API.Controllers
 {
-    [Route("[controller]")]
-    public class SuppliersController : Controller
+    public class SuppliersController : BaseApiController
     {
         private readonly BMContext _context;
         private readonly ILogger<SuppliersController> _logger;
@@ -28,6 +27,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<SupplierDto>>> GetSuppliers()
         {
+
             return await _context.Suppliers
                 .Include(x => x.Country)
                 .Include(x => x.Contacts)
@@ -35,7 +35,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<SupplierDto>> GetSuppliers(int Id)
+        public async Task<ActionResult<SupplierDto>> GetSupplier(int Id)
         {
             var supplier = await _context.Suppliers
                 // .Include(x => x.Country)
@@ -53,13 +53,46 @@ namespace API.Controllers
                 
         }
 
+        
+
+        [HttpGet("lines")]
+        public async Task<ActionResult<List<SupplyLineDto>>> GetSupplyLines()
+        {
+
+            return await _context.SupplyLines
+                .Include(x => x.Supplier)
+                .Include(x => x.Products).ThenInclude(x=>x.Brand)
+                .Include(x => x.Products).ThenInclude(x=>x.Category)
+                .Select(x => ToDto(x)).ToListAsync();
+        }
+
+        [HttpGet("lines/{id}")]
+        public async Task<ActionResult<SupplyLineDto>> GetSupplyLines(int Id)
+        {
+
+            var supplyLine = await _context.SupplyLines
+                .Include(x => x.Supplier)
+                .Include(x => x.Products).ThenInclude(x=>x.Brand)
+                .Include(x => x.Products).ThenInclude(x=>x.Category)
+                .FirstOrDefaultAsync(x=>x.Id == Id);
+                
+                
+            if (supplyLine == null) return NotFound();
+
+            return ToDto(supplyLine);
+        }
+
         private static SupplierDto ToDto(Supplier supplier)
         {
             return new SupplierDto
             {
                 Id = supplier.Id,
                 title = supplier.Title,
+                FullTitle = supplier.FullTitle,
                 Country = supplier.Country.Title,
+                Email = supplier.Email,
+                Address = supplier.Address,
+                Website = supplier.Website,
                 Contacts = supplier.Contacts.Select(x => ToDto(x)).ToList()
             };
 
@@ -68,6 +101,7 @@ namespace API.Controllers
 
         private static ContactDto ToDto(Contact contact)
         {
+
             return new ContactDto
             {
                 FirstName = contact.FirstName,
@@ -79,6 +113,38 @@ namespace API.Controllers
                 Mobile2 = contact.Mobile2,
                 Mobile3 = contact.Mobile3,
                 WhatsApp = contact.WhatsApp
+            };
+        }
+
+        public static SupplyLineDto ToDto(SupplyLine supplyLine)
+        {
+            return new SupplyLineDto
+            {
+                Id = supplyLine.Id,
+                Title = supplyLine.Title,
+                Supplier = supplyLine.Supplier.Title,
+                defaultPlanningType = supplyLine.defaultPlanningType.ToString(),
+                Products = supplyLine.Products.OrderBy(x=>x.Order).Select(x=> ToDto(x)).ToList()
+                
+            };
+        }
+
+        private static ProductDto ToDto(Product product)
+        {
+
+            return new ProductDto
+            {
+                Id = product.Id,
+                Title = product.Title,
+                PartNumber = product.PartNumber,
+                Description = product.Description,
+                Brand = product.Brand.Title,
+                Category = product.Category.Title,
+
+                ItemVolume = product.ItemVolume,
+                ItemWeight = product.ItemWeight,
+                ItemPerSet = product.ItemPerSet,
+                Order = product.Order
             };
         }
 

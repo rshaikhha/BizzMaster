@@ -40,6 +40,7 @@ namespace API.Data
 
         #region Supplier
         public DbSet<Supplier> Suppliers {get; set;}
+        public DbSet<SupplyLine> SupplyLines {get; set;}
 
         #endregion
 

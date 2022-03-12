@@ -89,6 +89,8 @@ const Catalog = {
 const Suppliers = {
     list: () => requests.get('suppliers'),
     details: (id: number) => requests.get(`suppliers/${id}`),
+    lines: () => requests.get('suppliers/lines'),
+    lineDetails: (id: number) => requests.get(`suppliers/lines/${id}`),
 }
 const TestErrors = {
     get400Error: () => requests.get('buggy/bad-request'),

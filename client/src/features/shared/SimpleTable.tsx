@@ -7,7 +7,8 @@ interface Props {
     list : any[],
     title : string,
     columns : {header : string, accessor: string} [],
-    startIndex? : number
+    startIndex? : number,
+    detailsAddress? : string
 }
 
 export default function SimpleTable(props : Props) {
@@ -41,7 +42,7 @@ export default function SimpleTable(props : Props) {
                             {columns.map((item, itemIndex) => (
                                 <TableCell key={itemIndex}>{row[item.accessor]}</TableCell>
                             ))}
-                            <TableCell key='link'><Button component={NavLink} to={`/Products/${row.id}`}><ReadMoreIcon /></Button></TableCell>
+                            <TableCell key='link'><Button component={NavLink} to={`/${props.detailsAddress}/${row.id}`}><ReadMoreIcon /></Button></TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import agent from "../../app/api/agent";
+import HierarchialTable from "../shared/HierarchialTable";
 import SimpleTable from "../shared/SimpleTable";
 export default function Categories() {
 
@@ -12,8 +13,15 @@ export default function Categories() {
 
     const title = 'Categories';
     const columns = [
-        { header: 'Name', accessor: 'title'},
-        { header: 'Country', accessor: 'countryName'}
+         
+        { header: 'Level', accessor: 'level'},
+        { header: 'Code', accessor: 'code'},
+        { header: 'Title', accessor: 'title'},
+        { header: 'Usage Type', accessor: 'usageType'},
+        { header: 'Master System', accessor: 'masterSystem'},
+        { header: 'Item Unit', accessor: 'itemUnit'},
+        { header: 'Set Unit', accessor: 'setUnit'},
+        { header: 'HSCode', accessor: 'hscode'}
 
     ];
 

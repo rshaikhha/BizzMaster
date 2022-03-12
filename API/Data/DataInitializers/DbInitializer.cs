@@ -7,7 +7,7 @@ using API.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
-namespace API.Data
+namespace API.Data.DataInitializers
 {
     public class DbInitializer
     {
@@ -41,17 +41,6 @@ namespace API.Data
 
             if (context.Countries.Any()) return;
 
-            var cats = CreateCategories();
-            context.Categories.AddRange(cats);
-            context.SaveChanges();
-
-            // var bcats = CreateBaseCategories();
-            // context.Categories.AddRange(bcats);
-            // context.SaveChanges();
-
-            // var scats = CreateSubCategories();
-            // context.Categories.AddRange(scats);
-            // context.SaveChanges();
 
             var Countries = CreateCountries();
             context.Countries.AddRange(Countries);
@@ -67,6 +56,16 @@ namespace API.Data
 
             var cars = CreateCars();
             context.Cars.AddRange(cars);
+            context.SaveChanges();
+
+            context.UsageTypes.AddRange(createUsageType());
+            context.SaveChanges();
+
+            context.MasterSystems.AddRange(createMasterSystem());
+            context.SaveChanges();
+
+            var cats = CreateCategories();
+            context.Categories.AddRange(cats);
             context.SaveChanges();
 
         }
@@ -194,7 +193,7 @@ namespace API.Data
                 new Platform{ Title = "323", BrandId = Ma},
                 new Platform{ Title = "MX-6", BrandId = Ma},
             };
-                
+
             return plats;
         }
 
@@ -223,75 +222,77 @@ namespace API.Data
 
         }
 
+
+        private static List<UsageType> createUsageType()
+        {
+            return new List<UsageType>
+            {
+                new UsageType { Title = "AutoService"},
+                new UsageType { Title = "Mechanic"},
+                new UsageType { Title = "Electrician"},
+                new UsageType { Title = "Gas Station"},
+                new UsageType { Title = "Store"},
+            };
+
+        }
+        private static List<MasterSystem> createMasterSystem()
+        {
+            return new List<MasterSystem>
+            {
+                new MasterSystem { Title = "Engine"},
+                new MasterSystem { Title = "Suspension"},
+                new MasterSystem { Title = "Cabin"},
+                new MasterSystem { Title = "Electric"},
+            };
+
+        }
         private static List<Category> CreateCategories()
         {
 
+            var utas = _context.UsageTypes.FirstOrDefault(x => x.Title == "AutoService").Id;
+            var utm = _context.UsageTypes.FirstOrDefault(x => x.Title == "Mechanic").Id;
+            var ute = _context.UsageTypes.FirstOrDefault(x => x.Title == "Electrician").Id;
+
+            var mse = _context.MasterSystems.FirstOrDefault(x => x.Title == "Engine").Id;
+            var mss = _context.MasterSystems.FirstOrDefault(x => x.Title == "Suspension").Id;
+            var msc = _context.MasterSystems.FirstOrDefault(x => x.Title == "Cabin").Id;
+
+
+
             var cats = new List<Category>{
 
-            new Category { Title="Lubricant", TypeHint = "product" , Children = new List<Category>{
-                new Category { Title="Engine Oil", TypeHint = "product"},
-                new Category { Title="Transmission Fluid",TypeHint = "product"},
-                new Category { Title="Gear Oil", TypeHint = "product"},
-                new Category { Title="Brake Fluid", TypeHint = "product"},
-                new Category { Title="Coolant", TypeHint = "product"},
+            new Category { Title="Lubricant", Code = "10", Level = 0, ItemUnit="Gallon", SetUnit="Carton", UsageTypeId = utas,
+                Children = new List<Category>{
+                    new Category { Title="Engine Oil", Code = "1001", Level = 1, ItemUnit="Gallon", SetUnit="Carton", UsageTypeId = utas, MasterSystemId = mse, HSCode = "27101910"},
+                    new Category { Title="Transmission Fluid", Code = "1002", Level = 1,ItemUnit="Gallon", SetUnit="Carton", UsageTypeId = utas, MasterSystemId = mss, HSCode = "38190090"},
+                    new Category { Title="Gear Oil", Code = "1003", Level = 1, ItemUnit="Gallon", SetUnit="Carton", UsageTypeId = utas, MasterSystemId = mss, HSCode = "38190090" },
+                    new Category { Title="Brake Fluid", Code = "1004", Level = 1, ItemUnit="Gallon", SetUnit="Carton", UsageTypeId = utas, MasterSystemId = mss, HSCode = "38190090"},
+                    new Category { Title="Coolant", Code = "1005", Level = 1, ItemUnit="Gallon", SetUnit="Carton", UsageTypeId = utas, MasterSystemId = mse, HSCode = "38190090"},
             }},
 
-            new Category { Title="Spare Part", TypeHint = "product", Children = new List<Category>{
-                new Category { Title="Engine Parts", TypeHint = "product"},
-                new Category { Title="Suspension Parts", TypeHint = "product"},
-                new Category { Title="Body Parts", TypeHint = "product"},
-                new Category { Title="Electrical Parts", TypeHint = "product"},
-            }}
+            new Category { Title="Spare Part", Code = "20", Level = 0, 
+                Children = new List<Category>{
+                    new Category { Title="Engine Parts", Code="2001", Level = 1, ItemUnit="Piece", SetUnit="Set", UsageTypeId = utm, MasterSystemId = mse,
+                        Children = new List<Category>{
+                            new Category {Title = "Oil Filter", Code="200101", Level = 2, ItemUnit="Piece", SetUnit="Carton", UsageTypeId = utas, MasterSystemId = mse, HSCode = "84099190" },
+                            new Category {Title = "Spark Plug", Code="200102", Level = 2, ItemUnit="Piece", SetUnit="Set", UsageTypeId = utas, MasterSystemId = mse, HSCode = "84099190", }
+                        }
+                    },
+                    new Category { Title="Suspension Parts", Code="2002", Level = 1, ItemUnit="Piece", SetUnit="Set", UsageTypeId = utm, MasterSystemId = mss,
+                        Children = new List<Category>{
+                            new Category {Title = "Brake Pad", Code = "200201", Level = 2, ItemUnit = "Piece", SetUnit="Set", UsageTypeId = utm, MasterSystemId = mss, HSCode = "84099190"},
+                            new Category {Title = "CV Joint",Code = "200202", Level = 2, ItemUnit = "Piece", SetUnit="Set", UsageTypeId = utm, MasterSystemId = mss, HSCode = "84099190"}
+                        }
+                    },
+                    new Category { Title="Body Parts", Code = "2003", Level = 1, },
+                    new Category { Title="Electrical Parts", Code = "2004", Level = 1, },
+            }
+            }
             };
 
             return cats;
         }
-        private static List<Category> CreateBaseCategories()
-        {
 
-            var cats = new List<Category>{
-
-            new Category { Title="Lubricant", TypeHint = "product"},
-            new Category { Title="Spare Part", TypeHint = "product"},
-
-            // new Category { Title="Engine Oil", ParentCategoryId = 1, TypeHint = "product"},
-            // new Category { Title="Transmission Fluid", ParentCategoryId = 1, TypeHint = "product"},
-            // new Category { Title="Gear Oil", ParentCategoryId = 1, TypeHint = "product"},
-            // new Category { Title="Brake Fluid", ParentCategoryId = 1, TypeHint = "product"},
-            // new Category { Title="Coolant", ParentCategoryId = 1, TypeHint = "product"},
-
-            // new Category { Title="Engine Parts", ParentCategoryId = 2, TypeHint = "product"},
-            // new Category { Title="Suspension Parts", ParentCategoryId = 2, TypeHint = "product"},
-            // new Category { Title="Body Parts", ParentCategoryId = 2, TypeHint = "product"},
-            // new Category { Title="Electrical Parts", ParentCategoryId = 2, TypeHint = "product"},
-
-            };
-
-            return cats;
-        }
-        // private static List<Category> CreateSubCategories()
-        // {
-        //     var lub = _context.Categories.Single(x=>x.Title == "Lubricant").Id;
-        //     var SP = _context.Categories.Single(x=>x.Title == "Spare Part").Id;
-
-
-        //     var cats = new List<Category>{
-
-        //     new Category { Title="Engine Oil", ParentCategoryId = lub, TypeHint = "product"},
-        //     new Category { Title="Transmission Fluid", ParentCategoryId = lub, TypeHint = "product"},
-        //     new Category { Title="Gear Oil", ParentCategoryId = lub, TypeHint = "product"},
-        //     new Category { Title="Brake Fluid", ParentCategoryId = lub, TypeHint = "product"},
-        //     new Category { Title="Coolant", ParentCategoryId = lub, TypeHint = "product"},
-
-        //     new Category { Title="Engine Parts", ParentCategoryId = SP, TypeHint = "product"},
-        //     new Category { Title="Suspension Parts", ParentCategoryId = SP, TypeHint = "product"},
-        //     new Category { Title="Body Parts", ParentCategoryId = SP, TypeHint = "product"},
-        //     new Category { Title="Electrical Parts", ParentCategoryId = SP, TypeHint = "product"},
-
-        //     };
-
-        //     return cats;
-        // }
 
     }
 }

@@ -15,13 +15,29 @@ namespace API.Data
         {
         }
 
+        #region Basics
         public DbSet<Country> Countries { get; set; }
         public DbSet<Brand> Brands { get; set; }
-        public DbSet<Platform> Platforms {get; set;}
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<UsageType> UsageTypes { get; set; }
+        public DbSet<MasterSystem> MasterSystems { get; set; }
+
+        #endregion
+
+
+        #region Car
+
+        public DbSet<Platform> Platforms { get; set; }
         public DbSet<Car> Cars { get; set; }
-        public DbSet<Category> Categories {get; set;}
-        //public DbSet<Product> Products {get; set;}
-        
+
+        #endregion
+
+
+        #region Product
+        public DbSet<Product> Products {get; set;}
+
+        #endregion
+
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -30,8 +46,8 @@ namespace API.Data
 
             builder.Entity<IdentityRole>()
                 .HasData(
-                    new IdentityRole{Name = "Member", NormalizedName = "MEMBER"},
-                    new IdentityRole{Name = "Admin", NormalizedName = "ADMIN" }
+                    new IdentityRole { Name = "Member", NormalizedName = "MEMBER" },
+                    new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" }
                 );
         }
     }

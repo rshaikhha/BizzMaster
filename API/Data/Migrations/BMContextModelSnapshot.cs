@@ -78,15 +78,37 @@ namespace API.Data.Migrations
                     b.Property<int?>("CategoryId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Code")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("HSCode")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ItemUnit")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Level")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("MasterSystemId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SetUnit")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("TypeHint")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("UsageTypeId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("MasterSystemId");
+
+                    b.HasIndex("UsageTypeId");
 
                     b.ToTable("Categories");
                 });
@@ -114,6 +136,23 @@ namespace API.Data.Migrations
                     b.ToTable("Countries");
                 });
 
+            modelBuilder.Entity("API.Entities.MasterSystem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MasterSystems");
+                });
+
             modelBuilder.Entity("API.Entities.Platform", b =>
                 {
                     b.Property<int>("Id")
@@ -134,6 +173,68 @@ namespace API.Data.Migrations
                     b.HasIndex("BrandId");
 
                     b.ToTable("Platforms");
+                });
+
+            modelBuilder.Entity("API.Entities.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("BrandId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ItemPerSet")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("ItemVolume")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("ItemWeight")
+                        .HasColumnType("REAL");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("PartNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BrandId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("API.Entities.UsageType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UsageTypes");
                 });
 
             modelBuilder.Entity("API.Entities.User", b =>
@@ -228,15 +329,15 @@ namespace API.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4ef4a677-fcee-489a-b6e0-757431744be4",
-                            ConcurrencyStamp = "03637432-9469-4651-851a-8c54703b8780",
+                            Id = "00548ad7-79b3-4eef-96a0-913fc6660e8b",
+                            ConcurrencyStamp = "5e4ea8a7-2804-44b3-bf01-a9235c706990",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
-                            Id = "e1baedc9-91fb-48b9-a9da-6396f507b68a",
-                            ConcurrencyStamp = "524c3284-43fe-49bf-a181-c32bbda97498",
+                            Id = "7304670a-2c43-449f-95e9-74ce56ee923f",
+                            ConcurrencyStamp = "ef089466-3f20-41ba-a762-a9982a81461c",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -371,6 +472,18 @@ namespace API.Data.Migrations
                     b.HasOne("API.Entities.Category", null)
                         .WithMany("Children")
                         .HasForeignKey("CategoryId");
+
+                    b.HasOne("API.Entities.MasterSystem", "MasterSystem")
+                        .WithMany()
+                        .HasForeignKey("MasterSystemId");
+
+                    b.HasOne("API.Entities.UsageType", "UsageType")
+                        .WithMany()
+                        .HasForeignKey("UsageTypeId");
+
+                    b.Navigation("MasterSystem");
+
+                    b.Navigation("UsageType");
                 });
 
             modelBuilder.Entity("API.Entities.Platform", b =>
@@ -382,6 +495,25 @@ namespace API.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Brand");
+                });
+
+            modelBuilder.Entity("API.Entities.Product", b =>
+                {
+                    b.HasOne("API.Entities.Brand", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Brand");
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

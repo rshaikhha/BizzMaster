@@ -46,11 +46,49 @@ namespace API.Controllers
             return await _context.Countries.ToListAsync();
         }
 
-        [HttpGet("categories")]
-        public async Task<ActionResult<List<Category>>> GetCategories()
+        [HttpGet("usageTypes")]
+        public async Task<ActionResult<List<UsageType>>> GetUsageTypes()
         {
-            return await _context.Categories.Include(x=>x.Children).ToListAsync();
+            return await _context.UsageTypes.ToListAsync();
         }
-        
+
+        [HttpGet("MasterSystems")]
+        public async Task<ActionResult<List<MasterSystem>>> GetMasterSystems()
+        {
+            return await _context.MasterSystems.ToListAsync();
+        }
+
+// update this method later
+        [HttpGet("categories")]
+        public async Task<ActionResult<List<CategoryDto>>> GetCategories()
+        {
+            return await _context.Categories
+            .Include(x => x.UsageType)
+            .Include(x => x.MasterSystem)
+            .Include(x => x.Children)
+            
+            .Select(x => ToCategoryDto(x))
+            .ToListAsync();
+        }
+
+
+// update this method later
+        private static CategoryDto ToCategoryDto(Category category)
+        {
+
+
+            return new CategoryDto()
+            {
+                Code = category.Code,
+                Title = category.Title,
+                Level = category.Level,
+                ItemUnit = category.ItemUnit,
+                SetUnit = category.SetUnit,
+                UsageType = category.UsageType?.Title,
+                MasterSystem = category.MasterSystem?.Title,
+                HSCode = category.HSCode,
+                Children = category.Children?.Select(x => ToCategoryDto(x)).ToList()
+            };
+        }
     }
 }

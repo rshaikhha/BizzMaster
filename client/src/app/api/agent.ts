@@ -66,6 +66,8 @@ const requests = {
 const basics = {
     countries: () => requests.get('basics/countries'),
     brands: () => requests.get('basics/brands'),
+    usageTypes: ()=> requests.get('basics/usageTypes'),
+    masterSystems: ()=> requests.get('basics/masterSystems'),
     categories : ()=> requests.get('basics/categories'),
     details: (id: number) => requests.get(`country/${id}`)
 }

@@ -18,7 +18,9 @@ export default function Sidebar() {
         { title: 'SYSTEM', subItems: [
                 { title: 'Countries', path: '/countries' },
                 { title: 'Brands', path: '/brands' },
-                { title: 'Categories', path: '/categories' }
+                { title: 'Usage Types', path: '/usagetypes'},
+                { title: 'Master Systems', path: '/mastersystems'},
+                { title: 'Categories', path: '/categories' },
         ]},
         { title: 'CARS' , subItems: [
             { title: 'Car Finder', path: '/CarFinder'},

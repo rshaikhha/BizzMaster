@@ -19,6 +19,8 @@ import Brands from "../../features/system/Brands";
 import CarBrands from "../../features/cars/CarBrands";
 import Platforms from "../../features/cars/Platforms";
 import CarFinder from "../../features/cars/CarFinder";
+import UsageTypes from "../../features/system/Usagetypes";
+import MasterSystems from "../../features/system/MasterSystems";
 
 function App() {
 
@@ -69,9 +71,12 @@ function App() {
               <Route path='/login' component={Login} />
               <Route path='/register' component={Register} />
               <Route path='/about' component={AboutPage} />
+
               <Route path='/countries' component={Countries} />
-              <Route path='/categories' component={Categories} />
               <Route path='/brands' component={Brands} />
+              <Route path='/usagetypes' component={UsageTypes} />
+              <Route path='/mastersystems' component={MasterSystems} />
+              <Route path='/categories' component={Categories} />
 
               <Route path='/cars' component={Cars} />
               <Route path='/carbrands' component={CarBrands} />

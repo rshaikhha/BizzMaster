@@ -1,4 +1,6 @@
 
+using System.Collections.Generic;
+
 namespace API.Entities
 {
     public class Product : BaseEntity
@@ -9,19 +11,19 @@ namespace API.Entities
         public int BrandId { get; set; }
         public Brand Brand { get; set; }
 
+        public int CategoryId { get; set; }
         public Category Category { get; set; }
-        public SetType SetType { get; set; }
 
-        public double Volume { get; set; }
-        public double Weight { get; set; }
+        public double ItemVolume { get; set; }
+        public double ItemWeight { get; set; }
         public int ItemPerSet { get; set; }
-        public int Popularity { get; set; }
+        public int Order { get; set; }
 
     }
 
     
+     
 
-    public class SetType : BaseEntity { }
 
 
 }

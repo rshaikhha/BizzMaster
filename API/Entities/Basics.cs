@@ -20,10 +20,25 @@ namespace API.Entities
     }
 
     public class Category : BaseEntity 
-    { 
+    {
+        public string Code {get; set;}
+        public int Level {get; set;}
         public virtual ICollection<Category> Children {get; set;}
-        public string TypeHint {get; set;}
+
+        public string ItemUnit { get; set; }
+        public string SetUnit {get; set;}
+
+        public int? UsageTypeId {get; set;}
+        public virtual UsageType UsageType { get; set; }
+
+        public int? MasterSystemId { get; set; }
+         public virtual MasterSystem MasterSystem { get; set; }
+         public string HSCode {get; set;}
+
+        
     }
 
+     public class UsageType : BaseEntity {}
+     public class MasterSystem : BaseEntity {}
     
 }

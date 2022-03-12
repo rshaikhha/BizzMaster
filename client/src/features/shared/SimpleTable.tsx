@@ -29,7 +29,7 @@ export default function SimpleTable(props : Props) {
                     <TableRow>
                         <TableCell key="index">Index</TableCell>
                         {columns.map((item) => <TableCell key={item.header}>{item.header}</TableCell>)}
-                        <TableCell key="index">Details</TableCell>
+                        <TableCell key="details">Details</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

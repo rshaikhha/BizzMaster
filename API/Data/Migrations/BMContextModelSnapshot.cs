@@ -28,6 +28,9 @@ namespace API.Data.Migrations
                     b.Property<int>("CountryId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("LogoImage")
                         .HasColumnType("TEXT");
 
@@ -52,6 +55,9 @@ namespace API.Data.Migrations
 
                     b.Property<bool>("Active")
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("PlatformId")
                         .HasColumnType("INTEGER");
@@ -79,6 +85,9 @@ namespace API.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Code")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedOn")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("HSCode")
@@ -121,6 +130,9 @@ namespace API.Data.Migrations
 
                     b.Property<bool>("Active")
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
                         .HasColumnType("TEXT");
@@ -177,6 +189,9 @@ namespace API.Data.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("FlagImageUrl")
                         .HasColumnType("TEXT");
 
@@ -197,6 +212,9 @@ namespace API.Data.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
@@ -216,6 +234,9 @@ namespace API.Data.Migrations
 
                     b.Property<int>("BrandId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
@@ -241,6 +262,9 @@ namespace API.Data.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
@@ -277,6 +301,70 @@ namespace API.Data.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("API.Entities.SalesForecast", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Month")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SupplyLineId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SupplyLineId");
+
+                    b.ToTable("SalesForecasts");
+                });
+
+            modelBuilder.Entity("API.Entities.SalesForecastItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("SalesForecastId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("SalesForecastId");
+
+                    b.ToTable("SalesForecastItem");
+                });
+
             modelBuilder.Entity("API.Entities.Supplier", b =>
                 {
                     b.Property<int>("Id")
@@ -291,6 +379,9 @@ namespace API.Data.Migrations
 
                     b.Property<int>("CountryId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
                         .HasColumnType("TEXT");
@@ -320,6 +411,9 @@ namespace API.Data.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("SupplierId")
                         .HasColumnType("INTEGER");
 
@@ -344,6 +438,9 @@ namespace API.Data.Migrations
 
                     b.Property<bool>("Active")
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
@@ -445,15 +542,15 @@ namespace API.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ef6fb176-2fc9-4407-9756-a7dc480fbeb9",
-                            ConcurrencyStamp = "0a0a70e5-6fe2-47ff-bdf7-bb55fcfda744",
+                            Id = "73ddcc3f-6871-451c-9d9e-e58a59fdf490",
+                            ConcurrencyStamp = "f7394520-b330-4dfb-afeb-bdeed653c3d7",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
-                            Id = "f2b87d61-3bb5-4d5d-ab47-37c0596a72fd",
-                            ConcurrencyStamp = "dc962855-92ad-411d-a917-1c19894a22a3",
+                            Id = "879624eb-0a44-48ea-bb77-c1d42920d444",
+                            ConcurrencyStamp = "d54a30ff-2a58-41ef-b207-abf01e9dff54",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -643,6 +740,32 @@ namespace API.Data.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("API.Entities.SalesForecast", b =>
+                {
+                    b.HasOne("API.Entities.SupplyLine", "SupplyLine")
+                        .WithMany()
+                        .HasForeignKey("SupplyLineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SupplyLine");
+                });
+
+            modelBuilder.Entity("API.Entities.SalesForecastItem", b =>
+                {
+                    b.HasOne("API.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.SalesForecast", null)
+                        .WithMany("Items")
+                        .HasForeignKey("SalesForecastId");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("API.Entities.Supplier", b =>
                 {
                     b.HasOne("API.Entities.Country", "Country")
@@ -719,6 +842,11 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.Category", b =>
                 {
                     b.Navigation("Children");
+                });
+
+            modelBuilder.Entity("API.Entities.SalesForecast", b =>
+                {
+                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("API.Entities.Supplier", b =>

@@ -82,6 +82,98 @@ namespace API.Controllers
             return ToDto(supplyLine);
         }
 
+
+        [HttpGet("SalesForecast/{id}")]
+        public async Task<ActionResult<List<SalesForecastDto>>> GetSalesForecasts(int Id)
+        {
+
+            var supplyLine = _context.SupplyLines.Find(Id);
+            if (supplyLine == null)
+            {
+                return BadRequest();
+            }
+            _context.Entry(supplyLine).Collection(x=>x.Products).Load();
+            var products = supplyLine.Products;
+            var items = products.Select(x=> new SalesForecastItem{ ProductId = x.Id, Quantity = 0}).ToList();
+
+
+            var res = await _context
+            .SalesForecasts
+            .Include(x=>x.Items)
+            .ThenInclude(x=>x.Product)
+            .ThenInclude(x=>x.Brand)
+            .Where(x=>x.SupplyLineId == Id)
+            .ToListAsync();
+
+            return res
+            .GroupBy(x=>x.Title)
+            .Select(g => g.OrderByDescending(f => f.CreatedOn).First())
+            .Select(x=> ToDto(x))
+            .ToList();
+
+
+            
+            
+        }
+
+        [HttpPost("SalesForecast")]
+        public async Task<ActionResult<SalesForecast>> SetSalesForecast(SalesForecastUploadDto dto)
+        {
+            var supplyLine = _context.SupplyLines.Find(dto.SupplyLineId);
+            if (supplyLine == null)
+            {
+                return BadRequest();
+            }
+            _context.Entry(supplyLine).Collection(x=>x.Products).Load();
+            var products = supplyLine.Products;
+            var items = products.Select(x=> new SalesForecastItem{ ProductId = x.Id, Quantity = 0}).ToList();
+
+            string title = string.Format("Forecast-{0}-{1}-{2}", dto.SupplyLineId , dto.Year, dto.Month);
+            var prevforecast = _context.SalesForecasts
+            .Where(x=> x.Title == title)
+            .OrderByDescending(x=>x.CreatedOn)
+            .FirstOrDefault();
+
+            
+            
+            if (prevforecast != null)
+            {
+                foreach (var item in items)
+                {
+                    var previtem = prevforecast.Items.FirstOrDefault(x=>x.ProductId == item.ProductId);
+                    if(previtem != null) item.Quantity = previtem.Quantity;
+                }
+            }
+
+            foreach (var item in items)
+            {
+                var dtoItem = dto.Items.FirstOrDefault(x=>x.ProductId == item.ProductId);
+                    if(dtoItem != null) item.Quantity = dtoItem.Quantity;
+            }
+
+
+            var forecast = new SalesForecast
+            {
+                Title = title,
+                SupplyLineId = dto.SupplyLineId,
+                Year = dto.Year,
+                Month = dto.Month,
+                Items = items.Where(x=>x.Quantity > 0).ToList(),
+
+            };
+            _context.SalesForecasts.Add(forecast);
+            var res = await _context.SaveChangesAsync();
+            if (res > 0)
+            {
+                return StatusCode(201);
+            }
+            return BadRequest(); 
+            
+        }
+
+
+
+
         private static SupplierDto ToDto(Supplier supplier)
         {
             return new SupplierDto
@@ -145,6 +237,23 @@ namespace API.Controllers
                 ItemWeight = product.ItemWeight,
                 ItemPerSet = product.ItemPerSet,
                 Order = product.Order
+            };
+        }
+
+        private static SalesForecastDto ToDto(SalesForecast fc)
+        {
+            return new SalesForecastDto
+            {
+                SupplyLineId = fc.Id,
+                Year = fc.Year,
+                Month = fc.Month,
+                Items = fc.Items.Select(x=> new SalesForecastItemDto{
+                    ProductId = x.ProductId,
+                    ProductTitle = x.Product.Description,
+                    ProductPartNumner = x.Product.PartNumber,
+                    ProductBrand = x.Product.Brand.Title,
+                    Quantity = x.Quantity,
+                }).ToList()
             };
         }
 

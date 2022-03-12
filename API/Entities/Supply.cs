@@ -43,6 +43,8 @@ namespace API.Entities
         public int Month { get; set; }
         public List<SalesForecastItem> Items {get; set;}
 
+        
+
     }
 
     public class SalesForecastItem : BaseEntity

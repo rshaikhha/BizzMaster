@@ -91,6 +91,8 @@ const Suppliers = {
     details: (id: number) => requests.get(`suppliers/${id}`),
     lines: () => requests.get('suppliers/lines'),
     lineDetails: (id: number) => requests.get(`suppliers/lines/${id}`),
+    setForecast: (values: any) => requests.post('suppliers/SalesForecast', values),
+    getForecasts: (id: number) => requests.get(`suppliers/SalesForecast/${id}`),
 }
 const TestErrors = {
     get400Error: () => requests.get('buggy/bad-request'),

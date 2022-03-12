@@ -26,7 +26,6 @@ export default function SupplyLines() {
     
     return (
         <SimpleTable {...props} />
-
     )
 
 

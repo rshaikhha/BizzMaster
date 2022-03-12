@@ -55,6 +55,7 @@ namespace API.Data.Migrations
                     Abbr = table.Column<string>(type: "TEXT", nullable: true),
                     FlagImageUrl = table.Column<string>(type: "TEXT", nullable: true),
                     Title = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Active = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -69,6 +70,7 @@ namespace API.Data.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Active = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -83,6 +85,7 @@ namespace API.Data.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Active = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -206,6 +209,7 @@ namespace API.Data.Migrations
                     LogoImage = table.Column<string>(type: "TEXT", nullable: true),
                     TypeHint = table.Column<string>(type: "TEXT", nullable: true),
                     Title = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Active = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -231,6 +235,7 @@ namespace API.Data.Migrations
                     Address = table.Column<string>(type: "TEXT", nullable: true),
                     Website = table.Column<string>(type: "TEXT", nullable: true),
                     Title = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Active = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -259,6 +264,7 @@ namespace API.Data.Migrations
                     HSCode = table.Column<string>(type: "TEXT", nullable: true),
                     CategoryId = table.Column<int>(type: "INTEGER", nullable: true),
                     Title = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Active = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -292,6 +298,7 @@ namespace API.Data.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     BrandId = table.Column<int>(type: "INTEGER", nullable: false),
                     Title = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Active = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -323,6 +330,7 @@ namespace API.Data.Migrations
                     IsMale = table.Column<bool>(type: "INTEGER", nullable: false),
                     SupplierId = table.Column<int>(type: "INTEGER", nullable: true),
                     Title = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Active = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -345,6 +353,7 @@ namespace API.Data.Migrations
                     SupplierId = table.Column<int>(type: "INTEGER", nullable: false),
                     defaultPlanningType = table.Column<int>(type: "INTEGER", nullable: false),
                     Title = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Active = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -366,6 +375,7 @@ namespace API.Data.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     PlatformId = table.Column<int>(type: "INTEGER", nullable: false),
                     Title = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Active = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -395,6 +405,7 @@ namespace API.Data.Migrations
                     Order = table.Column<int>(type: "INTEGER", nullable: false),
                     SupplyLineId = table.Column<int>(type: "INTEGER", nullable: true),
                     Title = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Active = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -420,15 +431,69 @@ namespace API.Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "ef6fb176-2fc9-4407-9756-a7dc480fbeb9", "0a0a70e5-6fe2-47ff-bdf7-bb55fcfda744", "Member", "MEMBER" });
+            migrationBuilder.CreateTable(
+                name: "SalesForecasts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    SupplyLineId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Year = table.Column<int>(type: "INTEGER", nullable: false),
+                    Month = table.Column<int>(type: "INTEGER", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Active = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SalesForecasts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SalesForecasts_SupplyLines_SupplyLineId",
+                        column: x => x.SupplyLineId,
+                        principalTable: "SupplyLines",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SalesForecastItem",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ProductId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Quantity = table.Column<int>(type: "INTEGER", nullable: false),
+                    SalesForecastId = table.Column<int>(type: "INTEGER", nullable: true),
+                    Title = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Active = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SalesForecastItem", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SalesForecastItem_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SalesForecastItem_SalesForecasts_SalesForecastId",
+                        column: x => x.SalesForecastId,
+                        principalTable: "SalesForecasts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "f2b87d61-3bb5-4d5d-ab47-37c0596a72fd", "dc962855-92ad-411d-a917-1c19894a22a3", "Admin", "ADMIN" });
+                values: new object[] { "73ddcc3f-6871-451c-9d9e-e58a59fdf490", "f7394520-b330-4dfb-afeb-bdeed653c3d7", "Member", "MEMBER" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "879624eb-0a44-48ea-bb77-c1d42920d444", "d54a30ff-2a58-41ef-b207-abf01e9dff54", "Admin", "ADMIN" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -518,6 +583,21 @@ namespace API.Data.Migrations
                 column: "SupplyLineId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SalesForecastItem_ProductId",
+                table: "SalesForecastItem",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SalesForecastItem_SalesForecastId",
+                table: "SalesForecastItem",
+                column: "SalesForecastId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SalesForecasts_SupplyLineId",
+                table: "SalesForecasts",
+                column: "SupplyLineId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Suppliers_CountryId",
                 table: "Suppliers",
                 column: "CountryId");
@@ -552,7 +632,7 @@ namespace API.Data.Migrations
                 name: "Contact");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "SalesForecastItem");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -564,13 +644,19 @@ namespace API.Data.Migrations
                 name: "Platforms");
 
             migrationBuilder.DropTable(
+                name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "SalesForecasts");
+
+            migrationBuilder.DropTable(
+                name: "Brands");
+
+            migrationBuilder.DropTable(
                 name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "SupplyLines");
-
-            migrationBuilder.DropTable(
-                name: "Brands");
 
             migrationBuilder.DropTable(
                 name: "MasterSystems");

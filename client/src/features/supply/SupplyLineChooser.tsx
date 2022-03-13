@@ -1,7 +1,7 @@
 import { Grid, Typography, Divider, Button, Paper, Box, TextField, MenuItem } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useForm, Control, useWatch, useFieldArray } from "react-hook-form";
-import { NavLink, useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import agent from "../../app/api/agent";
 import Loadingcomponent from "../../app/layout/Loadingcomponent";
 import { Product } from "../../app/models/product";
@@ -9,7 +9,6 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { CommentsDisabledOutlined } from "@mui/icons-material";
 type FormValues = {
     supplyLineId: number;
     year: number;
@@ -20,6 +19,7 @@ type FormValues = {
     }[];
 
 };
+let renderCount = 0;
 const Total = ({ control }: { control: Control<FormValues> }) => {
     const formValues = useWatch({
         name: "items",
@@ -32,9 +32,9 @@ const Total = ({ control }: { control: Control<FormValues> }) => {
     return <p>Total Quantity: {total}</p>;
 };
 
-export default function SubmitSalesForecast() {
+export default function SupplyLineChooser() {
     const { id } = useParams<{ id: string }>();
-    const [singleId, setSingleId] = useState<string | null>(null)
+    const [singleId, setSingleId] = useState<number>(parseInt(id))
     const [single, setSingle] = useState<any>(null)
     const [lines, setLines] = useState<any[]>([])
     const [products, setProducts] = useState<Product[]>([])
@@ -54,7 +54,8 @@ export default function SubmitSalesForecast() {
     
 
     const onSubmit = (data: FormValues) => {
-        data.supplyLineId = parseInt(id);
+        console.log(data.supplyLineId)
+        // data.supplyLineId = parseInt(id);
         agent.Suppliers.setForecast(data).then(() => history.push(`/SalesForecast/${id}`))
             .catch((e) => {
                 setError("items", {
@@ -66,6 +67,7 @@ export default function SubmitSalesForecast() {
 
     const onLoad = (data: FormValues) => {
         data.supplyLineId = parseInt(id);
+        console.log('xx')
         agent.Suppliers.getForecast(data.supplyLineId, data.year, data.month).then((res) => {
             console.log(res)
             if (res) {
@@ -86,24 +88,22 @@ export default function SubmitSalesForecast() {
 
     useEffect(() => {
         reset({
-            supplyLineId: parseInt(id),
             items: []
         })
         setLoaded(false);
         console.log('effect')
         agent.Suppliers.lines().then((res)=> {setLines(res)})
         console.log(lines)
-        console.log(singleId)
-        console.log(id)
-        if(singleId == null) setSingleId(id)
-        agent.Suppliers.lineDetails(parseInt(singleId || id)).then((res) => {
+        
+        if(!singleId) setSingleId(1)
+        agent.Suppliers.lineDetails(singleId).then((res) => {
             console.log(res)
             setSingle(res);
             setProducts(res.products);
         })
         setLoaded(true);
         
-    }, [id])
+    }, [singleId])
 
 
 
@@ -132,13 +132,12 @@ export default function SubmitSalesForecast() {
                 <Typography component="h1" variant="h5">
                     Sales Forecast
                 </Typography>
-                <Typography component="h2" variant="h5">{single.title}</Typography>
                 <Total control={control} />
             </Box>
             <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
                 <Grid container direction="row" alignItems="center" spacing={2} sx={{ m: 1, alignContent: "center" }}>
                     <Grid item xs={6}>
-                        {/* <TextField
+                        <TextField
                             id="supplyLineId"
                             select
                             label="Select Supply Line"
@@ -146,19 +145,18 @@ export default function SubmitSalesForecast() {
                             error={!!errors.supplyLineId}
                             helperText={errors?.supplyLineId?.message}
                             placeholder="Supply Line"
-                            defaultValue={id}
-                            fullWidth
+                            defaultValue={1}
                             value = {single.id}
-                            // onChange={(event) => setSingleId(event.target.value)}
-                            disabled = {id != null}
+                            fullWidth
+                            onChange={(event) => setSingleId(parseInt(event.target.value))}
+                            // disabled = {id != null}
                         >
                             {lines.map((option) => (
                                 <MenuItem key={option.id} value={option.id}>
                                     {option.title}
                                 </MenuItem>
                             ))}
-                        </TextField> */}
-                        
+                        </TextField>
                     </Grid>
 
                 </Grid>
@@ -273,16 +271,9 @@ export default function SubmitSalesForecast() {
                             <AddCircleOutlineIcon />
                         </Button>
                     </Grid>
-                </Grid>
-                <Grid container spacing={2} sx={{ ml: 4, mb: 4, alignContent: "center" }}>
                     <Grid item xs={6}>
                         <Button variant="contained" color="primary" type="submit" fullWidth>
                             SUBMIT
-                        </Button>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Button variant="contained" color="error" fullWidth component={NavLink} to={`/SalesForecast/${id}`}>
-                            CANCEL
                         </Button>
                     </Grid>
                 </Grid>

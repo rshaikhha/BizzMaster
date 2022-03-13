@@ -37,7 +37,7 @@ export default function SupplyLineDetails() {
                 <Divider sx={{mb: 2}} />
                 
                 <Button variant="contained" sx={{m : 1 , minWidth : '200px'}} key="one" component ={NavLink} to={`/SalesForecast/${id}`}>ForeCast</Button>
-                <Button variant="contained" sx={{m : 1 , minWidth : '200px'}} key="two">two</Button>
+                <Button variant="contained" sx={{m : 1 , minWidth : '200px'}} key="two" component ={NavLink} to={`/SalesForecast/${id}`}>ForeCast</Button>
                 <Button variant="contained" sx={{m : 1 , minWidth : '200px'}} key="tree">tree</Button>
             </Grid>
             <Grid item xs={12}>

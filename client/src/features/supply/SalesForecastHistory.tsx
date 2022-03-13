@@ -15,14 +15,14 @@ export default function SalesForecastHistory() {
 
         agent.Suppliers.lineDetails(parseInt(id)).then((res) => setSingle(res))
         agent.Suppliers.getForecastHistory(parseInt(id),parseInt(year), parseInt(month)).then((res) => setList(res))
-        agent.Suppliers.activeProducts(parseInt(id)).then((res) => setProducts(res))
+        //agent.Suppliers.activeProducts(parseInt(id)).then((res) => setProducts(res))
     }, [])
 
 
 
 
     if (!single || !list || !products) return <Loadingcomponent message='Loading Products ...' />
-
+console.log(single)
 
     const columns = [
 
@@ -39,14 +39,12 @@ export default function SalesForecastHistory() {
                 <Typography variant='body2'>Supplier: {single.supplier}</Typography>
                 <Divider sx={{ mb: 2 }} />
 
-                <Button variant="contained" sx={{ m: 1, minWidth: '200px' }} key="one" component={NavLink} to={`/SubmitSalesForecast/${id}`}>New ForeCast</Button>
-                <Button variant="contained" sx={{ m: 1, minWidth: '200px' }} key="two">two</Button>
-                <Button variant="contained" sx={{ m: 1, minWidth: '200px' }} key="tree">tree</Button>
+                <Button variant="contained" sx={{ m: 1, minWidth: '200px' }} key="one" component={NavLink} to={`/SalesForecast/${id}`}>Back</Button>
             </Grid>
             <Grid item xs={12}>
                 <Paper sx={{ padding: 2 }}>
 
-                    {/* <Typography variant='h4'> <TableRowsIcon fontSize="inherit" style={{ verticalAlign: "middle" }} /> {title}</Typography> */}
+                    <Typography variant='h4'>Sales Forecast History </Typography>
 
                     <TableContainer >
                         <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -63,7 +61,7 @@ export default function SalesForecastHistory() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {products.map((row: Product, rowindex: number) => (
+                                {single.products.map((row: Product, rowindex: number) => (
                                     <TableRow
                                         key={row.id}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 }, '&:hover': { backgroundColor: 'grey.200' }, textDecoration: 'none' }}

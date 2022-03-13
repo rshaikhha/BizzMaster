@@ -108,6 +108,7 @@ namespace API.Controllers
             return res
             .GroupBy(x=>x.Title)
             .Select(g => g.OrderByDescending(f => f.CreatedOn).First())
+            .OrderBy(x=>x.Title)
             .Select(x=> ToDto(x))
             .ToList();
 
@@ -339,7 +340,7 @@ namespace API.Controllers
         {
             return new SalesForecastDto
             {
-                SupplyLineId = fc.Id,
+                SupplyLineId = fc.SupplyLine.Id,
                 Year = fc.Year,
                 Month = fc.Month,
                 Items = fc.Items.Select(x=> new SalesForecastItemUploadDto{

@@ -30,6 +30,10 @@ export default function Sidebar() {
             { title: 'Supply Lines', path: '/Supplylines'},
 
         ]},
+        { title: 'SALES' , subItems: [
+            { title: 'Sales Forecast', path: '/SubmitSalesForecast'},
+
+        ]},
     ];
 
     function handleClick(index: number){

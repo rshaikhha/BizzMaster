@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using API.Data;
 using API.Dtos;
@@ -132,33 +133,33 @@ namespace API.Controllers
             {
                 return BadRequest();
             }
-            _context.Entry(supplyLine).Collection(x=>x.Products).Load();
-            var products = supplyLine.Products;
-            var items = products.Select(x=> new StockItem{ ProductId = x.Id, Quantity = 0}).ToList();
+            // _context.Entry(supplyLine).Collection(x=>x.Products).Load();
+            // var products = supplyLine.Products;
+            // var items = products.Select(x=> new StockItem{ ProductId = x.Id, Quantity = 0}).ToList();
 
             string title = string.Format("Stock-{0}-{1}-{2}", dto.SupplyLineId , dto.Year, dto.Month);
-            var prevstock = _context.Stocks
-            .Include(x=>x.Items)
-            .Where(x=> x.Title == title)
-            .OrderByDescending(x=>x.CreatedOn)
-            .FirstOrDefault();
+            // var prevstock = _context.Stocks
+            // .Include(x=>x.Items)
+            // .Where(x=> x.Title == title)
+            // .OrderByDescending(x=>x.CreatedOn)
+            // .FirstOrDefault();
 
             
             
-            if (prevstock != null)
-            {
-                foreach (var item in items)
-                {
-                    var previtem = prevstock.Items.FirstOrDefault(x=>x.ProductId == item.ProductId);
-                    if(previtem != null) item.Quantity = previtem.Quantity;
-                }
-            }
+            // if (prevstock != null)
+            // {
+            //     foreach (var item in items)
+            //     {
+            //         var previtem = prevstock.Items.FirstOrDefault(x=>x.ProductId == item.ProductId);
+            //         if(previtem != null) item.Quantity = previtem.Quantity;
+            //     }
+            // }
 
-            foreach (var item in items)
-            {
-                var dtoItem = dto.Items.FirstOrDefault(x=>x.ProductId == item.ProductId);
-                    if(dtoItem != null) item.Quantity = dtoItem.Quantity;
-            }
+            // foreach (var item in items)
+            // {
+            //     var dtoItem = dto.Items.FirstOrDefault(x=>x.ProductId == item.ProductId);
+            //         if(dtoItem != null) item.Quantity = dtoItem.Quantity;
+            // }
 
 
             var stock = new Stock
@@ -167,7 +168,10 @@ namespace API.Controllers
                 SupplyLineId = dto.SupplyLineId,
                 Year = dto.Year,
                 Month = dto.Month,
-                Items = items.Where(x=>x.Quantity > 0).ToList(),
+                Items = dto.Items.Where(x=>x.Quantity > 0).Select(x=>new StockItem{
+                    ProductId = x.ProductId,
+                    Quantity = x.Quantity,
+                } ).ToList(),
 
             };
             _context.Stocks.Add(stock);
@@ -179,6 +183,76 @@ namespace API.Controllers
             return BadRequest(); 
             
         }
+
+
+        [HttpGet("Calculate/{id}/{year}/{month}")]
+        public async Task<ActionResult<StockDto>> Calculate(int Id,int year, int month)
+        {
+
+            var supplyLine = _context.SupplyLines.Find(Id);
+            if (supplyLine == null)
+            {
+                return BadRequest();
+            }
+            _context.Entry(supplyLine).Collection(x=>x.Products).Load();
+            var products = supplyLine.Products;
+            var items = products.Select(x=> new StockItem{ ProductId = x.Id, Quantity = 0}).ToList();
+
+            var lastyear = month > 1 ? year : year - 1;
+            var lastmonth = month > 1 ? month - 1 : 12;
+            
+            var lastStock = await _context
+            .Stocks
+            .Include(x=>x.Items)
+            .Where(x=>x.SupplyLineId == Id && x.Year == lastyear && x.Month == lastmonth )
+            .OrderByDescending(x=>x.CreatedOn)
+            .FirstOrDefaultAsync();
+
+            var lastForcast = await _context
+            .SalesForecasts
+            .Include(x=>x.Items)
+            .Where(x=>x.SupplyLineId == Id && x.Year == lastyear && x.Month == lastmonth )
+            .OrderByDescending(x=>x.CreatedOn)
+            .FirstOrDefaultAsync();
+
+            var lastShipment = await _context
+            .Orders
+            .Include(x=>x.Items)
+            .Where(x=>x.SupplyLineId == Id && x.Year == lastyear && x.Month == lastmonth )
+            .OrderByDescending(x=>x.CreatedOn)
+            .FirstOrDefaultAsync();
+
+            string title = string.Format("Stock-{0}-{1}-{2}", Id , year, month);
+            var stockitems = new List<StockItem>();
+            foreach (var product in products)
+            {
+                var s = lastStock?.Items.FirstOrDefault(x=>x.ProductId == product.Id)?.Quantity ?? 0;
+                var f = lastForcast?.Items.FirstOrDefault(x=>x.ProductId == product.Id)?.Quantity ?? 0;
+                var sh = lastShipment?.Items.FirstOrDefault(x=>x.ProductId == product.Id)?.Quantity ?? 0;
+
+                var q = Math.Max(0, s + sh - f);
+
+                if (q > 0)
+                stockitems.Add(new StockItem{ProductId = product.Id, Quantity = q});
+                
+            }
+            var stock = new StockDto
+            {
+                SupplyLineId = Id,
+                Year = year,
+                Month = month,
+                Items = stockitems.Where(x=>x.Quantity > 0).Select(x=>new StockItemDto{
+                    ProductId = x.ProductId,
+                    Quantity = x.Quantity
+                }).ToList()
+            };
+
+            
+            return stock;
+
+
+        }
+
 
 
 

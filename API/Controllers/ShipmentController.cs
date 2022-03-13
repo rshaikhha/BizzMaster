@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
@@ -8,27 +7,24 @@ using API.Dtos;
 using API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Logging;
 
 namespace API.Controllers
 {
-    public class SalesForecastController : BaseApiController
+    public class ShipmentController : BaseApiController
     {
+                private readonly BMContext _context;
+        private readonly ILogger<ShipmentController> _logger;
 
-        private readonly BMContext _context;
-        private readonly ILogger<SalesForecastController> _logger;
-
-        public SalesForecastController(BMContext context, ILogger<SalesForecastController> logger)
+        public ShipmentController(BMContext context, ILogger<ShipmentController> logger)
         {
             this._context = context;
             _logger = logger;
         }
 
 
-
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<SalesForecastDto>>> GetSalesForecasts(int Id)
+        public async Task<ActionResult<List<ShipmentDto>>> Get(int Id)
         {
 
             var supplyLine = _context.SupplyLines.Find(Id);
@@ -38,11 +34,11 @@ namespace API.Controllers
             }
             _context.Entry(supplyLine).Collection(x=>x.Products).Load();
             var products = supplyLine.Products;
-            var items = products.Select(x=> new SalesForecastItem{ ProductId = x.Id, Quantity = 0}).ToList();
+            var items = products.Select(x=> new StockItem{ ProductId = x.Id, Quantity = 0}).ToList();
 
 
             var res = await _context
-            .SalesForecasts
+            .Shipments
             .Include(x=>x.Items)
             .ThenInclude(x=>x.Product)
             .ThenInclude(x=>x.Brand)
@@ -61,8 +57,9 @@ namespace API.Controllers
             
         }
 
+
         [HttpGet("history/{id}/{year}/{month}")]
-        public async Task<ActionResult<List<SalesForecastDto>>> GetSalesForecastHistory(int Id,int year, int month)
+        public async Task<ActionResult<List<ShipmentDto>>> GetHistory(int Id,int year, int month)
         {
 
             var supplyLine = _context.SupplyLines.Find(Id);
@@ -72,11 +69,11 @@ namespace API.Controllers
             }
             _context.Entry(supplyLine).Collection(x=>x.Products).Load();
             var products = supplyLine.Products;
-            var items = products.Select(x=> new SalesForecastItem{ ProductId = x.Id, Quantity = 0}).ToList();
+            var items = products.Select(x=> new StockItem{ ProductId = x.Id, Quantity = 0}).ToList();
 
 
             var res = await _context
-            .SalesForecasts
+            .Shipments
             .Include(x=>x.Items)
             .ThenInclude(x=>x.Product)
             .ThenInclude(x=>x.Brand)
@@ -87,14 +84,11 @@ namespace API.Controllers
             
             .Select(x=> ToDto(x))
             .ToList();
-
-
-            
-            
         }
 
+
         [HttpGet("{id}/{year}/{month}")]
-        public async Task<ActionResult<SalesForecastDto>> GetSalesForecast(int Id,int year, int month)
+        public async Task<ActionResult<ShipmentDto>> Get(int Id,int year, int month)
         {
 
             var supplyLine = _context.SupplyLines.Find(Id);
@@ -104,32 +98,31 @@ namespace API.Controllers
             }
             _context.Entry(supplyLine).Collection(x=>x.Products).Load();
             var products = supplyLine.Products;
-            var items = products.Select(x=> new SalesForecastItem{ ProductId = x.Id, Quantity = 0}).ToList();
+            var items = products.Select(x=> new StockItem{ ProductId = x.Id, Quantity = 0}).ToList();
 
 
             var res = await _context
-            .SalesForecasts
+            .Shipments
             .Include(x=>x.Items)
             .ThenInclude(x=>x.Product)
             .ThenInclude(x=>x.Brand)
             .Where(x=>x.SupplyLineId == Id && x.Year == year && x.Month == month )
             .ToListAsync();
 
-            var fc = res
+            var st = res
             .OrderByDescending(x=>x.CreatedOn)
             .FirstOrDefault();
 
-            if (fc == null)
+            if (st == null)
             {
                 return null;
             }
-            return ToDto(fc);
+            return ToDto(st);
         }
 
-        
 
         [HttpPost]
-        public async Task<ActionResult<SalesForecast>> SetSalesForecast(SalesForecastUploadDto dto)
+        public async Task<ActionResult<Shipment>> Post(ShipmentUploadDto dto)
         {
 
             if(!dto.Items.Any()) return BadRequest(new ProblemDetails{Title = "No Items!!!"});
@@ -139,48 +132,45 @@ namespace API.Controllers
             {
                 return BadRequest();
             }
-            // _context.Entry(supplyLine).Collection(x=>x.Products).Load();
-            // var products = supplyLine.Products;
-            // var items = products.Select(x=> new SalesForecastItem{ ProductId = x.Id, Quantity = 0}).ToList();
+            _context.Entry(supplyLine).Collection(x=>x.Products).Load();
+            var products = supplyLine.Products;
+            var items = products.Select(x=> new ShipmentItem{ ProductId = x.Id, Quantity = 0}).ToList();
 
-            string title = string.Format("Forecast-{0}-{1}-{2}", dto.SupplyLineId , dto.Year, dto.Month);
-            // var prevforecast = _context.SalesForecasts
-            // .Include(x=>x.Items)
-            // .Where(x=> x.Title == title)
-            // .OrderByDescending(x=>x.CreatedOn)
-            // .FirstOrDefault();
+            string title = string.Format("Shipment-{0}-{1}-{2}", dto.SupplyLineId , dto.Year, dto.Month);
+            var prevShipment = _context.Shipments
+            .Include(x=>x.Items)
+            .Where(x=> x.Title == title)
+            .OrderByDescending(x=>x.CreatedOn)
+            .FirstOrDefault();
 
             
             
-            // if (prevforecast != null)
-            // {
-            //     foreach (var item in items)
-            //     {
-            //         var previtem = prevforecast.Items.FirstOrDefault(x=>x.ProductId == item.ProductId);
-            //         if(previtem != null) item.Quantity = previtem.Quantity;
-            //     }
-            // }
+            if (prevShipment != null)
+            {
+                foreach (var item in items)
+                {
+                    var previtem = prevShipment.Items.FirstOrDefault(x=>x.ProductId == item.ProductId);
+                    if(previtem != null) item.Quantity = previtem.Quantity;
+                }
+            }
 
-            // foreach (var item in items)
-            // {
-            //     var dtoItem = dto.Items.FirstOrDefault(x=>x.ProductId == item.ProductId);
-            //         if(dtoItem != null) item.Quantity = dtoItem.Quantity;
-            // }
+            foreach (var item in items)
+            {
+                var dtoItem = dto.Items.FirstOrDefault(x=>x.ProductId == item.ProductId);
+                    if(dtoItem != null) item.Quantity = dtoItem.Quantity;
+            }
 
-            var forecast = new SalesForecast
+
+            var Shipment = new Shipment
             {
                 Title = title,
                 SupplyLineId = dto.SupplyLineId,
                 Year = dto.Year,
                 Month = dto.Month,
-                Items = dto.Items.Where(x=>x.Quantity > 0).Select(x=> new SalesForecastItem
-                {
-                    ProductId = x.ProductId,
-                    Quantity = x.Quantity
-                }).ToList()
+                Items = items.Where(x=>x.Quantity > 0).ToList(),
 
             };
-            _context.SalesForecasts.Add(forecast);
+            _context.Shipments.Add(Shipment);
             var res = await _context.SaveChangesAsync();
             if (res > 0)
             {
@@ -190,14 +180,16 @@ namespace API.Controllers
             
         }
 
-        private static SalesForecastDto ToDto(SalesForecast fc)
+
+
+        private static ShipmentDto ToDto(Shipment Shipment)
         {
-            return new SalesForecastDto
+            return new ShipmentDto
             {
-                SupplyLineId = fc.SupplyLine.Id,
-                Year = fc.Year,
-                Month = fc.Month,
-                Items = fc.Items.Select(x=> new SalesForecastItemUploadDto{
+                SupplyLineId = Shipment.SupplyLine.Id,
+                Year = Shipment.Year,
+                Month = Shipment.Month,
+                Items = Shipment.Items.Select(x=> new ShipmentItemDto{
                     ProductId = x.ProductId,
                     ProductTitle = x.Product.Description,
                     ProductPartNumner = x.Product.PartNumber,
@@ -206,6 +198,5 @@ namespace API.Controllers
                 }).ToList()
             };
         }
-        
     }
 }

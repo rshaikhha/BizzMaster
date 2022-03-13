@@ -106,12 +106,17 @@ const Stock = {
     list: (id: number) => requests.get(`Stock/${id}`),
     history: (id: number, year: number, month: number) => requests.get(`Stock/history/${id}/${year}/${month}`),
     get: (id: number, year: number, month: number) => requests.get(`Stock/${id}/${year}/${month}`),
+    calulate: (id: number, year: number, month: number) => requests.get(`Stock/calculate/${id}/${year}/${month}`),
 }
 const Order = {
     post: (values: any) => requests.post('Order', values),
     list: (id: number) => requests.get(`Order/${id}`),
     history: (id: number, year: number, month: number) => requests.get(`Order/history/${id}/${year}/${month}`),
     get: (id: number, year: number, month: number) => requests.get(`Order/${id}/${year}/${month}`),
+    calulate: (id: number, year: number, month: number) => requests.get(`Order/calculate/${id}/${year}/${month}`),
+}
+const Audit = {
+    get: (id: number, year: number, month: number) => requests.get(`Audit/${id}/${year}/${month}`),
 }
 const TestErrors = {
     get400Error: () => requests.get('buggy/bad-request'),
@@ -142,6 +147,7 @@ const agent = {
     SalesForecast,
     Stock,
     Order,
+    Audit,
     TestErrors,
     Basket,
     Account

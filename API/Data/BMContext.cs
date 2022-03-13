@@ -48,6 +48,7 @@ namespace API.Data
         public DbSet<SalesForecast> SalesForecasts {get; set;}
         public DbSet<Stock> Stocks {get; set;}
         public DbSet<Order> Orders {get; set;}
+        public DbSet<Shipment> Shipments {get; set;}
 
 
         protected override void OnModelCreating(ModelBuilder builder)

@@ -10,6 +10,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { CommentsDisabledOutlined } from "@mui/icons-material";
+import { useAppSelector } from "../../app/store/configureStore";
 type FormValues = {
     supplyLineId: number;
     year: number;
@@ -39,6 +40,7 @@ export default function SubmitSalesForecast() {
     const [lines, setLines] = useState<any[]>([])
     const [products, setProducts] = useState<Product[]>([])
     const [loaded, setLoaded] = useState<Boolean>(false)
+    const {yearsList, monthList} = useAppSelector(state => state.basics)
 
     const history = useHistory();
     const { register, control, handleSubmit, formState: { errors }, reset, setError } = useForm<FormValues>({
@@ -109,10 +111,7 @@ export default function SubmitSalesForecast() {
 
 
     if (!single || !lines || !products) return <Loadingcomponent message='Loading Products ...' />
-    const yearsList = [1399, 1400, 1401, 1402];
-    const monthList = ['Farvardin', 'Ordibehesht', 'Khordad', 'Tir', 'Mordad', 'Shahrivar', 'Mehr', 'Aban', 'Azar', 'Dey', 'Bahman', 'Esfand'];
 
-    
 
     return (
 

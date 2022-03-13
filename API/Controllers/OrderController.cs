@@ -7,13 +7,14 @@ using API.Dtos;
 using API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Microsoft.Extensions.Logging;
 
 namespace API.Controllers
 {
     public class OrderController : BaseApiController
     {
-                private readonly BMContext _context;
+        private readonly BMContext _context;
         private readonly ILogger<OrderController> _logger;
 
         public OrderController(BMContext context, ILogger<OrderController> logger)
@@ -132,33 +133,33 @@ namespace API.Controllers
             {
                 return BadRequest();
             }
-            _context.Entry(supplyLine).Collection(x=>x.Products).Load();
-            var products = supplyLine.Products;
-            var items = products.Select(x=> new OrderItem{ ProductId = x.Id, Quantity = 0}).ToList();
+            // _context.Entry(supplyLine).Collection(x=>x.Products).Load();
+            // var products = supplyLine.Products;
+            // var items = products.Select(x=> new OrderItem{ ProductId = x.Id, Quantity = 0}).ToList();
 
             string title = string.Format("Order-{0}-{1}-{2}", dto.SupplyLineId , dto.Year, dto.Month);
-            var prevOrder = _context.Orders
-            .Include(x=>x.Items)
-            .Where(x=> x.Title == title)
-            .OrderByDescending(x=>x.CreatedOn)
-            .FirstOrDefault();
+            // var prevOrder = _context.Orders
+            // .Include(x=>x.Items)
+            // .Where(x=> x.Title == title)
+            // .OrderByDescending(x=>x.CreatedOn)
+            // .FirstOrDefault();
 
             
             
-            if (prevOrder != null)
-            {
-                foreach (var item in items)
-                {
-                    var previtem = prevOrder.Items.FirstOrDefault(x=>x.ProductId == item.ProductId);
-                    if(previtem != null) item.Quantity = previtem.Quantity;
-                }
-            }
+            // if (prevOrder != null)
+            // {
+            //     foreach (var item in items)
+            //     {
+            //         var previtem = prevOrder.Items.FirstOrDefault(x=>x.ProductId == item.ProductId);
+            //         if(previtem != null) item.Quantity = previtem.Quantity;
+            //     }
+            // }
 
-            foreach (var item in items)
-            {
-                var dtoItem = dto.Items.FirstOrDefault(x=>x.ProductId == item.ProductId);
-                    if(dtoItem != null) item.Quantity = dtoItem.Quantity;
-            }
+            // foreach (var item in items)
+            // {
+            //     var dtoItem = dto.Items.FirstOrDefault(x=>x.ProductId == item.ProductId);
+            //         if(dtoItem != null) item.Quantity = dtoItem.Quantity;
+            // }
 
 
             var order = new Order
@@ -167,7 +168,10 @@ namespace API.Controllers
                 SupplyLineId = dto.SupplyLineId,
                 Year = dto.Year,
                 Month = dto.Month,
-                Items = items.Where(x=>x.Quantity > 0).ToList(),
+                Items = dto.Items.Where(x=>x.Quantity > 0).Select(x=> new OrderItem{
+                    ProductId = x.ProductId,
+                    Quantity = x.Quantity
+                }).ToList(),
 
             };
             _context.Orders.Add(order);
@@ -178,6 +182,58 @@ namespace API.Controllers
             }
             return BadRequest(); 
             
+        }
+
+
+        [HttpGet("calculate/{id}/{year}/{month}")]
+        public async Task<ActionResult<OrderDto>> Calculate(int Id,int year, int month)
+        {
+
+            var supplyLine = _context.SupplyLines.Find(Id);
+            if (supplyLine == null)
+            {
+                return BadRequest();
+            }
+            _context.Entry(supplyLine).Collection(x=>x.Products).Load();
+            var products = supplyLine.Products;
+            
+
+
+            var stock = await _context
+            .Stocks
+            .Include(x=>x.Items)
+            .Where(x=>x.SupplyLineId == Id && x.Year == year && x.Month == month )
+            .OrderByDescending(x=>x.CreatedOn)
+            .FirstOrDefaultAsync();
+
+            var sales = await _context
+            .SalesForecasts
+            .Include(x=>x.Items)
+            .Where(x=>x.SupplyLineId == Id && x.Year == year && x.Month == month )
+            .OrderByDescending(x=>x.CreatedOn)
+            .FirstOrDefaultAsync();
+
+            string title = string.Format("Order-{0}-{1}-{2}", Id , year, month);
+            var orderItems = new List<OrderItemDto>();
+
+            foreach (var product in products)
+            {
+                var s = stock?.Items.FirstOrDefault(x=>x.ProductId == product.Id)?.Quantity ?? 0;
+                var f = sales?.Items.FirstOrDefault(x=>x.ProductId == product.Id)?.Quantity ?? 0;
+
+                var q = Math.Max(0, 2 * f - s);
+
+                if (q > 0)
+                orderItems.Add(new OrderItemDto{ProductId = product.Id, Quantity = q});
+                
+            }
+
+            return new OrderDto{
+                SupplyLineId = Id,
+                Month = month,
+                Year = year,
+                Items = orderItems
+            };
         }
 
 

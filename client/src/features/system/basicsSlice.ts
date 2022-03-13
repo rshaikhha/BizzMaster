@@ -10,12 +10,17 @@ import Countries from "./Countries";
 interface basicsState {
     status: string,
     activeTable : Component | null,
+    yearsList: number[],
+    monthList: string[]
     
 }
 
 const initialState : basicsState = {
-    status : 'idle',
-    activeTable : null,
+    status: 'idle',
+    activeTable: null,
+    yearsList: [1399, 1400, 1401, 1402],
+    monthList: ['Farvardin', 'Ordibehesht', 'Khordad', 'Tir', 'Mordad', 'Shahrivar', 'Mehr', 'Aban', 'Azar', 'Dey', 'Bahman', 'Esfand']
+
 
 }
 

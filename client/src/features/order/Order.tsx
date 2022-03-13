@@ -58,7 +58,7 @@ export default function Order() {
                                     <TableCell key="PartNumner">Part Number</TableCell>
                                     {list.map((item: any) => <TableCell key={item.year + item.month}>
                                         {item.year} / {item.month}
-                                        <Button component={NavLink} to={`/SalesforecastHistory/${id}/${item.year}/${item.month}`} ><ExpandMore  /> </Button>
+                                        <Button component={NavLink} to={`/OrderHistory/${id}/${item.year}/${item.month}`} ><ExpandMore  /> </Button>
                                         </TableCell>)}
 
                                 </TableRow>

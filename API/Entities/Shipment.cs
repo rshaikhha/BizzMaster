@@ -5,19 +5,16 @@ using System.Threading.Tasks;
 
 namespace API.Entities
 {
-    public class SalesForecast : BaseEntity
+    public class Shipment : BaseEntity
     {
         public int SupplyLineId { get; set; }
         public SupplyLine SupplyLine { get; set; }
         public int Year { get; set; }
         public int Month { get; set; }
-        public List<SalesForecastItem> Items {get; set;}
-
-        // public bool IsForecast {get; set;}
-        // public bool IsConfirmed {get; set;}
+        public List<ShipmentItem> Items {get; set;}
     }
 
-    public class SalesForecastItem : BaseEntity
+    public class ShipmentItem : BaseEntity
     {
         public int ProductId { get; set; }
         public Product Product { get; set; }

@@ -9,6 +9,8 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 import StoreIcon from '@mui/icons-material/Store';
+import { useAppSelector } from "../../app/store/configureStore";
+import CalculateIcon from '@mui/icons-material/Calculate';
 type FormValues = {
     supplyLineId: number;
     year: number;
@@ -40,6 +42,8 @@ export default function SubmitOrder() {
     const [loaded, setLoaded] = useState<Boolean>(false)
 
     const history = useHistory();
+
+    const {yearsList, monthList} = useAppSelector(state => state.basics)
     const { register, control, handleSubmit, formState: { errors }, reset, setError } = useForm<FormValues>({
         defaultValues: {
             items: []
@@ -50,7 +54,7 @@ export default function SubmitOrder() {
         name: "items",
         control
     });
-    
+
 
     const onSubmit = (data: FormValues) => {
         data.supplyLineId = parseInt(id);
@@ -80,6 +84,23 @@ export default function SubmitOrder() {
         });
     };
 
+    const onCalculate = (data: FormValues) => {
+        data.supplyLineId = parseInt(id);
+        agent.Order.calulate(data.supplyLineId, data.year, data.month).then((res) => {
+            console.log(res)
+            if (res) {
+                reset({
+                    items: res.items
+                })
+            } else {
+                console.log('not found')
+                reset({
+                    items: []
+                })
+            }
+        });
+    };
+
 
 
 
@@ -89,24 +110,21 @@ export default function SubmitOrder() {
             items: []
         })
         setLoaded(false);
-        agent.Suppliers.lines().then((res)=> {setLines(res)})
-        if(singleId == null) setSingleId(id)
+        agent.Suppliers.lines().then((res) => { setLines(res) })
+        if (singleId == null) setSingleId(id)
         agent.Suppliers.lineDetails(parseInt(singleId || id)).then((res) => {
             setSingle(res);
             setProducts(res.products);
         })
         setLoaded(true);
-        
+
     }, [id])
 
 
 
 
-    if (!single || !lines || !products) return <Loadingcomponent message='Loading Products ...' />
-    const yearsList = [1399, 1400, 1401, 1402];
-    const monthList = ['Farvardin', 'Ordibehesht', 'Khordad', 'Tir', 'Mordad', 'Shahrivar', 'Mehr', 'Aban', 'Azar', 'Dey', 'Bahman', 'Esfand'];
+    if (!single || !lines || !products) return <Loadingcomponent />
 
-    
 
     return (
 
@@ -152,7 +170,7 @@ export default function SubmitOrder() {
                                 </MenuItem>
                             ))}
                         </TextField> */}
-                        
+
                     </Grid>
 
                 </Grid>
@@ -204,6 +222,14 @@ export default function SubmitOrder() {
                         <Button variant="outlined" color="primary" onClick={handleSubmit(onLoad)}>
                             <CloudDownloadIcon />
                             <Typography variant="body2" sx={{ m: 1 }}>Load Data</Typography>
+
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+
+                        <Button variant="outlined" color="primary" onClick={handleSubmit(onCalculate)}>
+                            <CalculateIcon />
+                            <Typography variant="body2" sx={{ m: 1 }}>Calculate</Typography>
 
                         </Button>
                     </Grid>
@@ -275,7 +301,7 @@ export default function SubmitOrder() {
                         </Button>
                     </Grid>
                     <Grid item xs={2}>
-                        <Button variant="contained" color="error" fullWidth component={NavLink} to={`/SalesForecast/${id}`}>
+                        <Button variant="contained" color="error" fullWidth component={NavLink} to={`/Order/${id}`}>
                             CANCEL
                         </Button>
                     </Grid>

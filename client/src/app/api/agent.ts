@@ -94,7 +94,8 @@ const Suppliers = {
     activeProducts: (id: number) => requests.get(`suppliers/ActiveProducts/${id}`),
     setForecast: (values: any) => requests.post('suppliers/SalesForecast', values),
     getForecasts: (id: number) => requests.get(`suppliers/SalesForecast/${id}`),
-    getForecastHistory: (id: number, year: number, month: number) => requests.get(`suppliers/SalesForecast/${id}/${year}/${month}`),
+    getForecastHistory: (id: number, year: number, month: number) => requests.get(`suppliers/SalesForecasts/${id}/${year}/${month}`),
+    getForecast: (id: number, year: number, month: number) => requests.get(`suppliers/SalesForecast/${id}/${year}/${month}`),
 }
 const TestErrors = {
     get400Error: () => requests.get('buggy/bad-request'),

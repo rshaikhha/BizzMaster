@@ -1,18 +1,16 @@
-import { ExpandMore } from "@mui/icons-material";
 import { Grid, Typography, Divider, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import agent from "../../app/api/agent";
 import Loadingcomponent from "../../app/layout/Loadingcomponent";
 import { Product } from "../../app/models/product";
-import SimpleTable from "../shared/SimpleTable";
 
 export default function SalesForecastHistory() {
     const [single, setSingle] = useState<any>(null)
     const [list, setList] = useState<any>(null)
     const [products, setProducts] = useState<Product[]>([])
     const { id, year, month } = useParams<{id: string; year: string; month: string}>();
-    console.log(year + "/" + month)
+
     useEffect(() => {
 
         agent.Suppliers.lineDetails(parseInt(id)).then((res) => setSingle(res))
@@ -58,27 +56,26 @@ export default function SalesForecastHistory() {
                                 <TableRow>
                                     <TableCell key="index">Index</TableCell>
                                     <TableCell key="PartNumner">Part Number</TableCell>
-                                    {list.map((item: any) => <TableCell key={item.year + item.month}>
+                                    {list.map((item: any, index: number) => <TableCell key={"header" + index}>
                                         {item.year} / {item.month}
                                         </TableCell>)}
 
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {products.map((row: Product, index: number) => (
+                                {products.map((row: Product, rowindex: number) => (
                                     <TableRow
                                         key={row.id}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 }, '&:hover': { backgroundColor: 'grey.200' }, textDecoration: 'none' }}
                                     >
-                                        <TableCell key={row.id + "-index"}>{index}</TableCell>
-                                        <TableCell key={row.id + "-PN"}>{row.partNumber}</TableCell>
-                                        {list.map((item: any) => {
+                                        <TableCell key={row.id + "-index-" + {rowindex}}>{rowindex + 1}</TableCell>
+                                        <TableCell key={row.id + "-PN-" + {rowindex}}>{row.partNumber}</TableCell>
+                                        {list.map((item: any, colindex: number) => {
                                             const itemlist = item.items;
-                                            console.log(itemlist)
                                             const quantity = itemlist.find((x: any) => (x.productId == row.id))?.quantity || 0;
                                             return (
 
-                                                <TableCell key={row.id + "-" + item.year + item.month}>{quantity}</TableCell>)
+                                                <TableCell key={rowindex + "-" + colindex + item.year + item.month}>{quantity}</TableCell>)
                                         }
                                         )
 
@@ -89,7 +86,7 @@ export default function SalesForecastHistory() {
                                 <TableRow sx={{backgroundColor:"grey.200"}}>
                                     <TableCell key="sumindex"></TableCell>
                                     <TableCell key="sumPartNumner"></TableCell>
-                                    {list.map((item: any) => <TableCell key={"sum" + item.year + item.month}>{item.totalQuantity}</TableCell>)}
+                                    {list.map((item: any, index: number) => <TableCell key={index}>{item.totalQuantity}</TableCell>)}
 
                                 </TableRow>
                             </TableBody>

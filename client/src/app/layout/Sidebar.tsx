@@ -1,13 +1,6 @@
-import { Drawer, Toolbar, Box, List, ListItem, ListItemIcon, ListItemText, Divider, Collapse, ListItemButton } from "@mui/material";
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import Brands from "../../features/system/Brands";
-import Categories from "../../features/system/Categories";
-import Countries from "../../features/system/Countries";
-import EarbudsIcon from '@mui/icons-material/Earbuds';
+import { Drawer, Box, List, ListItem, ListItemText, Collapse } from "@mui/material";
 import { useState } from "react";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { useAppSelector } from "../store/configureStore";
 import { NavLink } from "react-router-dom";
 
 export default function Sidebar() {
@@ -32,7 +25,7 @@ export default function Sidebar() {
             { title: 'Poduct List', path: '/Products'},
 
         ]},
-        { title: 'SUPPLIERS' , subItems: [
+        { title: 'SUPPLY' , subItems: [
             { title: 'Supplier List', path: '/Suppliers'},
             { title: 'Supply Lines', path: '/Supplylines'},
 

@@ -119,6 +119,9 @@ namespace API.Controllers
         [HttpPost("SalesForecast")]
         public async Task<ActionResult<SalesForecast>> SetSalesForecast(SalesForecastUploadDto dto)
         {
+
+            if(!dto.Items.Any()) return BadRequest(new ProblemDetails{Title = "No Items!!!"});
+
             var supplyLine = _context.SupplyLines.Find(dto.SupplyLineId);
             if (supplyLine == null)
             {
@@ -200,7 +203,7 @@ namespace API.Controllers
             
         }
 
-        [HttpGet("SalesForecast/{id}/{year}/{month}")]
+        [HttpGet("SalesForecasts/{id}/{year}/{month}")]
         public async Task<ActionResult<List<SalesForecastDto>>> GetSalesForecastHistory(int Id,int year, int month)
         {
 
@@ -230,6 +233,39 @@ namespace API.Controllers
 
             
             
+        }
+
+        [HttpGet("SalesForecast/{id}/{year}/{month}")]
+        public async Task<ActionResult<SalesForecastDto>> GetSalesForecast(int Id,int year, int month)
+        {
+
+            var supplyLine = _context.SupplyLines.Find(Id);
+            if (supplyLine == null)
+            {
+                return BadRequest();
+            }
+            _context.Entry(supplyLine).Collection(x=>x.Products).Load();
+            var products = supplyLine.Products;
+            var items = products.Select(x=> new SalesForecastItem{ ProductId = x.Id, Quantity = 0}).ToList();
+
+
+            var res = await _context
+            .SalesForecasts
+            .Include(x=>x.Items)
+            .ThenInclude(x=>x.Product)
+            .ThenInclude(x=>x.Brand)
+            .Where(x=>x.SupplyLineId == Id && x.Year == year && x.Month == month )
+            .ToListAsync();
+
+            var fc = res
+            .OrderByDescending(x=>x.CreatedOn)
+            .FirstOrDefault();
+
+            if (fc == null)
+            {
+                return null;
+            }
+            return ToDto(fc);
         }
 
 

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(BMContext))]
-    [Migration("20220312222536_InitialCreate")]
+    [Migration("20220313193840_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -225,6 +225,70 @@ namespace API.Data.Migrations
                     b.ToTable("MasterSystems");
                 });
 
+            modelBuilder.Entity("API.Entities.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Month")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SupplyLineId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SupplyLineId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("API.Entities.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderItem");
+                });
+
             modelBuilder.Entity("API.Entities.Platform", b =>
                 {
                     b.Property<int>("Id")
@@ -365,6 +429,70 @@ namespace API.Data.Migrations
                     b.HasIndex("SalesForecastId");
 
                     b.ToTable("SalesForecastItem");
+                });
+
+            modelBuilder.Entity("API.Entities.Stock", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Month")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SupplyLineId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SupplyLineId");
+
+                    b.ToTable("Stocks");
+                });
+
+            modelBuilder.Entity("API.Entities.StockItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("StockId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("StockId");
+
+                    b.ToTable("StockItem");
                 });
 
             modelBuilder.Entity("API.Entities.Supplier", b =>
@@ -544,15 +672,15 @@ namespace API.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "73ddcc3f-6871-451c-9d9e-e58a59fdf490",
-                            ConcurrencyStamp = "f7394520-b330-4dfb-afeb-bdeed653c3d7",
+                            Id = "bc79915a-1d77-4223-aeab-573726e50010",
+                            ConcurrencyStamp = "eb3aa92a-c97c-40ab-8e14-92e4d2bc6732",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
-                            Id = "879624eb-0a44-48ea-bb77-c1d42920d444",
-                            ConcurrencyStamp = "d54a30ff-2a58-41ef-b207-abf01e9dff54",
+                            Id = "e66c2d93-818a-4ffe-ba57-e0a07d63d35f",
+                            ConcurrencyStamp = "9d384d84-b70e-4b48-88f5-592a791bd713",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -708,6 +836,32 @@ namespace API.Data.Migrations
                         .HasForeignKey("SupplierId");
                 });
 
+            modelBuilder.Entity("API.Entities.Order", b =>
+                {
+                    b.HasOne("API.Entities.SupplyLine", "SupplyLine")
+                        .WithMany()
+                        .HasForeignKey("SupplyLineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SupplyLine");
+                });
+
+            modelBuilder.Entity("API.Entities.OrderItem", b =>
+                {
+                    b.HasOne("API.Entities.Order", null)
+                        .WithMany("Items")
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("API.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("API.Entities.Platform", b =>
                 {
                     b.HasOne("API.Entities.Brand", "Brand")
@@ -764,6 +918,32 @@ namespace API.Data.Migrations
                     b.HasOne("API.Entities.SalesForecast", null)
                         .WithMany("Items")
                         .HasForeignKey("SalesForecastId");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("API.Entities.Stock", b =>
+                {
+                    b.HasOne("API.Entities.SupplyLine", "SupplyLine")
+                        .WithMany()
+                        .HasForeignKey("SupplyLineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SupplyLine");
+                });
+
+            modelBuilder.Entity("API.Entities.StockItem", b =>
+                {
+                    b.HasOne("API.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.Stock", null)
+                        .WithMany("Items")
+                        .HasForeignKey("StockId");
 
                     b.Navigation("Product");
                 });
@@ -846,7 +1026,17 @@ namespace API.Data.Migrations
                     b.Navigation("Children");
                 });
 
+            modelBuilder.Entity("API.Entities.Order", b =>
+                {
+                    b.Navigation("Items");
+                });
+
             modelBuilder.Entity("API.Entities.SalesForecast", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("API.Entities.Stock", b =>
                 {
                     b.Navigation("Items");
                 });

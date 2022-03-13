@@ -14,7 +14,7 @@ export default function SalesForecastHistory() {
     useEffect(() => {
 
         agent.Suppliers.lineDetails(parseInt(id)).then((res) => setSingle(res))
-        agent.Suppliers.getForecastHistory(parseInt(id),parseInt(year), parseInt(month)).then((res) => setList(res))
+        agent.SalesForecast.history(parseInt(id),parseInt(year), parseInt(month)).then((res) => setList(res))
         //agent.Suppliers.activeProducts(parseInt(id)).then((res) => setProducts(res))
     }, [])
 

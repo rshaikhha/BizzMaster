@@ -30,6 +30,10 @@ import SupplyLineDetails from "../../features/supply/SupplyLineDetails";
 import SubmitSalesForecast from "../../features/supply/SubmitSalesForecast";
 import SalesForecast from "../../features/supply/SalesForecast";
 import SalesForecastHistory from "../../features/supply/SalesForecastHistory";
+import Stock from "../../features/stock/Stock";
+import SubmitStock from "../../features/stock/SubmitStock";
+import SubmitOrder from "../../features/order/SubmitOrder";
+import Order from "../../features/order/Order";
 
 function App() {
 
@@ -100,9 +104,15 @@ function App() {
               <Route exact path='/supplylines' component={SupplyLines} />
               <Route path='/SupplyLineDetails/:id' component={SupplyLineDetails} />
 
-              <Route path='/SubmitSalesForecast/:id' component={SubmitSalesForecast} />
               <Route path='/SalesForecast/:id' component={SalesForecast} />
+              <Route path='/SubmitSalesForecast/:id' component={SubmitSalesForecast} />
               <Route path='/SalesForecasthistory/:id/:year/:month' component={SalesForecastHistory} />
+
+              <Route path='/stock/:id' component={Stock} />
+              <Route path='/SubmitStock/:id' component={SubmitStock} />
+
+              <Route path='/Order/:id' component={Order} />
+              <Route path='/SubmitOrder/:id' component={SubmitOrder} />
 
             </Switch>
           </Container>

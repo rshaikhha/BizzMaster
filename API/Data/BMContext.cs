@@ -42,10 +42,12 @@ namespace API.Data
         public DbSet<Supplier> Suppliers {get; set;}
         public DbSet<SupplyLine> SupplyLines {get; set;}
 
-        public DbSet<SalesForecast> SalesForecasts {get; set;}
 
         #endregion
 
+        public DbSet<SalesForecast> SalesForecasts {get; set;}
+        public DbSet<Stock> Stocks {get; set;}
+        public DbSet<Order> Orders {get; set;}
 
 
         protected override void OnModelCreating(ModelBuilder builder)

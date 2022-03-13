@@ -92,10 +92,26 @@ const Suppliers = {
     lines: () => requests.get('suppliers/lines'),
     lineDetails: (id: number) => requests.get(`suppliers/lines/${id}`),
     activeProducts: (id: number) => requests.get(`suppliers/ActiveProducts/${id}`),
-    setForecast: (values: any) => requests.post('suppliers/SalesForecast', values),
-    getForecasts: (id: number) => requests.get(`suppliers/SalesForecast/${id}`),
-    getForecastHistory: (id: number, year: number, month: number) => requests.get(`suppliers/SalesForecasts/${id}/${year}/${month}`),
-    getForecast: (id: number, year: number, month: number) => requests.get(`suppliers/SalesForecast/${id}/${year}/${month}`),
+    
+}
+
+const SalesForecast = {
+    post: (values: any) => requests.post('SalesForecast', values),
+    list: (id: number) => requests.get(`SalesForecast/${id}`),
+    history: (id: number, year: number, month: number) => requests.get(`SalesForecast/history/${id}/${year}/${month}`),
+    get: (id: number, year: number, month: number) => requests.get(`SalesForecast/${id}/${year}/${month}`),
+}
+const Stock = {
+    post: (values: any) => requests.post('Stock', values),
+    list: (id: number) => requests.get(`Stock/${id}`),
+    history: (id: number, year: number, month: number) => requests.get(`Stock/history/${id}/${year}/${month}`),
+    get: (id: number, year: number, month: number) => requests.get(`Stock/${id}/${year}/${month}`),
+}
+const Order = {
+    post: (values: any) => requests.post('Order', values),
+    list: (id: number) => requests.get(`Order/${id}`),
+    history: (id: number, year: number, month: number) => requests.get(`Order/history/${id}/${year}/${month}`),
+    get: (id: number, year: number, month: number) => requests.get(`Order/${id}/${year}/${month}`),
 }
 const TestErrors = {
     get400Error: () => requests.get('buggy/bad-request'),
@@ -123,6 +139,9 @@ const agent = {
     Cars,
     Catalog,
     Suppliers,
+    SalesForecast,
+    Stock,
+    Order,
     TestErrors,
     Basket,
     Account

@@ -8,8 +8,8 @@ import { Product } from "../../app/models/product";
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { CommentsDisabledOutlined } from "@mui/icons-material";
+import InventoryIcon from '@mui/icons-material/Inventory';
+
 type FormValues = {
     supplyLineId: number;
     year: number;
@@ -32,7 +32,7 @@ const Total = ({ control }: { control: Control<FormValues> }) => {
     return <p>Total Quantity: {total}</p>;
 };
 
-export default function SubmitSalesForecast() {
+export default function SubmitStock() {
     const { id } = useParams<{ id: string }>();
     const [singleId, setSingleId] = useState<string | null>(null)
     const [single, setSingle] = useState<any>(null)
@@ -55,7 +55,7 @@ export default function SubmitSalesForecast() {
 
     const onSubmit = (data: FormValues) => {
         data.supplyLineId = parseInt(id);
-        agent.SalesForecast.post(data).then(() => history.push(`/SalesForecast/${id}`))
+        agent.Stock.post(data).then(() => history.push(`/Stock/${id}`))
             .catch((e) => {
                 setError("items", {
                     type: "manual",
@@ -66,7 +66,7 @@ export default function SubmitSalesForecast() {
 
     const onLoad = (data: FormValues) => {
         data.supplyLineId = parseInt(id);
-        agent.SalesForecast.get(data.supplyLineId, data.year, data.month).then((res) => {
+        agent.Stock.get(data.supplyLineId, data.year, data.month).then((res) => {
             console.log(res)
             if (res) {
                 reset({
@@ -90,14 +90,9 @@ export default function SubmitSalesForecast() {
             items: []
         })
         setLoaded(false);
-        console.log('effect')
         agent.Suppliers.lines().then((res)=> {setLines(res)})
-        console.log(lines)
-        console.log(singleId)
-        console.log(id)
         if(singleId == null) setSingleId(id)
         agent.Suppliers.lineDetails(parseInt(singleId || id)).then((res) => {
-            console.log(res)
             setSingle(res);
             setProducts(res.products);
         })
@@ -125,12 +120,12 @@ export default function SubmitSalesForecast() {
                     alignItems: 'center',
                 }}
             >
-                <ShoppingCartIcon fontSize="large" />
+                <InventoryIcon fontSize="large" />
                 {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
 
                 </Avatar> */}
                 <Typography component="h1" variant="h5">
-                    Sales Forecast
+                    Openning Stock
                 </Typography>
                 <Typography component="h2" variant="h5">{single.title}</Typography>
                 <Total control={control} />

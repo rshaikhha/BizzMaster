@@ -29,6 +29,7 @@ import SupplyLines from "../../features/supply/SupplyLines";
 import SupplyLineDetails from "../../features/supply/SupplyLineDetails";
 import SubmitSalesForecast from "../../features/supply/SubmitSalesForecast";
 import SalesForecast from "../../features/supply/SalesForecast";
+import SalesForecastHistory from "../../features/supply/SalesForecastHistory";
 
 function App() {
 
@@ -101,6 +102,7 @@ function App() {
 
               <Route path='/SubmitSalesForecast/:id' component={SubmitSalesForecast} />
               <Route path='/SalesForecast/:id' component={SalesForecast} />
+              <Route path='/SalesForecasthistory/:id/:year/:month' component={SalesForecastHistory} />
 
             </Switch>
           </Container>

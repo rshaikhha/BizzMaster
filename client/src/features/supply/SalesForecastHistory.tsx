@@ -1,6 +1,5 @@
 import { ExpandMore } from "@mui/icons-material";
 import { Grid, Typography, Divider, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { title } from "process";
 import { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import agent from "../../app/api/agent";
@@ -8,16 +7,16 @@ import Loadingcomponent from "../../app/layout/Loadingcomponent";
 import { Product } from "../../app/models/product";
 import SimpleTable from "../shared/SimpleTable";
 
-export default function SalesForecast() {
+export default function SalesForecastHistory() {
     const [single, setSingle] = useState<any>(null)
     const [list, setList] = useState<any>(null)
     const [products, setProducts] = useState<Product[]>([])
-    const { id } = useParams<{ id: string }>();
-
+    const { id, year, month } = useParams<{id: string; year: string; month: string}>();
+    console.log(year + "/" + month)
     useEffect(() => {
 
         agent.Suppliers.lineDetails(parseInt(id)).then((res) => setSingle(res))
-        agent.Suppliers.getForecasts(parseInt(id)).then((res) => setList(res))
+        agent.Suppliers.getForecastHistory(parseInt(id),parseInt(year), parseInt(month)).then((res) => setList(res))
         agent.Suppliers.activeProducts(parseInt(id)).then((res) => setProducts(res))
     }, [])
 
@@ -61,7 +60,6 @@ export default function SalesForecast() {
                                     <TableCell key="PartNumner">Part Number</TableCell>
                                     {list.map((item: any) => <TableCell key={item.year + item.month}>
                                         {item.year} / {item.month}
-                                        <Button component={NavLink} to={`/SalesforecastHistory/${id}/${item.year}/${item.month}`} ><ExpandMore  /> </Button>
                                         </TableCell>)}
 
                                 </TableRow>

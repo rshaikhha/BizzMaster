@@ -200,6 +200,38 @@ namespace API.Controllers
             
         }
 
+        [HttpGet("SalesForecast/{id}/{year}/{month}")]
+        public async Task<ActionResult<List<SalesForecastDto>>> GetSalesForecastHistory(int Id,int year, int month)
+        {
+
+            var supplyLine = _context.SupplyLines.Find(Id);
+            if (supplyLine == null)
+            {
+                return BadRequest();
+            }
+            _context.Entry(supplyLine).Collection(x=>x.Products).Load();
+            var products = supplyLine.Products;
+            var items = products.Select(x=> new SalesForecastItem{ ProductId = x.Id, Quantity = 0}).ToList();
+
+
+            var res = await _context
+            .SalesForecasts
+            .Include(x=>x.Items)
+            .ThenInclude(x=>x.Product)
+            .ThenInclude(x=>x.Brand)
+            .Where(x=>x.SupplyLineId == Id && x.Year == year && x.Month == month )
+            .ToListAsync();
+
+            return res
+            
+            .Select(x=> ToDto(x))
+            .ToList();
+
+
+            
+            
+        }
+
 
         private static SupplierDto ToDto(Supplier supplier)
         {

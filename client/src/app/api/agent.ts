@@ -91,6 +91,7 @@ const Suppliers = {
     details: (id: number) => requests.get(`suppliers/${id}`),
     lines: () => requests.get('suppliers/lines'),
     lineDetails: (id: number) => requests.get(`suppliers/lines/${id}`),
+    activeProducts: (id: number) => requests.get(`suppliers/ActiveProducts/${id}`),
     setForecast: (values: any) => requests.post('suppliers/SalesForecast', values),
     getForecasts: (id: number) => requests.get(`suppliers/SalesForecast/${id}`),
 }

@@ -11,10 +11,12 @@ namespace API.Dtos
         public int SupplyLineId { get; set; }
         public int Year { get; set; }
         public int Month { get; set; }
-        public List<SalesForecastItemDto> Items {get; set;} = new List<SalesForecastItemDto>();
+        public List<SalesForecastItemUploadDto> Items {get; set;} = new List<SalesForecastItemUploadDto>();
 
         public int TotalQuantity {get => Items.Sum(x=>x.Quantity);}
     }
+
+
 
 
     public class SalesForecastUploadDto
@@ -22,10 +24,10 @@ namespace API.Dtos
         public int SupplyLineId { get; set; }
         public int Year { get; set; }
         public int Month { get; set; }
-        public List<SalesForecastItemDto> Items {get; set;}
+        public List<SalesForecastItemUploadDto> Items {get; set;}
     }
 
-    public class SalesForecastItemDto 
+    public class SalesForecastItemUploadDto 
     {
         public int ProductId { get; set; }
         public int Quantity { get; set; }

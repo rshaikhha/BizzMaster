@@ -1,7 +1,7 @@
 import { Grid, Typography, Divider, Button, Paper, Box, TextField, MenuItem, Avatar } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useForm, Control, useWatch, useFieldArray } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import agent from "../../app/api/agent";
 import Loadingcomponent from "../../app/layout/Loadingcomponent";
 import { Product } from "../../app/models/product";
@@ -31,6 +31,7 @@ const Total = ({ control }: { control: Control<FormValues> }) => {
 };
 
 export default function SubmitSalesForecast() {
+    const history = useHistory();
     const { register, control, handleSubmit, formState: { errors } } = useForm<FormValues>({
         defaultValues: {
             items: []
@@ -41,16 +42,18 @@ export default function SubmitSalesForecast() {
         name: "items",
         control
     });
-    const onSubmit = (data: FormValues) => {
-        data.SupplyLineId = parseInt(id);
-        const result = agent.Suppliers.setForecast(data);
-        console.log(result)
-        
-    };
-
     const [single, setSingle] = useState<any>(null)
     const { id } = useParams<{ id: string }>();
 
+    const onSubmit = (data: FormValues) => {
+        data.SupplyLineId = parseInt(id);
+        agent.Suppliers.setForecast(data).then(() => history.push(`/SalesForecast/${id}`));
+
+        
+        
+    };
+
+    
 
 
     useEffect(() => {

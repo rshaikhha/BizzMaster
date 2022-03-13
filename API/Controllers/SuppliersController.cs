@@ -130,6 +130,7 @@ namespace API.Controllers
 
             string title = string.Format("Forecast-{0}-{1}-{2}", dto.SupplyLineId , dto.Year, dto.Month);
             var prevforecast = _context.SalesForecasts
+            .Include(x=>x.Items)
             .Where(x=> x.Title == title)
             .OrderByDescending(x=>x.CreatedOn)
             .FirstOrDefault();
@@ -171,7 +172,33 @@ namespace API.Controllers
             
         }
 
+        [HttpGet("Activeproducts/{id}")]
+        public async Task<ActionResult<List<ProductDto>>> GetActiveProducts(int Id)
+        {
 
+
+            var res = await _context
+            .SalesForecasts
+            .Include(x=>x.Items)
+            .ThenInclude(x=>x.Product)
+            .Where(x=>x.SupplyLineId == Id)
+            .ToListAsync();
+
+            var pp = res
+            .GroupBy(x=>x.Title)
+            .Select(g => g.OrderByDescending(f => f.CreatedOn).First())
+            .SelectMany(x=> x.Items)
+            .GroupBy(x=>x.ProductId)
+            .Select(g=> new { Product = g.First().Product , quantity = g.Sum(p=>p.Quantity)})
+            .Where(x=>x.quantity > 0)
+            .Select(x=>ToDto(x.Product))
+            .OrderBy(x=>x.Order)
+            .ToList();
+
+            return pp;
+            
+            
+        }
 
 
         private static SupplierDto ToDto(Supplier supplier)
@@ -228,15 +255,15 @@ namespace API.Controllers
             {
                 Id = product.Id,
                 Title = product.Title,
-                PartNumber = product.PartNumber,
-                Description = product.Description,
-                Brand = product.Brand.Title,
-                Category = product.Category.Title,
+                PartNumber = product?.PartNumber,
+                Description = product?.Description,
+                Brand = product?.Brand?.Title,
+                Category = product?.Category?.Title,
 
-                ItemVolume = product.ItemVolume,
-                ItemWeight = product.ItemWeight,
-                ItemPerSet = product.ItemPerSet,
-                Order = product.Order
+                ItemVolume = (product!= null) ? product.ItemVolume : 0,
+                ItemWeight = (product!= null) ? product.ItemWeight : 0,
+                ItemPerSet = (product!= null) ? product.ItemPerSet : 0,
+                Order = (product!= null) ? product.Order : 10000,
             };
         }
 
@@ -247,7 +274,7 @@ namespace API.Controllers
                 SupplyLineId = fc.Id,
                 Year = fc.Year,
                 Month = fc.Month,
-                Items = fc.Items.Select(x=> new SalesForecastItemDto{
+                Items = fc.Items.Select(x=> new SalesForecastItemUploadDto{
                     ProductId = x.ProductId,
                     ProductTitle = x.Product.Description,
                     ProductPartNumner = x.Product.PartNumber,

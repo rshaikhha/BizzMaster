@@ -1,3 +1,4 @@
+import { ExpandMore } from "@mui/icons-material";
 import { Grid, Typography, Divider, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { title } from "process";
 import { useEffect, useState } from "react";
@@ -58,7 +59,10 @@ export default function SalesForecast() {
                                 <TableRow>
                                     <TableCell key="index">Index</TableCell>
                                     <TableCell key="PartNumner">Part Number</TableCell>
-                                    {list.map((item: any) => <TableCell key={item.year + item.month}>{item.year} / {item.month}</TableCell>)}
+                                    {list.map((item: any) => <TableCell key={item.year + item.month}>
+                                        {item.year} / {item.month}
+                                        <Button component={NavLink} to={`/Salesforecast/${id}`} ><ExpandMore  /> </Button>
+                                        </TableCell>)}
 
                                 </TableRow>
                             </TableHead>

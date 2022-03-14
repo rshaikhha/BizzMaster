@@ -91,9 +91,22 @@ const Suppliers = {
     details: (id: number) => requests.get(`suppliers/${id}`),
     lines: () => requests.get('suppliers/lines'),
     lineDetails: (id: number) => requests.get(`suppliers/lines/${id}`),
+    LeadTimes: (id: number) => requests.get(`suppliers/Leadtimes/${id}`),
+    LeadTimeHistory: (id: number) => requests.get(`suppliers/LeadtimeHistory/${id}`),
+    postLeadTime: (values: any) => requests.post('suppliers/Leadtime', values),
     activeProducts: (id: number) => requests.get(`suppliers/ActiveProducts/${id}`),
     
 }
+
+const Commercial = {
+    Get: (id: number) => requests.get(`Commercial/${id}`),
+    list: () => requests.get('Commercial'),
+    Card: (id: number) => requests.get(`Commercial/Cards/${id}`),
+    Cards: () => requests.get('Commercial/Cards'),
+
+}
+
+
 
 const SalesForecast = {
     post: (values: any) => requests.post('SalesForecast', values),
@@ -117,6 +130,14 @@ const Order = {
 }
 const Audit = {
     get: (id: number, year: number, month: number) => requests.get(`Audit/${id}/${year}/${month}`),
+}
+
+const Projects = {
+    Get: (id: number) => requests.get(`Project/${id}`),
+    list: () => requests.get('Project'),
+    post: (values: any) => requests.post('Project', values),
+
+
 }
 const TestErrors = {
     get400Error: () => requests.get('buggy/bad-request'),
@@ -144,10 +165,12 @@ const agent = {
     Cars,
     Catalog,
     Suppliers,
+    Commercial,
     SalesForecast,
     Stock,
     Order,
     Audit,
+    Projects,
     TestErrors,
     Basket,
     Account

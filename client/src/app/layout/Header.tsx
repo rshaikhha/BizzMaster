@@ -16,7 +16,7 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
     //const { basket } = useAppSelector(state => state.basket);
     const { user } = useAppSelector(state => state.account);
     //const itemCount = basket?.items.reduce((sum, item) => sum + item.quantity, 0)
-    const homeLink = {title: 'HOME', path: '/'}
+    const homeLink = {title: 'Business Gate', path: '/'}
     const midLinks = [
         { title: 'About', path: '/About' },
         { title: 'Catalog', path: '/Catalog' },
@@ -35,13 +35,23 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
         },
         '&.active': {
             color: 'text.secondary'
-        }
+        },
+        ml: 1
     }
 
     return (
-        <AppBar position='fixed' sx={{ mb: 6, zIndex: (theme) => theme.zIndex.drawer + 1}} >
+        <AppBar position='fixed' sx={{ mb: 6, zIndex: (theme) => theme.zIndex.drawer + 1}} 
+        >
             <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+
                 <Box display='flex' alignItems='center'>
+                <Box 
+                    component="img"
+                    sx={{height: 32}}
+                    alt='Business Gate Logo'
+                    src='logo.png'
+                >
+                </Box>
                     <Typography variant='h6'
                         component={NavLink}
                         to={homeLink.path}
@@ -54,16 +64,7 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
                 </Box>
 
                 <List sx={{ display: 'flex' }}>
-                    {midLinks.map(({ title, path }) => (
-                        <ListItem
-                            component={NavLink}
-                            to={path}
-                            key={path}
-                            sx={navStyles}
-                        >
-                            {title.toUpperCase()}
-                        </ListItem>
-                    ))}
+                    
                 </List>
                 <Box display='flex' alignItems='center'>
                     {/* <IconButton component={Link} to='/Basket' size='large' sx={{ color: 'inherit' }}>

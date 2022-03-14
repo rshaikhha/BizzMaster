@@ -47,6 +47,26 @@ namespace API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CommercialCards",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    IssueDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ValidityDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    FirstName = table.Column<string>(type: "TEXT", nullable: true),
+                    LastName = table.Column<string>(type: "TEXT", nullable: true),
+                    Title = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Active = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CommercialCards", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Countries",
                 columns: table => new
                 {
@@ -200,6 +220,37 @@ namespace API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OrderRegistrations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CommercialCardId = table.Column<int>(type: "INTEGER", nullable: false),
+                    DocumentNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    RegistrationNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    Currency = table.Column<string>(type: "TEXT", nullable: true),
+                    Amount = table.Column<int>(type: "INTEGER", nullable: false),
+                    Unit = table.Column<string>(type: "TEXT", nullable: true),
+                    Quantity = table.Column<int>(type: "INTEGER", nullable: false),
+                    IssueDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ValidityDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    OrderRegistrationStatus = table.Column<int>(type: "INTEGER", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Active = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderRegistrations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OrderRegistrations_CommercialCards_CommercialCardId",
+                        column: x => x.CommercialCardId,
+                        principalTable: "CommercialCards",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Brands",
                 columns: table => new
                 {
@@ -263,6 +314,7 @@ namespace API.Data.Migrations
                     MasterSystemId = table.Column<int>(type: "INTEGER", nullable: true),
                     HSCode = table.Column<string>(type: "TEXT", nullable: true),
                     CategoryId = table.Column<int>(type: "INTEGER", nullable: true),
+                    OrderRegistrationId = table.Column<int>(type: "INTEGER", nullable: true),
                     Title = table.Column<string>(type: "TEXT", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Active = table.Column<bool>(type: "INTEGER", nullable: false)
@@ -280,6 +332,12 @@ namespace API.Data.Migrations
                         name: "FK_Categories_MasterSystems_MasterSystemId",
                         column: x => x.MasterSystemId,
                         principalTable: "MasterSystems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Categories_OrderRegistrations_OrderRegistrationId",
+                        column: x => x.OrderRegistrationId,
+                        principalTable: "OrderRegistrations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -390,6 +448,28 @@ namespace API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "LeadTimes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    SupplyLineId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Active = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LeadTimes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LeadTimes_SupplyLines_SupplyLineId",
+                        column: x => x.SupplyLineId,
+                        principalTable: "SupplyLines",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -480,6 +560,30 @@ namespace API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Shipments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    SupplyLineId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Year = table.Column<int>(type: "INTEGER", nullable: false),
+                    Month = table.Column<int>(type: "INTEGER", nullable: false),
+                    Title = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Active = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Shipments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Shipments_SupplyLines_SupplyLineId",
+                        column: x => x.SupplyLineId,
+                        principalTable: "SupplyLines",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Stocks",
                 columns: table => new
                 {
@@ -501,6 +605,52 @@ namespace API.Data.Migrations
                         principalTable: "SupplyLines",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LeadTimeItem",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Duration = table.Column<int>(type: "INTEGER", nullable: false),
+                    Order = table.Column<int>(type: "INTEGER", nullable: false),
+                    LeadTimeId = table.Column<int>(type: "INTEGER", nullable: true),
+                    Title = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Active = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LeadTimeItem", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LeadTimeItem_LeadTimes_LeadTimeId",
+                        column: x => x.LeadTimeId,
+                        principalTable: "LeadTimes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Projects",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    OrderId = table.Column<int>(type: "INTEGER", nullable: true),
+                    Title = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Active = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Projects", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Projects_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -564,6 +714,36 @@ namespace API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ShipmentItem",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ProductId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Quantity = table.Column<int>(type: "INTEGER", nullable: false),
+                    ShipmentId = table.Column<int>(type: "INTEGER", nullable: true),
+                    Title = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Active = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ShipmentItem", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ShipmentItem_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ShipmentItem_Shipments_ShipmentId",
+                        column: x => x.ShipmentId,
+                        principalTable: "Shipments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "StockItem",
                 columns: table => new
                 {
@@ -593,15 +773,51 @@ namespace API.Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "bc79915a-1d77-4223-aeab-573726e50010", "eb3aa92a-c97c-40ab-8e14-92e4d2bc6732", "Member", "MEMBER" });
+            migrationBuilder.CreateTable(
+                name: "Activity",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    PlannedStart = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    PlannedFinish = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    EstimatedStart = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    EstimatedFinish = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ActualStart = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ActualFinish = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ActivityStatus = table.Column<int>(type: "INTEGER", nullable: false),
+                    Order = table.Column<int>(type: "INTEGER", nullable: false),
+                    ProjectId = table.Column<int>(type: "INTEGER", nullable: true),
+                    Title = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Active = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Activity", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Activity_Projects_ProjectId",
+                        column: x => x.ProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "e66c2d93-818a-4ffe-ba57-e0a07d63d35f", "9d384d84-b70e-4b48-88f5-592a791bd713", "Admin", "ADMIN" });
+                values: new object[] { "7edec28e-b5dd-46c2-8d39-db1dfc2580a0", "45a0d232-d9e7-4a3d-ba0f-3c86f5b0feed", "Member", "MEMBER" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "423fa785-82b3-49b0-a8c9-edafed775c54", "466ef05c-b8d0-4c28-ad97-037dc1cb1699", "Admin", "ADMIN" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Activity_ProjectId",
+                table: "Activity",
+                column: "ProjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -661,6 +877,11 @@ namespace API.Data.Migrations
                 column: "MasterSystemId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Categories_OrderRegistrationId",
+                table: "Categories",
+                column: "OrderRegistrationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Categories_UsageTypeId",
                 table: "Categories",
                 column: "UsageTypeId");
@@ -671,6 +892,16 @@ namespace API.Data.Migrations
                 column: "SupplierId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_LeadTimeItem_LeadTimeId",
+                table: "LeadTimeItem",
+                column: "LeadTimeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LeadTimes_SupplyLineId",
+                table: "LeadTimes",
+                column: "SupplyLineId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OrderItem_OrderId",
                 table: "OrderItem",
                 column: "OrderId");
@@ -679,6 +910,11 @@ namespace API.Data.Migrations
                 name: "IX_OrderItem_ProductId",
                 table: "OrderItem",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderRegistrations_CommercialCardId",
+                table: "OrderRegistrations",
+                column: "CommercialCardId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_SupplyLineId",
@@ -706,6 +942,11 @@ namespace API.Data.Migrations
                 column: "SupplyLineId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Projects_OrderId",
+                table: "Projects",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SalesForecastItem_ProductId",
                 table: "SalesForecastItem",
                 column: "ProductId");
@@ -718,6 +959,21 @@ namespace API.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_SalesForecasts_SupplyLineId",
                 table: "SalesForecasts",
+                column: "SupplyLineId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShipmentItem_ProductId",
+                table: "ShipmentItem",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShipmentItem_ShipmentId",
+                table: "ShipmentItem",
+                column: "ShipmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Shipments_SupplyLineId",
+                table: "Shipments",
                 column: "SupplyLineId");
 
             migrationBuilder.CreateIndex(
@@ -749,6 +1005,9 @@ namespace API.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Activity");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -770,13 +1029,22 @@ namespace API.Data.Migrations
                 name: "Contact");
 
             migrationBuilder.DropTable(
+                name: "LeadTimeItem");
+
+            migrationBuilder.DropTable(
                 name: "OrderItem");
 
             migrationBuilder.DropTable(
                 name: "SalesForecastItem");
 
             migrationBuilder.DropTable(
+                name: "ShipmentItem");
+
+            migrationBuilder.DropTable(
                 name: "StockItem");
+
+            migrationBuilder.DropTable(
+                name: "Projects");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -788,16 +1056,22 @@ namespace API.Data.Migrations
                 name: "Platforms");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "LeadTimes");
 
             migrationBuilder.DropTable(
                 name: "SalesForecasts");
+
+            migrationBuilder.DropTable(
+                name: "Shipments");
 
             migrationBuilder.DropTable(
                 name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Stocks");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Brands");
@@ -812,10 +1086,16 @@ namespace API.Data.Migrations
                 name: "MasterSystems");
 
             migrationBuilder.DropTable(
+                name: "OrderRegistrations");
+
+            migrationBuilder.DropTable(
                 name: "UsageTypes");
 
             migrationBuilder.DropTable(
                 name: "Suppliers");
+
+            migrationBuilder.DropTable(
+                name: "CommercialCards");
 
             migrationBuilder.DropTable(
                 name: "Countries");

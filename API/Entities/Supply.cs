@@ -32,7 +32,12 @@ namespace API.Entities
         public IList<Product> Products {get; set;} = new List<Product>();
         
         public PlanningType defaultPlanningType {get; set;} = PlanningType.Manual;
+
+        
+        
     }
+
+    
 
     
 }

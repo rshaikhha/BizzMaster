@@ -7,6 +7,7 @@ namespace API.Dtos
 {
     public class OrderDto
     {
+        public int Id { get; set; }
         public int SupplyLineId { get; set; }
         public int Year { get; set; }
         public int Month { get; set; }

@@ -37,6 +37,17 @@ import Order from "../../features/order/Order";
 import SupplyLineAudit from "../../features/supply/SupplyLineAudit";
 import StockHistory from "../../features/stock/StockHistory";
 import OrderHistory from "../../features/order/OrderHistory";
+import LeadTime from "../../features/leadtime/LeadTime";
+import LeadTimeHistory from "../../features/leadtime/LeadTimeHistory";
+import SubmitLeadTime from "../../features/leadtime/SubmitLeadTime";
+import CommercialCards from "../../features/commercial/CommercialCards";
+import OrderRegistrations from "../../features/commercial/OrderRegistrations";
+import CommercialCardDetail from "../../features/commercial/CommercialCardDetail";
+import OrderRegistrationDetail from "../../features/commercial/OrderRegistrationDetail";
+import Projects from "../../features/project/Projects";
+import ProjectWizard1 from "../../features/project/ProjectWizard1";
+import ProjectWizard2 from "../../features/project/ProjectWizard2";
+import ProjectWizard3 from "../../features/project/ProjectWizard3";
 
 function App() {
 
@@ -108,6 +119,16 @@ function App() {
               <Route path='/SupplyLineDetails/:id' component={SupplyLineDetails} />
               <Route path='/SupplyLineAudit/:id' component={SupplyLineAudit} />
 
+              <Route exact path='/CommercialCards' component={CommercialCards} />
+              <Route path='/CommercialCards/:id' component={CommercialCardDetail} />
+              <Route exact path='/OrderRegistrations' component={OrderRegistrations} />
+              <Route path='/OrderRegistrations/:id' component={OrderRegistrationDetail} />
+
+              <Route path='/Leadtime/:id' component={LeadTime} />
+              <Route path='/SubmitLeadTime/:id' component={SubmitLeadTime} />
+              <Route path='/Leadtimehistory/:id' component={LeadTimeHistory} />
+
+
               <Route path='/SalesForecast/:id' component={SalesForecast} />
               <Route path='/SubmitSalesForecast/:id' component={SubmitSalesForecast} />
               <Route path='/SalesForecasthistory/:id/:year/:month' component={SalesForecastHistory} />
@@ -119,6 +140,11 @@ function App() {
               <Route path='/Order/:id' component={Order} />
               <Route path='/SubmitOrder/:id' component={SubmitOrder} />
               <Route path='/Orderhistory/:id/:year/:month' component={OrderHistory} />
+
+              <Route exact path='/Projects' component={Projects} />
+              <Route path='/ProjectWizard1' component={ProjectWizard1} />
+              <Route path='/ProjectWizard2/:id' component={ProjectWizard2} />
+              <Route path='/ProjectWizard3/:id/:orderId' component={ProjectWizard3} />
 
             </Switch>
           </Container>

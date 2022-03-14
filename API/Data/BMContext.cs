@@ -49,6 +49,10 @@ namespace API.Data
         public DbSet<Stock> Stocks {get; set;}
         public DbSet<Order> Orders {get; set;}
         public DbSet<Shipment> Shipments {get; set;}
+        public DbSet<LeadTime> LeadTimes {get; set;}
+        public DbSet<CommercialCard> CommercialCards {get; set;}
+        public DbSet<OrderRegistration> OrderRegistrations {get; set;}
+        public DbSet<Project> Projects {get; set;}
 
 
         protected override void OnModelCreating(ModelBuilder builder)

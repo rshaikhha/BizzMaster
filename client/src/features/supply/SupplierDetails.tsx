@@ -1,6 +1,6 @@
 import { Grid, Typography, Divider, TableContainer, Table, TableBody, TableRow, TableCell, TextField, Paper, Button, Card, CardActions, CardContent, CardMedia, CardHeader, Avatar, IconButton } from "@mui/material";
 import { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { NavLink, useHistory, useParams } from "react-router-dom";
 import NotFound from "../error/NotFound";
 import agent from "../../app/api/agent";
 import Loadingcomponent from "../../app/layout/Loadingcomponent";
@@ -38,7 +38,12 @@ export default function SupplierDetails() {
     if (!supplier) return <Loadingcomponent message='Loading Products ...' />
     console.log(supplier.contacts[0])
     return (
-        <Grid container spacing={6} sx={{ m: 4 }}>
+        <Grid container spacing={6} sx={{ m: 2 }}>
+            <Grid item xs={12}>
+                <Button variant="contained" sx={{m : 1 , minWidth : '200px'}} key="two" component ={NavLink} to={`#`}>New Contact</Button>
+
+            </Grid>
+
             <Grid item xs={8} component={Paper}>
                 <Typography variant='h4'>{supplier.title}</Typography>
                 <Divider sx={{ mb: 2 }} />

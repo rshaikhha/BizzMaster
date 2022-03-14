@@ -56,5 +56,6 @@ namespace API.Entities
          public bool IsMale {get; set;}
 
      }
+
     
 }

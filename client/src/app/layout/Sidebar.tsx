@@ -25,14 +25,18 @@ export default function Sidebar() {
             { title: 'Poduct List', path: '/Products'},
 
         ]},
-        { title: 'SUPPLIER' , subItems: [
+        { title: 'COMMERCIAL' , subItems: [
             { title: 'Supplier List', path: '/Suppliers'},
+            { title: 'Commercial Cards', path: '/commercialCards'},
+            { title: 'Order Registration', path: '/OrderRegistrations'},
 
         ]},
         { title: 'PLANNING' , subItems: [
             { title: 'Supply Lines', path: '/Supplylines'},
+            { title: 'Registration', path: '/Registration'},
 
         ]},
+
         { title: 'PROJECT' , subItems: [
             { title: 'Projects', path: '/Projects'},
 

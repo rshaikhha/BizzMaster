@@ -11,7 +11,8 @@ interface basicsState {
     status: string,
     activeTable : Component | null,
     yearsList: number[],
-    monthList: string[]
+    monthList: string[],
+    LeadTimeActivities: string[],
     
 }
 
@@ -19,8 +20,8 @@ const initialState : basicsState = {
     status: 'idle',
     activeTable: null,
     yearsList: [1399, 1400, 1401, 1402],
-    monthList: ['Farvardin', 'Ordibehesht', 'Khordad', 'Tir', 'Mordad', 'Shahrivar', 'Mehr', 'Aban', 'Azar', 'Dey', 'Bahman', 'Esfand']
-
+    monthList: ['Farvardin', 'Ordibehesht', 'Khordad', 'Tir', 'Mordad', 'Shahrivar', 'Mehr', 'Aban', 'Azar', 'Dey', 'Bahman', 'Esfand'],
+    LeadTimeActivities: ['Analyze Shipment', 'Request Mofa', 'Loading', 'Shipping' , 'Customs Clearance', 'Ship to Warehouse']
 
 }
 

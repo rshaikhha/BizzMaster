@@ -82,6 +82,113 @@ namespace API.Controllers
             return ToDto(supplyLine);
         }
 
+        [HttpGet("Leadtimes/{id}")]
+        public async Task<ActionResult<LeadTimeDto>> GetLeadtimes(int Id)
+        {
+
+            var supplyLine = _context.SupplyLines.Find(Id);
+            if (supplyLine == null)
+            {
+                return BadRequest();
+            }
+
+            var res = await _context
+            .LeadTimes
+            .Include(x=>x.Items)
+            .Where(x=>x.SupplyLineId == Id)
+            .OrderByDescending(x=>x.CreatedOn)
+            .FirstOrDefaultAsync();
+
+            return new LeadTimeDto{
+                SupplyLineId = res.SupplyLineId,
+                Items = res.Items.OrderBy(x=>x.Order).Select(x=> new LeadTimeItemDto{ Title = x.Title, Duration = x.Duration, Order = x.Order}).ToList()
+            };
+        }
+
+        [HttpGet("LeadtimeHistory/{id}")]
+        public async Task<ActionResult<List<LeadTimeDto>>> GetLeadtimeHistory(int Id)
+        {
+
+            var supplyLine = _context.SupplyLines.Find(Id);
+            if (supplyLine == null)
+            {
+                return BadRequest();
+            }
+
+
+            var res = await _context
+            .LeadTimes
+            .Include(x=>x.Items)
+            .Where(x=>x.SupplyLineId == Id)
+            .OrderByDescending(x=>x.CreatedOn)
+            .ToListAsync();
+
+            return res
+            .Select(x=> ToDto(x))
+            .ToList();
+        }
+
+
+        [HttpPost("LeadTime")]
+        public async Task<ActionResult<Stock>> Post(LeadTime dto)
+        {
+
+            if(!dto.Items.Any()) return BadRequest(new ProblemDetails{Title = "No Items!!!"});
+
+            var supplyLine = _context.SupplyLines.Find(dto.SupplyLineId);
+            if (supplyLine == null)
+            {
+                return BadRequest();
+            }
+            // _context.Entry(supplyLine).Collection(x=>x.Products).Load();
+            // var products = supplyLine.Products;
+            // var items = products.Select(x=> new StockItem{ ProductId = x.Id, Quantity = 0}).ToList();
+
+            string title = string.Format("Leadtime-{0}", dto.SupplyLineId);
+            // var prevstock = _context.Stocks
+            // .Include(x=>x.Items)
+            // .Where(x=> x.Title == title)
+            // .OrderByDescending(x=>x.CreatedOn)
+            // .FirstOrDefault();
+
+            
+            
+            // if (prevstock != null)
+            // {
+            //     foreach (var item in items)
+            //     {
+            //         var previtem = prevstock.Items.FirstOrDefault(x=>x.ProductId == item.ProductId);
+            //         if(previtem != null) item.Quantity = previtem.Quantity;
+            //     }
+            // }
+
+            // foreach (var item in items)
+            // {
+            //     var dtoItem = dto.Items.FirstOrDefault(x=>x.ProductId == item.ProductId);
+            //         if(dtoItem != null) item.Quantity = dtoItem.Quantity;
+            // }
+
+
+            var leadtime = new LeadTime
+            {
+                Title = title,
+                SupplyLineId = dto.SupplyLineId,
+                Items = dto.Items.Select((x,i)=>new LeadTimeItem{
+                    Order = i + 1,
+                    Title = x.Title,
+                    Duration = x.Duration
+                }).ToList(),
+
+            };
+            _context.LeadTimes.Add(leadtime);
+            var res = await _context.SaveChangesAsync();
+            if (res > 0)
+            {
+                return StatusCode(201);
+            }
+            return BadRequest(); 
+            
+        }
 
         
 
@@ -181,6 +288,20 @@ namespace API.Controllers
                 ItemWeight = (product!= null) ? product.ItemWeight : 0,
                 ItemPerSet = (product!= null) ? product.ItemPerSet : 0,
                 Order = (product!= null) ? product.Order : 10000,
+            };
+        }
+
+        private static LeadTimeDto ToDto(LeadTime leadtime)
+        {
+            return new LeadTimeDto{
+                SupplyLineId = leadtime.SupplyLineId,
+                CreatedOn = leadtime.CreatedOn,
+                Items = leadtime.Items.OrderBy(x=>x.Order).Select(x=> 
+                new LeadTimeItemDto{ 
+                    Title = x.Title, 
+                    Duration = x.Duration, 
+                    Order = x.Order,
+                    }).ToList()
             };
         }
 

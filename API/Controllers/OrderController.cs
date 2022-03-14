@@ -123,7 +123,7 @@ namespace API.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<Order>> Post(OrderUploadDto dto)
+        public async Task<ActionResult<int>> Post(OrderUploadDto dto)
         {
 
             if(!dto.Items.Any()) return BadRequest(new ProblemDetails{Title = "No Items!!!"});
@@ -178,7 +178,7 @@ namespace API.Controllers
             var res = await _context.SaveChangesAsync();
             if (res > 0)
             {
-                return StatusCode(201);
+                return order.Id;
             }
             return BadRequest(); 
             
@@ -242,6 +242,7 @@ namespace API.Controllers
         {
             return new OrderDto
             {
+                Id = order.Id,
                 SupplyLineId = order.SupplyLine.Id,
                 Year = order.Year,
                 Month = order.Month,

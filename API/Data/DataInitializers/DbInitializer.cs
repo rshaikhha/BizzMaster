@@ -80,6 +80,18 @@ namespace API.Data.DataInitializers
             var slines = createSupplyLines();
             context.SupplyLines.AddRange(slines);
             context.SaveChanges();
+
+            var lts = createLeadTimes();
+            context.LeadTimes.AddRange(lts);
+            context.SaveChanges();
+
+            var cards = createCards();
+            context.CommercialCards.AddRange(cards);
+            context.SaveChanges();
+
+            var regs = createRegistration();
+            context.OrderRegistrations.AddRange(regs);
+            context.SaveChanges();
             
 
 
@@ -486,7 +498,10 @@ namespace API.Data.DataInitializers
             var ne = _context.Suppliers.FirstOrDefault(x=>x.Title == "NEWEAST").Id;
             var wo = _context.Suppliers.FirstOrDefault(x=>x.Title == "WOLVER").Id;
 
+            var Project = new Project
+            {
 
+            };
 
             var slines = new List<SupplyLine> 
             {
@@ -496,6 +511,7 @@ namespace API.Data.DataInitializers
                     SupplierId = ne,
                     defaultPlanningType = PlanningType.Forward,
                     Products = _context.Products.Where(x=>x.Brand.Title == "AISIN").ToList()
+
                 },
                 new SupplyLine 
                 {
@@ -508,5 +524,97 @@ namespace API.Data.DataInitializers
 
             return slines;
         }
+
+        private static List<LeadTime> createLeadTimes()
+        {
+            var aisin = _context.SupplyLines.FirstOrDefault(x=>x.Title == "Aisin Lubricants").Id;
+            var lts = new List<LeadTime>
+            {
+                new LeadTime{
+                    Title = string.Format("LeadTime-{0}", aisin),
+                    SupplyLineId = aisin,
+                    Items = new List<LeadTimeItem>{
+                        new LeadTimeItem { Title = "Analyze Shipment", Duration = 15, Order = 1},
+                        new LeadTimeItem { Title = "Request Mofa", Duration = 10, Order = 2},
+                        new LeadTimeItem { Title = "Loading", Duration = 2, Order = 3},
+                        new LeadTimeItem { Title = "Shipping", Duration = 15, Order = 4},
+                        new LeadTimeItem { Title = "Customs Clearance", Duration = 15, Order = 5},
+                        new LeadTimeItem { Title = "Ship to Warehouse", Duration = 3, Order = 6},
+                    }
+                }
+            };
+
+            return lts;
+
+        }
+
+        private static List<CommercialCard> createCards()
+        {
+            return new List<CommercialCard>{
+                new CommercialCard{ 
+                    Title = "ARSH",
+                    Description = "Arsh Fidar Shayan",
+                    IssueDate = new DateTime(2021,10,01),
+                    ValidityDate = new DateTime(2022,10,01),
+                    FirstName = "Leila",
+                    LastName = "Khalesi"
+                    },
+                new CommercialCard{ 
+                    Title = "ARSTC",
+                    Description = "Alireza Shabankare Trading",
+                    IssueDate = new DateTime(2021,10,01),
+                    ValidityDate = new DateTime(2022,10,01),
+                    FirstName = "Alireza",
+                    LastName = "Shabankareh"
+                    }
+            };
+        }
+
+        private static List<OrderRegistration> createRegistration()
+        {
+            var arsh = _context.CommercialCards.First(x=>x.Title == "ARSH").Id;
+            var arstc = _context.CommercialCards.First(x=>x.Title == "ARSTC").Id;
+            
+            var E = _context.Categories.FirstOrDefault(x => x.Code == "1001");
+            var T = _context.Categories.FirstOrDefault(x => x.Code == "1002");
+            var C = _context.Categories.FirstOrDefault(x => x.Code == "1005");
+            var B = _context.Categories.FirstOrDefault(x => x.Code == "1004");
+
+            return new List<OrderRegistration>
+            {
+                new OrderRegistration
+                {
+                    Title = "Engine Oil Registraion No 12345",
+                    CommercialCardId = arsh,
+                    DocumentNumber = "123456",
+                    RegistrationNumber = "123456",
+                    Currency = "AED",
+                    Amount = 500000,
+                    Unit = "Litr",
+                    Quantity = 50000,
+                    IssueDate = new DateTime(2021,10,01),
+                    ValidityDate = new DateTime(2022,10,01),
+                    OrderRegistrationStatus = OrderRegistrationStatus.registered,
+                    Categories = new List<Category>{E}
+                },
+                new OrderRegistration
+                {
+                    Title = "Transmission Oil Registraion No 12345",
+                    CommercialCardId = arsh,
+                    DocumentNumber = "123456",
+                    RegistrationNumber = "123456",
+                    Currency = "AED",
+                    Amount = 100000,
+                    Unit = "Litr",
+                    Quantity = 10000,
+                    IssueDate = new DateTime(2021,10,01),
+                    ValidityDate = new DateTime(2022,10,01),
+                    OrderRegistrationStatus = OrderRegistrationStatus.registered,
+                    Categories = new List<Category>{T, B, C}
+                },
+
+            };
+        }
+
     }
 }

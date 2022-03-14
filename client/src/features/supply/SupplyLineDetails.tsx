@@ -70,7 +70,8 @@ export default function SupplyLineDetails() {
                 <Button variant="contained" sx={{m : 1 , minWidth : '200px'}} key="one" component ={NavLink} to={`/SalesForecast/${id}`}>ForeCast</Button>
                 <Button variant="contained" sx={{m : 1 , minWidth : '200px'}} key="tree" component ={NavLink} to={`/Order/${id}`}>Order</Button>
                 <Button variant="contained" sx={{m : 1 , minWidth : '200px'}} key="four" component ={NavLink} to={`/SupplyLineAudit/${id}`}>Audit</Button>
-                <Button variant="contained" sx={{m : 1 , minWidth : '200px'}} key="five"component ={NavLink} to={`/SupplyLines`}>Back</Button>
+                <Button variant="contained" sx={{m : 1 , minWidth : '200px'}} key="five" component ={NavLink} to={`/LeadTime/${id}`}>LeadTime</Button>
+                <Button variant="contained" sx={{m : 1 , minWidth : '200px'}} key="Back"component ={NavLink} to={`/SupplyLines`}>Back</Button>
             </Grid>
             <Grid item xs={12}>
             <SimpleTable {... props} />

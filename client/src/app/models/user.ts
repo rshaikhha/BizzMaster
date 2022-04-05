@@ -1,5 +1,10 @@
 export interface User {
-    email: string;
+    username: string;
     token: string;
     roles: string[];
+    complete: boolean;
+    firstName: string;
+    lastName: string;
+    email: string;
+    avatar: string;
 }

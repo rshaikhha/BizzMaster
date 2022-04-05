@@ -1,12 +1,12 @@
 import { Container, Box, Avatar, Typography, TextField, Button } from "@mui/material";
 import { useForm, FieldValues } from "react-hook-form";
-import { NavLink, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { signInUser } from "./accountSlice";
+import { requestCode } from "./accountSlice";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 
-export default function Login() {
+export default function RequestCode() {
     const history = useHistory();
     const dispatch = useAppDispatch();
     
@@ -21,12 +21,17 @@ export default function Login() {
 
     async function submitForm(data: FieldValues) {
         
-        const result = await dispatch(signInUser(data));
+        const result = await dispatch(requestCode(data));
         if (result.type.endsWith('fulfilled')) {
             
             console.log('done');
+            if(user) {
+                history.push('/login');
+            }
+            else {
+                history.push('/updatePassword')
+            }
             
-            history.push('/');
         } else {
             console.log('failed')
         }
@@ -48,7 +53,7 @@ export default function Login() {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        LOGIN 
+                        Request Code 
                     </Typography>
                     <Box 
                     component="form" 
@@ -57,8 +62,7 @@ export default function Login() {
                             margin="normal"
                             fullWidth
                             label="Phone Number"
-                            autoFocus= {user?.username != ''}
-                            value= {user?.username}
+                            autoFocus
                             {...register('username', {
                                 required: 'please enter your phone number',
                                 pattern: {
@@ -69,16 +73,15 @@ export default function Login() {
                             error={!!errors.username}
                             helperText = {errors?.username?.message}
                         />
-                        <TextField
+                        {/* <TextField
                             margin="normal"
                             fullWidth
-                            label="Code / Password"
+                            label="Password"
                             type="password"
-                            autoFocus= {user?.username == ''}
-                            {...register('password', {required: 'Code or Password is required'})}
+                            {...register('password', {required: 'password is required'})}
                             error={!!errors.password}
                             helperText = {errors?.password?.message}
-                        />
+                        /> */}
                         <Button
                             disabled = {isSubmitting || !isValid}
                             type="submit"
@@ -87,14 +90,6 @@ export default function Login() {
                             sx={{ mt: 3, mb: 2 }}
                         >
                             SUBMIT
-                        </Button>
-                        <Button
-                            fullWidth
-                            variant="outlined"
-                            sx={{ mt: 3, mb: 2 }}
-                            component={NavLink} to={'/requestCode'}
-                        >
-                            Forgot Password?
                         </Button>
                     </Box>
                 </Box>

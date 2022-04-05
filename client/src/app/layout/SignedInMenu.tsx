@@ -1,7 +1,9 @@
-import { Button, Menu, Fade, MenuItem } from "@mui/material";
+import { Button, Menu, Fade, MenuItem, Avatar } from "@mui/material";
 import React from "react";
 import { signOut } from "../../features/account/accountSlice";
 import { useAppDispatch, useAppSelector } from "../store/configureStore";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { NavLink } from "react-router-dom";
 
 export default function SignedInMenu() {
     const dispatch = useAppDispatch();
@@ -12,7 +14,7 @@ export default function SignedInMenu() {
     const handleClick = (event: any) => {
         setAnchorEl(event.currentTarget);
     };
-    const handleClose = () => {
+const handleClose = () => {
         setAnchorEl(null);
     };
 
@@ -27,7 +29,16 @@ export default function SignedInMenu() {
                 onClick={handleClick}
                 sx = {{typography: 'h6'}}
             >
-                {user?.email} 
+                {user?.avatar != '' ? (
+                            <Avatar
+                            alt="User Avatar"
+                            src={user?.avatar}
+                            sx={{ width: 25, height: 25 }}
+                          />
+                        ) : (
+                            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}><AccountCircleIcon /></Avatar>
+                        )}
+                
             </Button>
             <Menu
                 anchorEl={anchorEl}
@@ -35,7 +46,7 @@ export default function SignedInMenu() {
                 onClose={handleClose}
                 TransitionComponent={Fade}
             >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose} component={NavLink} to={'/profile'}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
                 <MenuItem onClick={() => dispatch(signOut())}>Logout</MenuItem>
             </Menu>

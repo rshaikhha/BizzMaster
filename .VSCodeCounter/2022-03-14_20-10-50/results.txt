@@ -1,0 +1,101 @@
+Date : 2022-03-14 20:10:50
+Directory : e:\BGGT XRM\BizzMaster\API
+Total : 64 files,  7104 codes, 97 comments, 1750 blanks, all 8951 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| C#       |         59 |      6,313 |         97 |      1,708 |      8,118 |
+| Database |          1 |        713 |          0 |         35 |        748 |
+| JSON     |          3 |         56 |          0 |          3 |         59 |
+| XML      |          1 |         22 |          0 |          4 |         26 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                   |         64 |      7,104 |         97 |      1,750 |      8,951 |
+| Controllers                                                                         |         13 |      1,556 |         90 |        408 |      2,054 |
+| Data                                                                                |          6 |      4,365 |          2 |      1,055 |      5,422 |
+| Data\DataInitializers                                                               |          1 |        529 |          0 |         91 |        620 |
+| Data\Migrations                                                                     |          3 |      3,071 |          2 |        912 |      3,985 |
+| Dtos                                                                                |         18 |        460 |          0 |        104 |        564 |
+| Entities                                                                            |         13 |        315 |          2 |        110 |        427 |
+| Extensions                                                                          |          2 |         60 |          0 |         17 |         77 |
+| Properties                                                                          |          1 |         31 |          0 |          1 |         32 |
+| RequestHelpers                                                                      |          4 |         78 |          0 |         11 |         89 |
+| Services                                                                            |          1 |         48 |          0 |          7 |         55 |
++-------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                            | language | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| e:\BGGT XRM\BizzMaster\API\API.csproj                                               | XML      |         22 |          0 |          4 |         26 |
+| e:\BGGT XRM\BizzMaster\API\Controllers\AccountController.cs                         | C#       |         76 |          0 |         15 |         91 |
+| e:\BGGT XRM\BizzMaster\API\Controllers\AuditController.cs                           | C#       |         73 |          0 |         18 |         91 |
+| e:\BGGT XRM\BizzMaster\API\Controllers\BaseApiController.cs                         | C#       |         13 |          0 |          2 |         15 |
+| e:\BGGT XRM\BizzMaster\API\Controllers\BasicsController.cs                          | C#       |         77 |          2 |         15 |         94 |
+| e:\BGGT XRM\BizzMaster\API\Controllers\CarController.cs                             | C#       |        112 |          0 |         30 |        142 |
+| e:\BGGT XRM\BizzMaster\API\Controllers\CommercialController.cs                      | C#       |        106 |          0 |         17 |        123 |
+| e:\BGGT XRM\BizzMaster\API\Controllers\OrderController.cs                           | C#       |        183 |         21 |         55 |        259 |
+| e:\BGGT XRM\BizzMaster\API\Controllers\ProductsController.cs                        | C#       |         78 |          0 |         21 |         99 |
+| e:\BGGT XRM\BizzMaster\API\Controllers\ProjectController.cs                         | C#       |        118 |          2 |         19 |        139 |
+| e:\BGGT XRM\BizzMaster\API\Controllers\SalesForecastController.cs                   | C#       |        145 |         21 |         45 |        211 |
+| e:\BGGT XRM\BizzMaster\API\Controllers\ShipmentController.cs                        | C#       |        160 |          0 |         42 |        202 |
+| e:\BGGT XRM\BizzMaster\API\Controllers\StockController.cs                           | C#       |        197 |         21 |         59 |        277 |
+| e:\BGGT XRM\BizzMaster\API\Controllers\SuppliersController.cs                       | C#       |        218 |         23 |         70 |        311 |
+| e:\BGGT XRM\BizzMaster\API\Data\BMContext.cs                                        | C#       |         52 |          0 |         17 |         69 |
+| e:\BGGT XRM\BizzMaster\API\Data\BizzMaster.db                                       | Database |        713 |          0 |         35 |        748 |
+| e:\BGGT XRM\BizzMaster\API\Data\DataInitializers\DbInitializer.cs                   | C#       |        529 |          0 |         91 |        620 |
+| e:\BGGT XRM\BizzMaster\API\Data\Migrations\20220314110433_InitialCreate.Designer.cs | C#       |      1,036 |          1 |        404 |      1,441 |
+| e:\BGGT XRM\BizzMaster\API\Data\Migrations\20220314110433_InitialCreate.cs          | C#       |      1,001 |          0 |        104 |      1,105 |
+| e:\BGGT XRM\BizzMaster\API\Data\Migrations\BMContextModelSnapshot.cs                | C#       |      1,034 |          1 |        404 |      1,439 |
+| e:\BGGT XRM\BizzMaster\API\Dtos\AuditDto.cs                                         | C#       |         29 |          0 |          5 |         34 |
+| e:\BGGT XRM\BizzMaster\API\Dtos\BrandDto.cs                                         | C#       |         16 |          0 |          3 |         19 |
+| e:\BGGT XRM\BizzMaster\API\Dtos\CarDtos.cs                                          | C#       |         28 |          0 |          3 |         31 |
+| e:\BGGT XRM\BizzMaster\API\Dtos\CategoryDto.cs                                      | C#       |         21 |          0 |          4 |         25 |
+| e:\BGGT XRM\BizzMaster\API\Dtos\CommercialDto.cs                                    | C#       |         42 |          0 |         21 |         63 |
+| e:\BGGT XRM\BizzMaster\API\Dtos\ContactDto.cs                                       | C#       |         19 |          0 |          1 |         20 |
+| e:\BGGT XRM\BizzMaster\API\Dtos\LeadTimeDto.cs                                      | C#       |         20 |          0 |          5 |         25 |
+| e:\BGGT XRM\BizzMaster\API\Dtos\LoginDto.cs                                         | C#       |         12 |          0 |          1 |         13 |
+| e:\BGGT XRM\BizzMaster\API\Dtos\OrderDto.cs                                         | C#       |         31 |          0 |          5 |         36 |
+| e:\BGGT XRM\BizzMaster\API\Dtos\ProductDto.cs                                       | C#       |         20 |          0 |          2 |         22 |
+| e:\BGGT XRM\BizzMaster\API\Dtos\ProjectDto.cs                                       | C#       |         75 |          0 |         28 |        103 |
+| e:\BGGT XRM\BizzMaster\API\Dtos\RegisterDto.cs                                      | C#       |         11 |          0 |          1 |         12 |
+| e:\BGGT XRM\BizzMaster\API\Dtos\SalesForecastDto.cs                                 | C#       |         30 |          0 |          9 |         39 |
+| e:\BGGT XRM\BizzMaster\API\Dtos\ShipmentDto.cs                                      | C#       |         30 |          0 |          5 |         35 |
+| e:\BGGT XRM\BizzMaster\API\Dtos\StockDto.cs                                         | C#       |         30 |          0 |          5 |         35 |
+| e:\BGGT XRM\BizzMaster\API\Dtos\SupplierDto.cs                                      | C#       |         18 |          0 |          2 |         20 |
+| e:\BGGT XRM\BizzMaster\API\Dtos\SupplyLineDto.cs                                    | C#       |         15 |          0 |          3 |         18 |
+| e:\BGGT XRM\BizzMaster\API\Dtos\UserDto.cs                                          | C#       |         13 |          0 |          1 |         14 |
+| e:\BGGT XRM\BizzMaster\API\Entities\BaseEntity.cs                                   | C#       |         21 |          0 |         11 |         32 |
+| e:\BGGT XRM\BizzMaster\API\Entities\Basics.cs                                       | C#       |         45 |          0 |         16 |         61 |
+| e:\BGGT XRM\BizzMaster\API\Entities\Car.cs                                          | C#       |         18 |          0 |          9 |         27 |
+| e:\BGGT XRM\BizzMaster\API\Entities\LeadTime.cs                                     | C#       |         18 |          0 |          3 |         21 |
+| e:\BGGT XRM\BizzMaster\API\Entities\Order.cs                                        | C#       |         21 |          0 |          2 |         23 |
+| e:\BGGT XRM\BizzMaster\API\Entities\OrderRegistration.cs                            | C#       |         36 |          0 |         19 |         55 |
+| e:\BGGT XRM\BizzMaster\API\Entities\Product.cs                                      | C#       |         17 |          0 |         16 |         33 |
+| e:\BGGT XRM\BizzMaster\API\Entities\Project.cs                                      | C#       |         35 |          0 |         11 |         46 |
+| e:\BGGT XRM\BizzMaster\API\Entities\SalesForecast.cs                                | C#       |         21 |          2 |          3 |         26 |
+| e:\BGGT XRM\BizzMaster\API\Entities\Shipment.cs                                     | C#       |         21 |          0 |          2 |         23 |
+| e:\BGGT XRM\BizzMaster\API\Entities\Stock.cs                                        | C#       |         21 |          0 |          3 |         24 |
+| e:\BGGT XRM\BizzMaster\API\Entities\Supply.cs                                       | C#       |         30 |          0 |         13 |         43 |
+| e:\BGGT XRM\BizzMaster\API\Entities\User.cs                                         | C#       |         11 |          0 |          2 |         13 |
+| e:\BGGT XRM\BizzMaster\API\Extensions\HttpExtensions.cs                             | C#       |         19 |          0 |          3 |         22 |
+| e:\BGGT XRM\BizzMaster\API\Extensions\ProductExtensions.cs                          | C#       |         41 |          0 |         14 |         55 |
+| e:\BGGT XRM\BizzMaster\API\Program.cs                                               | C#       |         44 |          0 |         12 |         56 |
+| e:\BGGT XRM\BizzMaster\API\Properties\launchSettings.json                           | JSON     |         31 |          0 |          1 |         32 |
+| e:\BGGT XRM\BizzMaster\API\RequestHelpers\MetaData.cs                               | C#       |         14 |          0 |          1 |         15 |
+| e:\BGGT XRM\BizzMaster\API\RequestHelpers\PagedList.cs                              | C#       |         32 |          0 |          7 |         39 |
+| e:\BGGT XRM\BizzMaster\API\RequestHelpers\PaginationParams.cs                       | C#       |         18 |          0 |          1 |         19 |
+| e:\BGGT XRM\BizzMaster\API\RequestHelpers\ProductParams.cs                          | C#       |         14 |          0 |          2 |         16 |
+| e:\BGGT XRM\BizzMaster\API\Services\TokenService.cs                                 | C#       |         48 |          0 |          7 |         55 |
+| e:\BGGT XRM\BizzMaster\API\Startup.cs                                               | C#       |         89 |          3 |         14 |        106 |
+| e:\BGGT XRM\BizzMaster\API\WeatherForecast.cs                                       | C#       |         11 |          0 |          5 |         16 |
+| e:\BGGT XRM\BizzMaster\API\appsettings.Development.json                             | JSON     |         15 |          0 |          1 |         16 |
+| e:\BGGT XRM\BizzMaster\API\appsettings.json                                         | JSON     |         10 |          0 |          1 |         11 |
+| Total                                                                               |          |      7,104 |         97 |      1,750 |      8,951 |
++-------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

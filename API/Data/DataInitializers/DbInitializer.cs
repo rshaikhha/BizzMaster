@@ -30,7 +30,7 @@ namespace API.Data.DataInitializers
 
                 var admin = new User
                 {
-                    UserName = "admin",
+                    UserName = "09121384853",
                     Email = "admin@bggt.ae"
                 };
                 await userManager.CreateAsync(admin, "Admin@8827");

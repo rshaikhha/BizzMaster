@@ -114,7 +114,6 @@ namespace API.Controllers
                 OrderTitle = ent.Order?.Title ?? "",
                 SupplyLine = ent.Order.SupplyLine.Title,
                 Activities = ent.Activities.OrderBy(x => x.Order).Select(x => ToDto(x)).ToList(),
-                Status = ent.
 
             };
         }

@@ -26,6 +26,12 @@ namespace API.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
+                    LoginCode = table.Column<string>(type: "TEXT", nullable: true),
+                    LoginCodeValidation = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    FirstName = table.Column<string>(type: "TEXT", nullable: true),
+                    LastName = table.Column<string>(type: "TEXT", nullable: true),
+                    inviter = table.Column<string>(type: "TEXT", nullable: true),
+                    Avatar = table.Column<string>(type: "TEXT", nullable: true),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
@@ -807,12 +813,12 @@ namespace API.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "7edec28e-b5dd-46c2-8d39-db1dfc2580a0", "45a0d232-d9e7-4a3d-ba0f-3c86f5b0feed", "Member", "MEMBER" });
+                values: new object[] { "8b9e8209-055d-4062-addf-5a4be985afa9", "f16af9f1-37ef-4052-aa67-302a63e3c942", "Member", "MEMBER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "423fa785-82b3-49b0-a8c9-edafed775c54", "466ef05c-b8d0-4c28-ad97-037dc1cb1699", "Admin", "ADMIN" });
+                values: new object[] { "89e08fbb-2458-4bb1-b245-dbae68f629de", "36858729-4e33-4cc6-a6e0-46ad6b25bfc1", "Admin", "ADMIN" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Activity_ProjectId",

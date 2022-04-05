@@ -12,7 +12,7 @@ import Loadingcomponent from "./Loadingcomponent";
 import { fetchCurrentUser } from "../../features/account/accountSlice";
 import Countries from "../../features/system/Countries";
 import Login from "../../features/account/login";
-import Register from "../../features/account/Register";
+import UpdatePassword from "../../features/account/UpdatePassword";
 import Cars from "../../features/cars/Cars";
 import Categories from "../../features/system/Categories";
 import Brands from "../../features/system/Brands";
@@ -48,6 +48,8 @@ import Projects from "../../features/project/Projects";
 import ProjectWizard1 from "../../features/project/ProjectWizard1";
 import ProjectWizard2 from "../../features/project/ProjectWizard2";
 import ProjectWizard3 from "../../features/project/ProjectWizard3";
+import RequestCode from "../../features/account/RequestCode";
+import Profile from "../../features/account/Profile";
 
 function App() {
 
@@ -90,13 +92,18 @@ function App() {
 
         <CssBaseline />
         <Header darkMode={darkMode} handleThemeChange={handleThemeChange} />
-        <Sidebar ></Sidebar>
+        {/* <Sidebar ></Sidebar> */}
         <Box component="main" sx={{ flexGrow: 1, p: 3 , mt: 8}}>
           <Container>
             <Switch>
               <Route exact path='/' component={HomePage} />
+              <Route path='/requestCode' component={RequestCode} />
               <Route path='/login' component={Login} />
-              <Route path='/register' component={Register} />
+              <Route path='/profile' component={Profile} />
+
+
+              <Route path='/UpdatePassword' component={UpdatePassword} />
+
               <Route path='/about' component={AboutPage} />
 
               <Route path='/countries' component={Countries} />

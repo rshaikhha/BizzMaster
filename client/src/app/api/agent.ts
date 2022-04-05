@@ -156,6 +156,9 @@ const Basket = {
 
 const Account = {
     login: (values: any) => requests.post('account/login', values),
+    requestCode: (values: any) => requests.post('account/requestCode', values),
+    update: (values: any) => requests.post('account/update', values),
+    updatePassword: (values: any) => requests.post('account/updatePassword', values),
     register: (values: any) => requests.post('account/register', values),
     currentUser: () => requests.get('account/currentUser'),
 }

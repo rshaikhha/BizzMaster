@@ -10,14 +10,53 @@ interface AccountState {
 }
 
 const initialState: AccountState = {
-    user: null
+    user: null,
 }
+
+export const requestCode = createAsyncThunk<User, FieldValues>(
+    'account/requestCode',
+    async (data, thunkAPI) => {
+        try {
+            const user = await agent.Account.requestCode(data);
+            localStorage.setItem('user', JSON.stringify(user));
+            return user;
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue({error: error.data});
+        }
+    }
+)
 
 export const signInUser = createAsyncThunk<User, FieldValues>(
     'account/signInUser',
     async (data, thunkAPI) => {
         try {
             const user = await agent.Account.login(data);
+            localStorage.setItem('user', JSON.stringify(user));
+            return user;
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue({error: error.data});
+        }
+    }
+)
+
+export const updateProfile = createAsyncThunk<User, FieldValues>(
+    'account/updateProfile',
+    async (data, thunkAPI) => {
+        try {
+            const user = await agent.Account.update(data);
+            localStorage.setItem('user', JSON.stringify(user));
+            return user;
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue({error: error.data});
+        }
+    }
+)
+
+export const updatePassword = createAsyncThunk<User, FieldValues>(
+    'account/updatePassword',
+    async (data, thunkAPI) => {
+        try {
+            const user = await agent.Account.updatePassword(data);
             localStorage.setItem('user', JSON.stringify(user));
             return user;
         } catch (error: any) {
@@ -65,12 +104,20 @@ export const accountSlice = createSlice({
             toast.error('Your Session is Expired - Please login again');
             history.push('/');
         })
-        builder.addMatcher(isAnyOf(signInUser.fulfilled, fetchCurrentUser.fulfilled), (state, action) => {
+        builder.addCase(updatePassword.fulfilled, (state) => {
+            state.user = null;
+            localStorage.removeItem('user');
+            toast.error('Your Session is Expired - Please login again');
+            history.push('/login');
+        })
+        builder.addMatcher(isAnyOf(signInUser.fulfilled, fetchCurrentUser.fulfilled, requestCode.fulfilled, updateProfile.fulfilled), (state, action) => {
             state.user = action.payload;
         });
         builder.addMatcher(isAnyOf(signInUser.rejected), (state, action) => {
             console.log(action.payload);
         });
+        
+        
     })
     
 })

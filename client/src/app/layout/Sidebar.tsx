@@ -4,7 +4,8 @@ import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import { NavLink } from "react-router-dom";
 
 export default function Sidebar() {
-    const [open, setOpen] = useState(-1);
+    const [open, setOpen] = useState(false);
+    const [openitem, setOpenitem] = useState(-1);
     const drawerWidth = 240;
     
     const Menu = [
@@ -33,7 +34,6 @@ export default function Sidebar() {
         ]},
         { title: 'PLANNING' , subItems: [
             { title: 'Supply Lines', path: '/Supplylines'},
-            { title: 'Registration', path: '/Registration'},
 
         ]},
 
@@ -47,11 +47,11 @@ export default function Sidebar() {
     ];
 
     function handleClick(index: number){
-        if (open === index){
-            setOpen(-1)
+        if (openitem === index){
+            setOpenitem(-1)
         }
         else {
-            setOpen(index)
+            setOpenitem(index)
         }
     }
 
@@ -65,6 +65,7 @@ export default function Sidebar() {
                 flexShrink: 0,
                 [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
             }}
+            open = {open}
         >
             <Box sx={{ overflow: 'auto', mt:8 }}>
                 <List>
@@ -73,9 +74,9 @@ export default function Sidebar() {
                             <Box key = {index}>
                                 <ListItem button onClick={()=>handleClick(index)}>
                                     <ListItemText primary={item.title}/>
-                                    {(open === index) ? <ExpandLess /> : <ExpandMore  />}
+                                    {(openitem === index) ? <ExpandLess /> : <ExpandMore  />}
                                 </ListItem>
-                                <Collapse in={open === index} timeout="auto" unmountOnExit >
+                                <Collapse in={openitem === index} timeout="auto" unmountOnExit >
                                     <List component="div" disablePadding >
                                         {item.subItems?.map((sub, subindex) => (
                                                 <ListItem

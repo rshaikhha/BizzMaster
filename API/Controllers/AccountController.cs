@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using API.Dtos;
 using API.Entities;
@@ -15,58 +16,208 @@ namespace API.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly TokenService _tokenService;
+        private readonly MessageService _messageSerivce;
 
-        public AccountController(UserManager<User> userManager, TokenService tokenService)
+        public AccountController(UserManager<User> userManager, TokenService tokenService, MessageService messageSerivce)
         {
+            this._messageSerivce = messageSerivce;
             this._userManager = userManager;
             this._tokenService = tokenService;
+
         }
 
+        /// <summary>
+        /// This method
+        /// 1- recieves the phone number by which user is trying to login.
+        /// 2- generates a code and saves in user 
+        /// 3- sends the code via sms to the phone number provided 
+        /// 4- if success returns the phone number
+        /// </summary>
+        [HttpPost("requestCode")]
+        public async Task<ActionResult<LoginDto>> requestCode(LoginDto loginDto)
+        {
+            var user = await _userManager.FindByNameAsync(loginDto.Username);
 
+            if (user == null)
+            {
+                return Forbid();
+            }
+            var code = RandomString(5);
+            user.LoginCode = code;
+            user.LoginCodeValidation = DateTime.Now;
+            var result = await _userManager.UpdateAsync(user);
+
+            // However, it always succeeds inspite of not updating the database
+            if (!result.Succeeded)
+            {
+                return NotFound();
+            }
+            using (var httpClient = new HttpClient())
+            {
+                var settings = _messageSerivce.GetMessageSettings();
+                var url = "https://rest.payamak-panel.com/api/SendSMS/SendSMS";
+                var data = new List<KeyValuePair<string, string>>{
+                                  new KeyValuePair<string, string>("username", settings.Username),
+                                  new KeyValuePair<string, string>("password", settings.Password),
+                                  new KeyValuePair<string, string>("from", settings.From),
+                                  new KeyValuePair<string, string>("to", loginDto.Username),
+                                  new KeyValuePair<string, string>("text", string.Format("Your Login Code is {0}", code)),
+                              };
+                using (var content = new FormUrlEncodedContent(data))
+                {
+                    content.Headers.Clear();
+                    content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+
+                    HttpResponseMessage response = await httpClient.PostAsync(url, content);
+
+                    var SMSResult = await response.Content.ReadAsStringAsync();
+                    var RetResult = Newtonsoft.Json.JsonConvert.DeserializeObject<SMSResult>(SMSResult);
+                    if (RetResult.RetStatus == 1)
+                    {
+                        // We just need to return the username (phone number)
+                        // username is used to autofill the login form
+                        return new LoginDto{Username = loginDto.Username};
+                    }
+                    return NotFound();
+                }
+            }
+        }
+
+        /// <summary>
+        /// This method
+        /// 1- recieves userDto with only username (phone number) and password (password or sms code)
+        /// 2- checks if the password matches user password
+        /// 3- checks if the code matches user login code and the timespan of code is less than 60 minutes
+        /// 4- if success generates a JWT token and returns UserDto with complete data
+        /// </summary>
         [HttpPost("Login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var user = await _userManager.FindByNameAsync(loginDto.Username);
 
-            if (user == null || !await _userManager.CheckPasswordAsync(user, loginDto.Password))
+            if (user == null)
             {
-                return Unauthorized();
+                return Forbid();
             }
-
-            return new UserDto
+            //var min = (DateTime.Now - user.LoginCodeValidation).TotalMinutes;
+            var codeAccepted = await AuthorizeCode(loginDto.Password);
+            var passAccepted = await AuthorizePassword(loginDto.Password);
+            if (!codeAccepted && !passAccepted)
             {
-                Email = user.Email,
-                Token = await _tokenService.GenerateToken(user),
-                Roles = (await _userManager.GetRolesAsync(user)).ToList()
-            };
+                return Forbid();
+            }
+            return await ToDto(user);
         }
 
-        [Authorize(Roles = "AccountManager")]
-        [HttpPost("Register")]
-        public async Task<ActionResult> Register(RegisterDto registerDto)
-        {
-            var user = new User
-            {
-                UserName = registerDto.Username,
-                Email = registerDto.Email
-            };
 
-            var result = await _userManager.CreateAsync(user, registerDto.Password);
+        /// <summary>
+        /// This method
+        /// 1- recieves userDto 
+        /// 2- checks if the password matches user password
+        /// 3- checks if the code matches user login code and the timespan of code is less than 60 minutes
+        /// 4- if success updates user with complete data
+        /// * Password cannot be updated here
+        /// </summary>
+        [HttpPost("update")]
+        [Authorize]
+        public async Task<ActionResult<UserDto>> Update(UserDto updateDto)
+        {
+
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            user.FirstName = updateDto.FirstName;
+            user.LastName = updateDto.LastName;
+            user.Email = updateDto.Email;
+            user.Avatar = updateDto.Avatar;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            // However, it always succeeds inspite of not updating the database
+            if (!result.Succeeded)
+            {
+                return NotFound();
+            }
+
+            return await ToDto(user);
+
+        }
+
+
+        /// <summary>
+        /// This method
+        /// 1- recieves UpdatePassDto 
+        /// 2- checks if the password matches user password
+        /// 3- checks if the code matches user login code and the timespan of code is less than 60 minutes
+        /// 3- checks if the the two passwords match
+        /// 4- if success updates user Password
+        /// * Password cannot be updated here
+        /// </summary>
+        [HttpPost("updatePassword")]
+        [Authorize]
+        public async Task<ActionResult<UserDto>> UpdatePassword(UpdatePassDto updateDto)
+        {
+
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            var codeAccepted = await AuthorizeCode(updateDto.Password);
+            var passAccepted = await AuthorizePassword(updateDto.Password);
+            if (!codeAccepted && !passAccepted)
+            {
+                ModelState.AddModelError("Password", "Code or Old Password is not Valid!!!");
+                return ValidationProblem();
+            }
+
+            var passWordsMatch = updateDto.NewPass == updateDto.NewPassConfirm;
+            if (!passWordsMatch)
+            {
+                ModelState.AddModelError("NewPassConfirm", "Passwords Do Not Match");
+                return ValidationProblem();
+            }
+
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user,token, updateDto.NewPass);
 
             if (!result.Succeeded)
             {
                 foreach (var error in result.Errors)
                 {
-                    ModelState.AddModelError(error.Code,error.Description);
+                    ModelState.AddModelError(error.Code, error.Description);
                 }
 
                 return ValidationProblem();
             }
 
-            await _userManager.AddToRoleAsync(user, "Member");
+            return await ToDto(user);
 
-            return StatusCode(201);
         }
+
+        // [Authorize(Roles = "AccountManager")]
+        // [HttpPost("Register")]
+        // public async Task<ActionResult> Register(RegisterDto registerDto)
+        // {
+        //     var user = new User
+        //     {
+        //         UserName = registerDto.Username,
+        //         Email = registerDto.Email
+        //     };
+
+        //     var result = await _userManager.CreateAsync(user, registerDto.Password);
+
+        //     if (!result.Succeeded)
+        //     {
+        //         foreach (var error in result.Errors)
+        //         {
+        //             ModelState.AddModelError(error.Code, error.Description);
+        //         }
+
+        //         return ValidationProblem();
+        //     }
+
+        //     await _userManager.AddToRoleAsync(user, "Member");
+
+        //     return StatusCode(201);
+        // }
 
         [Authorize]
         [HttpGet("currentUser")]
@@ -75,17 +226,55 @@ namespace API.Controllers
             return await createUserDto();
         }
 
+        
 
         private async Task<UserDto> createUserDto()
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            var userRoles = await _userManager.GetRolesAsync(user);
+            return await ToDto(user);
+        }
+
+        private async Task<UserDto> ToDto(User user)
+        {
             return new UserDto
             {
-                Email = user.Email,
+                Username = user.UserName,
                 Token = await _tokenService.GenerateToken(user),
-                Roles = userRoles.ToList()
+                Roles = (await _userManager.GetRolesAsync(user)).ToList(),
+                Avatar = user.Avatar,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
             };
         }
+
+        private static Random random = new Random();
+
+        private static string RandomString(int length)
+        {
+            const string chars = "0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        private async Task<bool> AuthorizeCode(string Code)
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            return user.LoginCode == Code && (DateTime.Now - user.LoginCodeValidation).TotalMinutes <= 60;
+        }
+
+        private async Task<bool> AuthorizePassword(string Password)
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            return await _userManager.CheckPasswordAsync(user, Password);
+        }
+
+    }
+
+
+    class SMSResult{
+        public string Value { get; set; }
+        public int RetStatus {get; set;}
+        public string StrRetStatus { get; set; }
     }
 }

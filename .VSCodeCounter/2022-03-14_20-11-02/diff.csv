@@ -1,0 +1,139 @@
+"filename", "language", "TypeScript React", "TypeScript", "CSS", "C#", "JSON", "Database", "XML", "comment", "blank", "total"
+"e:\BGGT XRM\BizzMaster\API\API.csproj", "XML", 0, 0, 0, 0, 0, 0, -22, 0, -4, -26
+"e:\BGGT XRM\BizzMaster\API\Controllers\AccountController.cs", "C#", 0, 0, 0, -76, 0, 0, 0, 0, -15, -91
+"e:\BGGT XRM\BizzMaster\API\Controllers\AuditController.cs", "C#", 0, 0, 0, -73, 0, 0, 0, 0, -18, -91
+"e:\BGGT XRM\BizzMaster\API\Controllers\BaseApiController.cs", "C#", 0, 0, 0, -13, 0, 0, 0, 0, -2, -15
+"e:\BGGT XRM\BizzMaster\API\Controllers\BasicsController.cs", "C#", 0, 0, 0, -77, 0, 0, 0, -2, -15, -94
+"e:\BGGT XRM\BizzMaster\API\Controllers\CarController.cs", "C#", 0, 0, 0, -112, 0, 0, 0, 0, -30, -142
+"e:\BGGT XRM\BizzMaster\API\Controllers\CommercialController.cs", "C#", 0, 0, 0, -106, 0, 0, 0, 0, -17, -123
+"e:\BGGT XRM\BizzMaster\API\Controllers\OrderController.cs", "C#", 0, 0, 0, -183, 0, 0, 0, -21, -55, -259
+"e:\BGGT XRM\BizzMaster\API\Controllers\ProductsController.cs", "C#", 0, 0, 0, -78, 0, 0, 0, 0, -21, -99
+"e:\BGGT XRM\BizzMaster\API\Controllers\ProjectController.cs", "C#", 0, 0, 0, -118, 0, 0, 0, -2, -19, -139
+"e:\BGGT XRM\BizzMaster\API\Controllers\SalesForecastController.cs", "C#", 0, 0, 0, -145, 0, 0, 0, -21, -45, -211
+"e:\BGGT XRM\BizzMaster\API\Controllers\ShipmentController.cs", "C#", 0, 0, 0, -160, 0, 0, 0, 0, -42, -202
+"e:\BGGT XRM\BizzMaster\API\Controllers\StockController.cs", "C#", 0, 0, 0, -197, 0, 0, 0, -21, -59, -277
+"e:\BGGT XRM\BizzMaster\API\Controllers\SuppliersController.cs", "C#", 0, 0, 0, -218, 0, 0, 0, -23, -70, -311
+"e:\BGGT XRM\BizzMaster\API\Data\BMContext.cs", "C#", 0, 0, 0, -52, 0, 0, 0, 0, -17, -69
+"e:\BGGT XRM\BizzMaster\API\Data\BizzMaster.db", "Database", 0, 0, 0, 0, 0, -713, 0, 0, -35, -748
+"e:\BGGT XRM\BizzMaster\API\Data\DataInitializers\DbInitializer.cs", "C#", 0, 0, 0, -529, 0, 0, 0, 0, -91, -620
+"e:\BGGT XRM\BizzMaster\API\Data\Migrations\20220314110433_InitialCreate.Designer.cs", "C#", 0, 0, 0, -1036, 0, 0, 0, -1, -404, -1441
+"e:\BGGT XRM\BizzMaster\API\Data\Migrations\20220314110433_InitialCreate.cs", "C#", 0, 0, 0, -1001, 0, 0, 0, 0, -104, -1105
+"e:\BGGT XRM\BizzMaster\API\Data\Migrations\BMContextModelSnapshot.cs", "C#", 0, 0, 0, -1034, 0, 0, 0, -1, -404, -1439
+"e:\BGGT XRM\BizzMaster\API\Dtos\AuditDto.cs", "C#", 0, 0, 0, -29, 0, 0, 0, 0, -5, -34
+"e:\BGGT XRM\BizzMaster\API\Dtos\BrandDto.cs", "C#", 0, 0, 0, -16, 0, 0, 0, 0, -3, -19
+"e:\BGGT XRM\BizzMaster\API\Dtos\CarDtos.cs", "C#", 0, 0, 0, -28, 0, 0, 0, 0, -3, -31
+"e:\BGGT XRM\BizzMaster\API\Dtos\CategoryDto.cs", "C#", 0, 0, 0, -21, 0, 0, 0, 0, -4, -25
+"e:\BGGT XRM\BizzMaster\API\Dtos\CommercialDto.cs", "C#", 0, 0, 0, -42, 0, 0, 0, 0, -21, -63
+"e:\BGGT XRM\BizzMaster\API\Dtos\ContactDto.cs", "C#", 0, 0, 0, -19, 0, 0, 0, 0, -1, -20
+"e:\BGGT XRM\BizzMaster\API\Dtos\LeadTimeDto.cs", "C#", 0, 0, 0, -20, 0, 0, 0, 0, -5, -25
+"e:\BGGT XRM\BizzMaster\API\Dtos\LoginDto.cs", "C#", 0, 0, 0, -12, 0, 0, 0, 0, -1, -13
+"e:\BGGT XRM\BizzMaster\API\Dtos\OrderDto.cs", "C#", 0, 0, 0, -31, 0, 0, 0, 0, -5, -36
+"e:\BGGT XRM\BizzMaster\API\Dtos\ProductDto.cs", "C#", 0, 0, 0, -20, 0, 0, 0, 0, -2, -22
+"e:\BGGT XRM\BizzMaster\API\Dtos\ProjectDto.cs", "C#", 0, 0, 0, -75, 0, 0, 0, 0, -28, -103
+"e:\BGGT XRM\BizzMaster\API\Dtos\RegisterDto.cs", "C#", 0, 0, 0, -11, 0, 0, 0, 0, -1, -12
+"e:\BGGT XRM\BizzMaster\API\Dtos\SalesForecastDto.cs", "C#", 0, 0, 0, -30, 0, 0, 0, 0, -9, -39
+"e:\BGGT XRM\BizzMaster\API\Dtos\ShipmentDto.cs", "C#", 0, 0, 0, -30, 0, 0, 0, 0, -5, -35
+"e:\BGGT XRM\BizzMaster\API\Dtos\StockDto.cs", "C#", 0, 0, 0, -30, 0, 0, 0, 0, -5, -35
+"e:\BGGT XRM\BizzMaster\API\Dtos\SupplierDto.cs", "C#", 0, 0, 0, -18, 0, 0, 0, 0, -2, -20
+"e:\BGGT XRM\BizzMaster\API\Dtos\SupplyLineDto.cs", "C#", 0, 0, 0, -15, 0, 0, 0, 0, -3, -18
+"e:\BGGT XRM\BizzMaster\API\Dtos\UserDto.cs", "C#", 0, 0, 0, -13, 0, 0, 0, 0, -1, -14
+"e:\BGGT XRM\BizzMaster\API\Entities\BaseEntity.cs", "C#", 0, 0, 0, -21, 0, 0, 0, 0, -11, -32
+"e:\BGGT XRM\BizzMaster\API\Entities\Basics.cs", "C#", 0, 0, 0, -45, 0, 0, 0, 0, -16, -61
+"e:\BGGT XRM\BizzMaster\API\Entities\Car.cs", "C#", 0, 0, 0, -18, 0, 0, 0, 0, -9, -27
+"e:\BGGT XRM\BizzMaster\API\Entities\LeadTime.cs", "C#", 0, 0, 0, -18, 0, 0, 0, 0, -3, -21
+"e:\BGGT XRM\BizzMaster\API\Entities\Order.cs", "C#", 0, 0, 0, -21, 0, 0, 0, 0, -2, -23
+"e:\BGGT XRM\BizzMaster\API\Entities\OrderRegistration.cs", "C#", 0, 0, 0, -36, 0, 0, 0, 0, -19, -55
+"e:\BGGT XRM\BizzMaster\API\Entities\Product.cs", "C#", 0, 0, 0, -17, 0, 0, 0, 0, -16, -33
+"e:\BGGT XRM\BizzMaster\API\Entities\Project.cs", "C#", 0, 0, 0, -35, 0, 0, 0, 0, -11, -46
+"e:\BGGT XRM\BizzMaster\API\Entities\SalesForecast.cs", "C#", 0, 0, 0, -21, 0, 0, 0, -2, -3, -26
+"e:\BGGT XRM\BizzMaster\API\Entities\Shipment.cs", "C#", 0, 0, 0, -21, 0, 0, 0, 0, -2, -23
+"e:\BGGT XRM\BizzMaster\API\Entities\Stock.cs", "C#", 0, 0, 0, -21, 0, 0, 0, 0, -3, -24
+"e:\BGGT XRM\BizzMaster\API\Entities\Supply.cs", "C#", 0, 0, 0, -30, 0, 0, 0, 0, -13, -43
+"e:\BGGT XRM\BizzMaster\API\Entities\User.cs", "C#", 0, 0, 0, -11, 0, 0, 0, 0, -2, -13
+"e:\BGGT XRM\BizzMaster\API\Extensions\HttpExtensions.cs", "C#", 0, 0, 0, -19, 0, 0, 0, 0, -3, -22
+"e:\BGGT XRM\BizzMaster\API\Extensions\ProductExtensions.cs", "C#", 0, 0, 0, -41, 0, 0, 0, 0, -14, -55
+"e:\BGGT XRM\BizzMaster\API\Program.cs", "C#", 0, 0, 0, -44, 0, 0, 0, 0, -12, -56
+"e:\BGGT XRM\BizzMaster\API\Properties\launchSettings.json", "JSON", 0, 0, 0, 0, -31, 0, 0, 0, -1, -32
+"e:\BGGT XRM\BizzMaster\API\RequestHelpers\MetaData.cs", "C#", 0, 0, 0, -14, 0, 0, 0, 0, -1, -15
+"e:\BGGT XRM\BizzMaster\API\RequestHelpers\PagedList.cs", "C#", 0, 0, 0, -32, 0, 0, 0, 0, -7, -39
+"e:\BGGT XRM\BizzMaster\API\RequestHelpers\PaginationParams.cs", "C#", 0, 0, 0, -18, 0, 0, 0, 0, -1, -19
+"e:\BGGT XRM\BizzMaster\API\RequestHelpers\ProductParams.cs", "C#", 0, 0, 0, -14, 0, 0, 0, 0, -2, -16
+"e:\BGGT XRM\BizzMaster\API\Services\TokenService.cs", "C#", 0, 0, 0, -48, 0, 0, 0, 0, -7, -55
+"e:\BGGT XRM\BizzMaster\API\Startup.cs", "C#", 0, 0, 0, -89, 0, 0, 0, -3, -14, -106
+"e:\BGGT XRM\BizzMaster\API\WeatherForecast.cs", "C#", 0, 0, 0, -11, 0, 0, 0, 0, -5, -16
+"e:\BGGT XRM\BizzMaster\API\appsettings.Development.json", "JSON", 0, 0, 0, 0, -15, 0, 0, 0, -1, -16
+"e:\BGGT XRM\BizzMaster\API\appsettings.json", "JSON", 0, 0, 0, 0, -10, 0, 0, 0, -1, -11
+"e:\BGGT XRM\BizzMaster\client\src\app\api\agent.ts", "TypeScript", 0, 153, 0, 0, 0, 0, 0, 0, 26, 179
+"e:\BGGT XRM\BizzMaster\client\src\app\components\AppPagination.tsx", "TypeScript React", 27, 0, 0, 0, 0, 0, 0, 0, 4, 31
+"e:\BGGT XRM\BizzMaster\client\src\app\components\CheckBoxButtons.tsx", "TypeScript React", 33, 0, 0, 0, 0, 0, 0, 0, 5, 38
+"e:\BGGT XRM\BizzMaster\client\src\app\components\RadioButtonGroup.tsx", "TypeScript React", 29, 0, 0, 0, 0, 0, 0, 0, 5, 34
+"e:\BGGT XRM\BizzMaster\client\src\app\layout\App.tsx", "TypeScript React", 133, 0, 0, 0, 0, 0, 0, 0, 25, 158
+"e:\BGGT XRM\BizzMaster\client\src\app\layout\Header.tsx", "TypeScript React", 81, 0, 0, 0, 0, 0, 0, 5, 12, 98
+"e:\BGGT XRM\BizzMaster\client\src\app\layout\Loadingcomponent.tsx", "TypeScript React", 15, 0, 0, 0, 0, 0, 0, 0, 2, 17
+"e:\BGGT XRM\BizzMaster\client\src\app\layout\Sidebar.tsx", "TypeScript React", 86, 0, 0, 0, 0, 0, 0, 0, 13, 99
+"e:\BGGT XRM\BizzMaster\client\src\app\layout\SignedInMenu.tsx", "TypeScript React", 41, 0, 0, 0, 0, 0, 0, 0, 3, 44
+"e:\BGGT XRM\BizzMaster\client\src\app\layout\styles.css", "CSS", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"e:\BGGT XRM\BizzMaster\client\src\app\models\car.ts", "TypeScript", 0, 29, 0, 0, 0, 0, 0, 0, 2, 31
+"e:\BGGT XRM\BizzMaster\client\src\app\models\pagination.ts", "TypeScript", 0, 14, 0, 0, 0, 0, 0, 0, 2, 16
+"e:\BGGT XRM\BizzMaster\client\src\app\models\product.ts", "TypeScript", 0, 21, 0, 0, 0, 0, 0, 0, 4, 25
+"e:\BGGT XRM\BizzMaster\client\src\app\models\supply.ts", "TypeScript", 0, 22, 0, 0, 0, 0, 0, 0, 2, 24
+"e:\BGGT XRM\BizzMaster\client\src\app\models\user.ts", "TypeScript", 0, 5, 0, 0, 0, 0, 0, 0, 0, 5
+"e:\BGGT XRM\BizzMaster\client\src\app\store\configureStore.ts", "TypeScript", 0, 16, 0, 0, 0, 0, 0, 0, 6, 22
+"e:\BGGT XRM\BizzMaster\client\src\features\about\AboutPage.tsx", "TypeScript React", 8, 0, 0, 0, 0, 0, 0, 0, 1, 9
+"e:\BGGT XRM\BizzMaster\client\src\features\account\Register.tsx", "TypeScript React", 105, 0, 0, 0, 0, 0, 0, 0, 6, 111
+"e:\BGGT XRM\BizzMaster\client\src\features\account\accountSlice.ts", "TypeScript", 0, 70, 0, 0, 0, 0, 0, 0, 9, 79
+"e:\BGGT XRM\BizzMaster\client\src\features\account\login.tsx", "TypeScript React", 74, 0, 0, 0, 0, 0, 0, 0, 14, 88
+"e:\BGGT XRM\BizzMaster\client\src\features\cars\CarBrands.tsx", "TypeScript React", 18, 0, 0, 0, 0, 0, 0, 0, 11, 29
+"e:\BGGT XRM\BizzMaster\client\src\features\cars\CarCard.tsx", "TypeScript React", 75, 0, 0, 0, 0, 0, 0, 0, 8, 83
+"e:\BGGT XRM\BizzMaster\client\src\features\cars\CarFinder.tsx", "TypeScript React", 64, 0, 0, 0, 0, 0, 0, 0, 17, 81
+"e:\BGGT XRM\BizzMaster\client\src\features\cars\Cars-old.tsx", "TypeScript React", 98, 0, 0, 0, 0, 0, 0, 29, 27, 154
+"e:\BGGT XRM\BizzMaster\client\src\features\cars\Cars.tsx", "TypeScript React", 20, 0, 0, 0, 0, 0, 0, 0, 11, 31
+"e:\BGGT XRM\BizzMaster\client\src\features\cars\Platforms.tsx", "TypeScript React", 19, 0, 0, 0, 0, 0, 0, 0, 11, 30
+"e:\BGGT XRM\BizzMaster\client\src\features\commercial\CommercialCardDetail.tsx", "TypeScript React", 50, 0, 0, 0, 0, 0, 0, 0, 12, 62
+"e:\BGGT XRM\BizzMaster\client\src\features\commercial\CommercialCards.tsx", "TypeScript React", 34, 0, 0, 0, 0, 0, 0, 0, 19, 53
+"e:\BGGT XRM\BizzMaster\client\src\features\commercial\OrderRegistrationDetail.tsx", "TypeScript React", 57, 0, 0, 0, 0, 0, 0, 0, 12, 69
+"e:\BGGT XRM\BizzMaster\client\src\features\commercial\OrderRegistrations.tsx", "TypeScript React", 35, 0, 0, 0, 0, 0, 0, 0, 19, 54
+"e:\BGGT XRM\BizzMaster\client\src\features\error\NotFound.tsx", "TypeScript React", 14, 0, 0, 0, 0, 0, 0, 0, 1, 15
+"e:\BGGT XRM\BizzMaster\client\src\features\home\HomePage.tsx", "TypeScript React", 8, 0, 0, 0, 0, 0, 0, 0, 1, 9
+"e:\BGGT XRM\BizzMaster\client\src\features\leadtime\LeadTime.tsx", "TypeScript React", 65, 0, 0, 0, 0, 0, 0, 0, 17, 82
+"e:\BGGT XRM\BizzMaster\client\src\features\leadtime\LeadTimeHistory.tsx", "TypeScript React", 68, 0, 0, 0, 0, 0, 0, 1, 13, 82
+"e:\BGGT XRM\BizzMaster\client\src\features\leadtime\SubmitLeadTime.tsx", "TypeScript React", 193, 0, 0, 0, 0, 0, 0, 3, 24, 220
+"e:\BGGT XRM\BizzMaster\client\src\features\order\Order.tsx", "TypeScript React", 81, 0, 0, 0, 0, 0, 0, 0, 19, 100
+"e:\BGGT XRM\BizzMaster\client\src\features\order\OrderHistory.tsx", "TypeScript React", 79, 0, 0, 0, 0, 0, 0, 1, 17, 97
+"e:\BGGT XRM\BizzMaster\client\src\features\order\SubmitOrder.tsx", "TypeScript React", 258, 0, 0, 0, 0, 0, 0, 23, 32, 313
+"e:\BGGT XRM\BizzMaster\client\src\features\product\ProductDetails.tsx", "TypeScript React", 56, 0, 0, 0, 0, 0, 0, 42, 12, 110
+"e:\BGGT XRM\BizzMaster\client\src\features\product\ProductSearch.tsx", "TypeScript React", 25, 0, 0, 0, 0, 0, 0, 0, 6, 31
+"e:\BGGT XRM\BizzMaster\client\src\features\product\Products.tsx", "TypeScript React", 87, 0, 0, 0, 0, 0, 0, 0, 19, 106
+"e:\BGGT XRM\BizzMaster\client\src\features\product\catalogSlice.ts", "TypeScript", 0, 141, 0, 0, 0, 0, 0, 1, 17, 159
+"e:\BGGT XRM\BizzMaster\client\src\features\project\ProjectDetail.tsx", "TypeScript React", 59, 0, 0, 0, 0, 0, 0, 0, 22, 81
+"e:\BGGT XRM\BizzMaster\client\src\features\project\ProjectWizard1.tsx", "TypeScript React", 30, 0, 0, 0, 0, 0, 0, 0, 17, 47
+"e:\BGGT XRM\BizzMaster\client\src\features\project\ProjectWizard2.tsx", "TypeScript React", 260, 0, 0, 0, 0, 0, 0, 23, 32, 315
+"e:\BGGT XRM\BizzMaster\client\src\features\project\ProjectWizard3.tsx", "TypeScript React", 244, 0, 0, 0, 0, 0, 0, 6, 37, 287
+"e:\BGGT XRM\BizzMaster\client\src\features\project\Projects.tsx", "TypeScript React", 39, 0, 0, 0, 0, 0, 0, 1, 20, 60
+"e:\BGGT XRM\BizzMaster\client\src\features\shared\HierarchialTable.tsx", "TypeScript React", 54, 0, 0, 0, 0, 0, 0, 0, 12, 66
+"e:\BGGT XRM\BizzMaster\client\src\features\shared\SimpleMessage.tsx", "TypeScript React", 31, 0, 0, 0, 0, 0, 0, 31, 6, 68
+"e:\BGGT XRM\BizzMaster\client\src\features\shared\SimpleTable.tsx", "TypeScript React", 48, 0, 0, 0, 0, 0, 0, 0, 9, 57
+"e:\BGGT XRM\BizzMaster\client\src\features\stock\Stock.tsx", "TypeScript React", 82, 0, 0, 0, 0, 0, 0, 0, 19, 101
+"e:\BGGT XRM\BizzMaster\client\src\features\stock\StockHistory.tsx", "TypeScript React", 79, 0, 0, 0, 0, 0, 0, 1, 17, 97
+"e:\BGGT XRM\BizzMaster\client\src\features\stock\SubmitStock.tsx", "TypeScript React", 258, 0, 0, 0, 0, 0, 0, 23, 33, 314
+"e:\BGGT XRM\BizzMaster\client\src\features\supply\SalesForecast.tsx", "TypeScript React", 84, 0, 0, 0, 0, 0, 0, 0, 19, 103
+"e:\BGGT XRM\BizzMaster\client\src\features\supply\SalesForecastHistory.tsx", "TypeScript React", 79, 0, 0, 0, 0, 0, 0, 1, 17, 97
+"e:\BGGT XRM\BizzMaster\client\src\features\supply\SubmitSalesForecast.tsx", "TypeScript React", 241, 0, 0, 0, 0, 0, 0, 23, 28, 292
+"e:\BGGT XRM\BizzMaster\client\src\features\supply\SupplierDetails.tsx", "TypeScript React", 87, 0, 0, 0, 0, 0, 0, 0, 16, 103
+"e:\BGGT XRM\BizzMaster\client\src\features\supply\Suppliers.tsx", "TypeScript React", 32, 0, 0, 0, 0, 0, 0, 0, 19, 51
+"e:\BGGT XRM\BizzMaster\client\src\features\supply\SupplyLineAudit.tsx", "TypeScript React", 153, 0, 0, 0, 0, 0, 0, 2, 39, 194
+"e:\BGGT XRM\BizzMaster\client\src\features\supply\SupplyLineDetails.tsx", "TypeScript React", 64, 0, 0, 0, 0, 0, 0, 0, 22, 86
+"e:\BGGT XRM\BizzMaster\client\src\features\supply\SupplyLines.tsx", "TypeScript React", 32, 0, 0, 0, 0, 0, 0, 0, 18, 50
+"e:\BGGT XRM\BizzMaster\client\src\features\system\Basics.tsx", "TypeScript React", 38, 0, 0, 0, 0, 0, 0, 0, 11, 49
+"e:\BGGT XRM\BizzMaster\client\src\features\system\Brands.tsx", "TypeScript React", 18, 0, 0, 0, 0, 0, 0, 0, 11, 29
+"e:\BGGT XRM\BizzMaster\client\src\features\system\Categories.tsx", "TypeScript React", 25, 0, 0, 0, 0, 0, 0, 0, 12, 37
+"e:\BGGT XRM\BizzMaster\client\src\features\system\Countries.tsx", "TypeScript React", 20, 0, 0, 0, 0, 0, 0, 0, 11, 31
+"e:\BGGT XRM\BizzMaster\client\src\features\system\MasterSystems.tsx", "TypeScript React", 17, 0, 0, 0, 0, 0, 0, 0, 10, 27
+"e:\BGGT XRM\BizzMaster\client\src\features\system\Usagetypes.tsx", "TypeScript React", 17, 0, 0, 0, 0, 0, 0, 0, 10, 27
+"e:\BGGT XRM\BizzMaster\client\src\features\system\basicsSlice.ts", "TypeScript", 0, 29, 0, 0, 0, 0, 0, 0, 16, 45
+"e:\BGGT XRM\BizzMaster\client\src\index.tsx", "TypeScript React", 20, 0, 0, 0, 0, 0, 0, 3, 6, 29
+"e:\BGGT XRM\BizzMaster\client\src\react-app-env.d.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 0, 1, 1, 2
+"e:\BGGT XRM\BizzMaster\client\src\reportWebVitals.ts", "TypeScript", 0, 13, 0, 0, 0, 0, 0, 0, 3, 16
+"e:\BGGT XRM\BizzMaster\client\src\test\App.test.tsx", "TypeScript React", 8, 0, 0, 0, 0, 0, 0, 0, 2, 10
+"e:\BGGT XRM\BizzMaster\client\src\test\setupTests.ts", "TypeScript", 0, 1, 0, 0, 0, 0, 0, 4, 1, 6
+"Total", "-", 4155, 514, 0, -6313, -56, -713, -22, 127, -787, -3095

@@ -49,11 +49,17 @@ namespace API
 
             services.AddCors();
             services.AddIdentityCore<User>(opt => {
+                opt.User.RequireUniqueEmail = false;
                 opt.Password.RequireNonAlphanumeric = false;
-                opt.User.RequireUniqueEmail = true;
+                
             })
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<BMContext>();
+            
+            services.AddIdentityCore<User>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<BMContext>()
+                .AddTokenProvider<DataProtectorTokenProvider<User>>(TokenOptions.DefaultProvider);
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt => 
                 {
@@ -68,6 +74,11 @@ namespace API
                 });
             services.AddAuthorization();
             services.AddScoped<TokenService>();
+
+            services.AddOptions();
+            
+            services.Configure<MessageSettings>(Configuration.GetSection("MessageSettings"));
+            services.AddScoped<MessageService>();
 
         }
 

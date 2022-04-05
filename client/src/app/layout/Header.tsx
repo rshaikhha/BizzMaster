@@ -1,12 +1,12 @@
 
-import { AppBar, Box, Collapse, Drawer, IconButton, List, ListItem, ListItemText, Menu, Switch, Toolbar, Typography } from "@mui/material";
+import { AppBar, Avatar, Box, Collapse, Drawer, IconButton, List, ListItem, ListItemText, Menu, Switch, Toolbar, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { useAppSelector } from "../store/configureStore";
 import MenuIcon from '@mui/icons-material/Menu';
 
 import SignedInMenu from "./SignedInMenu";
 import { useState } from "react";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { ExpandLess, ExpandMore, Image } from "@mui/icons-material";
 import { rightMenuItems, SidebarItems } from "./MenuItems";
 import LoginIcon from '@mui/icons-material/Login';
 
@@ -22,8 +22,9 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
     //const { basket } = useAppSelector(state => state.basket);
     const { user } = useAppSelector(state => state.account);
     //const itemCount = basket?.items.reduce((sum, item) => sum + item.quantity, 0)
-    
-    
+    //const logo = require('./logo.png');
+    const logo = './logo.png';
+
     const navStyles = {
         textDecoration: 'none',
         color: 'inherit',
@@ -37,8 +38,8 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
         ml: 1
     }
 
-    function handleClick(index: number){
-        if (openitem === index){
+    function handleClick(index: number) {
+        if (openitem === index) {
             setOpenitem(-1)
         }
         else {
@@ -48,13 +49,13 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
 
     const drawerWidth = 240;
 
-    
+
 
     return (
         <AppBar position='fixed' sx={{ mb: 6, zIndex: (theme) => theme.zIndex.drawer + 1 }}
         >
             <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Box display='flex' alignItems='center'>
+                <Box id="MenuIcon" display='flex' alignItems='center'>
 
                     <IconButton
                         edge="start"
@@ -64,8 +65,24 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6">Business Gate Group</Typography>
                 </Box>
+                <Box id="Logo" display='flex' alignItems='center'>
+                    <IconButton
+                        edge="start"
+                        color="inherit"
+                        aria-label="menu"
+                        component={NavLink}
+                        to='/'
+                    >
+                        <Box
+                            component="img"
+                            alt="User Avatar"
+                            src={logo}
+                            sx={{ maxHeight: 35 }}
+                          />
+                    </IconButton>
+                </Box>
+
                 <Box display='flex' alignItems='center'>
                     {/* <IconButton component={Link} to='/Basket' size='large' sx={{ color: 'inherit' }}>
                         <Badge badgeContent={itemCount} color='secondary'>
@@ -77,25 +94,25 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
                     ) : (
                         <Box display='flex' alignItems='center'>
 
-                    <IconButton
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        component={NavLink}
-                                    to='/login'
-                    >
-                        <LoginIcon />
-                    </IconButton>
-                   
-                </Box>
-                        
+                            <IconButton
+                                edge="start"
+                                color="inherit"
+                                aria-label="menu"
+                                component={NavLink}
+                                to='/login'
+                            >
+                                <LoginIcon />
+                            </IconButton>
+
+                        </Box>
+
                     )
                     }
 
                 </Box>
 
                 <Drawer
-                   
+
                     sx={{
                         width: drawerWidth,
                         flexShrink: 0,
@@ -120,8 +137,8 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
                                                         component={NavLink} to={sub.path}
                                                         key={sub.path}
                                                         sx={{ pl: 4, bgcolor: 'secondary' }}
-                                                        onClick={()=>setIsDrawerOpen(false)}
-                                                        >
+                                                        onClick={() => setIsDrawerOpen(false)}
+                                                    >
                                                         <ListItemText primary={sub.title} />
                                                     </ListItem>
                                                 ))}

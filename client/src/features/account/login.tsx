@@ -13,22 +13,17 @@ export default function Login() {
     const {user} = useAppSelector(state => state.account);
 
 
-    const {register, handleSubmit, formState: {isSubmitting, errors, isValid}} = useForm({
+    const {register, handleSubmit,setError, formState: {isSubmitting, errors, isValid}} = useForm({
         mode: 'all'
     });
-
-
 
     async function submitForm(data: FieldValues) {
         
         const result = await dispatch(signInUser(data));
         if (result.type.endsWith('fulfilled')) {
-            
-            console.log('done');
-            
             history.push('/');
         } else {
-            console.log('failed')
+            setError('password', { message: "Code / Password not valid!!!" })
         }
 
     }
@@ -102,3 +97,5 @@ export default function Login() {
             </Container>
     );
 }
+
+

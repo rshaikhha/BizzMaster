@@ -47,7 +47,7 @@ const handleClose = () => {
                 TransitionComponent={Fade}
             >
                 <MenuItem onClick={handleClose} component={NavLink} to={'/profile'}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={handleClose}>invite</MenuItem>
                 <MenuItem onClick={() => dispatch(signOut())}>Logout</MenuItem>
             </Menu>
         </>

@@ -100,11 +100,12 @@ namespace API.Controllers
                 return Forbid();
             }
             //var min = (DateTime.Now - user.LoginCodeValidation).TotalMinutes;
-            var codeAccepted = await AuthorizeCode(loginDto.Password);
-            var passAccepted = await AuthorizePassword(loginDto.Password);
+            var codeAccepted = await AuthorizeCode(loginDto.Password, loginDto.Username);
+            var passAccepted = await AuthorizePassword(loginDto.Password, loginDto.Username);
             if (!codeAccepted && !passAccepted)
             {
-                return Forbid();
+                ModelState.AddModelError("Password", "Code or Password is not Valid!!!");
+                return ValidationProblem();
             }
             return await ToDto(user);
         }
@@ -257,15 +258,24 @@ namespace API.Controllers
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
-        private async Task<bool> AuthorizeCode(string Code)
+        private async Task<bool> AuthorizeCode(string code, string username= "")
         {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            return user.LoginCode == Code && (DateTime.Now - user.LoginCodeValidation).TotalMinutes <= 60;
+            if (username == "" && User.Identity.Name == null) return false;
+
+            var user = username!= "" 
+                ? await _userManager.FindByNameAsync(username) 
+                : await _userManager.FindByNameAsync(User.Identity.Name) ;
+            return user!=null && user.LoginCode == code && (DateTime.Now - user.LoginCodeValidation).TotalMinutes <= 60;
         }
 
-        private async Task<bool> AuthorizePassword(string Password)
+        private async Task<bool> AuthorizePassword(string Password, string username= "")
         {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            if (username == "" && User.Identity.Name == null) return false;
+
+            var user = username!= "" 
+                ? await _userManager.FindByNameAsync(username) 
+                : await _userManager.FindByNameAsync(User.Identity.Name);
+
             return await _userManager.CheckPasswordAsync(user, Password);
         }
 

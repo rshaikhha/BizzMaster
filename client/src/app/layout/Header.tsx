@@ -110,6 +110,7 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
                     }
 
                 </Box>
+                {user?.token && (
 
                 <Drawer
 
@@ -152,6 +153,7 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
                         </List>
                     </Box>
                 </Drawer>
+                )}
 
 
             </Toolbar>

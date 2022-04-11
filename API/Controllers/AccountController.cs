@@ -23,7 +23,6 @@ namespace API.Controllers
             this._messageSerivce = messageSerivce;
             this._userManager = userManager;
             this._tokenService = tokenService;
-
         }
 
         /// <summary>
@@ -52,36 +51,13 @@ namespace API.Controllers
             {
                 return NotFound();
             }
-            using (var httpClient = new HttpClient())
-            {
-                var settings = _messageSerivce.GetMessageSettings();
-                var url = "https://rest.payamak-panel.com/api/SendSMS/SendSMS";
-                var data = new List<KeyValuePair<string, string>>{
-                                  new KeyValuePair<string, string>("username", settings.Username),
-                                  new KeyValuePair<string, string>("password", settings.Password),
-                                  new KeyValuePair<string, string>("from", settings.From),
-                                  new KeyValuePair<string, string>("to", loginDto.Username),
-                                  new KeyValuePair<string, string>("text", string.Format("Your Login Code is {0}", code)),
-                              };
-                using (var content = new FormUrlEncodedContent(data))
-                {
-                    content.Headers.Clear();
-                    content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
 
-                    HttpResponseMessage response = await httpClient.PostAsync(url, content);
-
-                    var SMSResult = await response.Content.ReadAsStringAsync();
-                    var RetResult = Newtonsoft.Json.JsonConvert.DeserializeObject<SMSResult>(SMSResult);
-                    if (RetResult.RetStatus == 1)
-                    {
-                        // We just need to return the username (phone number)
-                        // username is used to autofill the login form
-                        return new LoginDto{Username = loginDto.Username};
-                    }
-                    return NotFound();
-                }
-            }
+            string message = string.Format("کد ورود شما {}", code);
+            var smsres = await SendMessage(loginDto.Username, message);
+            if (smsres) {return new LoginDto { Username = loginDto.Username };} else {return NotFound();}
         }
+
+        
 
         /// <summary>
         /// This method
@@ -94,7 +70,7 @@ namespace API.Controllers
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var user = await _userManager.FindByNameAsync(loginDto.Username);
-
+            //var roles = await _userManager.GetRolesAsync(user);
             if (user == null)
             {
                 return Forbid();
@@ -193,6 +169,40 @@ namespace API.Controllers
 
         }
 
+        [HttpPost("invite")]
+        [Authorize(Roles = "CanInvite")]
+        public async Task<ActionResult> Invite(LoginDto loginDto)
+        {
+            var user = new User
+                {
+                    UserName = loginDto.Username,
+                };
+            var result = await _userManager.CreateAsync(user, "Aoernclsh@328472");
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(error.Code, error.Description);
+                }
+
+                return ValidationProblem();
+            }
+            await _userManager.AddToRoleAsync(user, "Member");
+
+            var code = RandomString(5);
+            user.LoginCode = code;
+            user.LoginCodeValidation = DateTime.Now;
+            await _userManager.UpdateAsync(user);
+
+            string message = string.Format("کد ورود شما {}", code);
+            var smsres = await SendMessage(loginDto.Username, message);
+            if (smsres) {return Ok();} else {return NotFound();}
+
+            
+
+        }
+
         // [Authorize(Roles = "AccountManager")]
         // [HttpPost("Register")]
         // public async Task<ActionResult> Register(RegisterDto registerDto)
@@ -227,8 +237,6 @@ namespace API.Controllers
             return await createUserDto();
         }
 
-        
-
         private async Task<UserDto> createUserDto()
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
@@ -237,6 +245,7 @@ namespace API.Controllers
 
         private async Task<UserDto> ToDto(User user)
         {
+            
             return new UserDto
             {
                 Username = user.UserName,
@@ -277,6 +286,39 @@ namespace API.Controllers
                 : await _userManager.FindByNameAsync(User.Identity.Name);
 
             return await _userManager.CheckPasswordAsync(user, Password);
+        }
+
+        private async Task<bool> SendMessage(string To, string message)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                var settings = _messageSerivce.GetMessageSettings();
+                var url = "https://rest.payamak-panel.com/api/SendSMS/SendSMS";
+                var data = new List<KeyValuePair<string, string>>{
+                                  new KeyValuePair<string, string>("username", settings.Username),
+                                  new KeyValuePair<string, string>("password", settings.Password),
+                                  new KeyValuePair<string, string>("from", settings.From),
+                                  new KeyValuePair<string, string>("to", To),
+                                  new KeyValuePair<string, string>("text", message),
+                              };
+                using (var content = new FormUrlEncodedContent(data))
+                {
+                    content.Headers.Clear();
+                    content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+
+                    HttpResponseMessage response = await httpClient.PostAsync(url, content);
+
+                    var SMSResult = await response.Content.ReadAsStringAsync();
+                    var RetResult = Newtonsoft.Json.JsonConvert.DeserializeObject<SMSResult>(SMSResult);
+                    if (RetResult.RetStatus == 1)
+                    {
+                        // We just need to return the username (phone number)
+                        // username is used to autofill the login form
+                        return true;
+                    }
+                    return false;
+                }
+            }
         }
 
     }

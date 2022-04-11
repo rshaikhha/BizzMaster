@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Router } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import App from './app/layout/App';
 import reportWebVitals from './reportWebVitals';
 import {createBrowserHistory} from 'history';
 import { Provider } from 'react-redux';
 import { store } from './app/store/configureStore';
+
 
 export const history = createBrowserHistory();
 

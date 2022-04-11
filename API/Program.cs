@@ -23,13 +23,13 @@ namespace API
             using var scope = host.Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<BMContext>();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
-
+            var rolemanager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             
             var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
             try
             {
                 await context.Database.MigrateAsync();
-                await DbInitializer.Initialize(context, userManager);
+                await DbInitializer.Initialize(context, userManager, rolemanager);
             }
             catch (System.Exception ex)
             {

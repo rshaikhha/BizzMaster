@@ -159,6 +159,7 @@ const Account = {
     requestCode: (values: any) => requests.post('account/requestCode', values),
     update: (values: any) => requests.post('account/update', values),
     updatePassword: (values: any) => requests.post('account/updatePassword', values),
+    invite: (values: any) => requests.post('account/invite', values),
     register: (values: any) => requests.post('account/register', values),
     currentUser: () => requests.get('account/currentUser'),
 }

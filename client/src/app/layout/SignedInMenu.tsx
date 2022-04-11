@@ -1,4 +1,4 @@
-import { Button, Menu, Fade, MenuItem, Avatar } from "@mui/material";
+import { Button, Menu, Fade, MenuItem, Avatar, Typography } from "@mui/material";
 import React from "react";
 import { signOut } from "../../features/account/accountSlice";
 import { useAppDispatch, useAppSelector } from "../store/configureStore";
@@ -46,8 +46,12 @@ const handleClose = () => {
                 onClose={handleClose}
                 TransitionComponent={Fade}
             >
-                <MenuItem onClick={handleClose} component={NavLink} to={'/profile'}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>invite</MenuItem>
+                <MenuItem onClick={handleClose} component={NavLink} to={'/dashboard'}>داشبورد</MenuItem>
+                <MenuItem onClick={handleClose} component={NavLink} to={'/profile'}>پروفایل</MenuItem>
+                {user?.roles.includes('CanInvite') ?  
+                    <MenuItem onClick={handleClose} component={NavLink} to={'/invite'}>دعوت همکار</MenuItem>
+                    : ''
+                }
                 <MenuItem onClick={() => dispatch(signOut())}>Logout</MenuItem>
             </Menu>
         </>

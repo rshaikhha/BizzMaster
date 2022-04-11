@@ -54,14 +54,14 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
     return (
         <AppBar position='fixed' sx={{ mb: 6, zIndex: (theme) => theme.zIndex.drawer + 1 }}
         >
-            <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', direction: 'rtl' }}>
                 <Box id="MenuIcon" display='flex' alignItems='center'>
 
                     <IconButton
                         edge="start"
                         color="inherit"
                         aria-label="menu"
-                        onClick={() => setIsDrawerOpen(true)}
+                        onClick={() => setIsDrawerOpen(!isDrawerOpen)}
                     >
                         <MenuIcon />
                     </IconButton>
@@ -113,7 +113,7 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
                 {user?.token && (
 
                 <Drawer
-
+                    anchor = 'right'
                     sx={{
                         width: drawerWidth,
                         flexShrink: 0,
@@ -122,13 +122,13 @@ export default function Header({ darkMode, handleThemeChange }: Props) {
                     open={isDrawerOpen}
                     onClose={() => setIsDrawerOpen(false)}
                 >
-                    <Box sx={{ overflow: 'auto', mt: 8 }}>
+                    <Box sx={{ overflow: 'auto', mt: 8, direction: 'rtl' }}>
                         <List>
                             {
                                 SidebarItems.map((item, index) => (
-                                    <Box key={index}>
-                                        <ListItem button onClick={() => handleClick(index)}>
-                                            <ListItemText primary={item.title} />
+                                    <Box key={index} >
+                                        <ListItem button onClick={() => handleClick(index)} dir = 'rtl'>
+                                            <ListItemText primary={item.title} dir= 'rtl' />
                                             {(openitem === index) ? <ExpandLess /> : <ExpandMore />}
                                         </ListItem>
                                         <Collapse in={openitem === index} timeout="auto" unmountOnExit >

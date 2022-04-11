@@ -13,6 +13,7 @@ const initialState: AccountState = {
     user: null,
 }
 
+
 export const requestCode = createAsyncThunk<User, FieldValues>(
     'account/requestCode',
     async (data, thunkAPI) => {

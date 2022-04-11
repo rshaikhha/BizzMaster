@@ -23,6 +23,9 @@ Build Up Solution and Projects:
     npm install react-toastify
     npm install @mui/icons-material
     npm install @mui/lab
+    npm install @material-ui/styles
+    npm install stylis stylis-plugin-rtl
+    npm install jss-rtl
     
 
 

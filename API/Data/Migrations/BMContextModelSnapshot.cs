@@ -973,22 +973,6 @@ namespace API.Data.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "8b9e8209-055d-4062-addf-5a4be985afa9",
-                            ConcurrencyStamp = "f16af9f1-37ef-4052-aa67-302a63e3c942",
-                            Name = "Member",
-                            NormalizedName = "MEMBER"
-                        },
-                        new
-                        {
-                            Id = "89e08fbb-2458-4bb1-b245-dbae68f629de",
-                            ConcurrencyStamp = "36858729-4e33-4cc6-a6e0-46ad6b25bfc1",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

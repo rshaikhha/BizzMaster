@@ -14,12 +14,22 @@ namespace API.Data.DataInitializers
     {
         private static BMContext _context;
 
-        public static async Task Initialize(BMContext context, UserManager<User> userManager)
+        public static async Task Initialize(BMContext context, UserManager<User> userManager, RoleManager<IdentityRole> rolemanager)
         {
             _context = context;
 
             if (!userManager.Users.Any())
             {
+                await rolemanager.CreateAsync(
+                    new IdentityRole { Name = "Member", NormalizedName = "MEMBER" }
+                    );
+                await rolemanager.CreateAsync(
+                    new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" }
+                    );
+                await rolemanager.CreateAsync(
+                    new IdentityRole { Name = "CanInvite", NormalizedName = "CanInvite" }
+                    );
+
                 var user = new User
                 {
                     UserName = "user",
@@ -34,7 +44,7 @@ namespace API.Data.DataInitializers
                     Email = "admin@bggt.ae"
                 };
                 await userManager.CreateAsync(admin, "Admin@8827");
-                await userManager.AddToRolesAsync(admin, new[] { "Member", "Admin" });
+                await userManager.AddToRolesAsync(admin, new[] { "Member", "Admin", "CanInvite" });
             }
 
 

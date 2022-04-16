@@ -2,7 +2,6 @@ import { Container, Box, Avatar, Typography, TextField, Button } from "@mui/mate
 import { useForm, FieldValues } from "react-hook-form";
 import { Redirect, useHistory } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { requestCode } from "./accountSlice";
 import AddReactionIcon from '@mui/icons-material/AddReaction';
 import agent from "../../app/api/agent";
 
@@ -14,17 +13,19 @@ export default function Invite() {
     const {user} = useAppSelector(state => state.account);
 
 
-    const {register, handleSubmit, formState: {isSubmitting, errors, isValid}} = useForm({
+    const {register, handleSubmit,setError, formState: {isSubmitting, errors, isValid}} = useForm({
         mode: 'all'
     });
-
-
 
     async function submitForm(data: FieldValues) {
         
         const result = agent.Account.invite(data)
             .then(res => history.push('/dashboard'))
-            .catch(e => {console.log(e)});
+            .catch(errors => {
+                errors.forEach((error: string) => {
+                    setError('username', { message: error })
+                });
+            });
     }
 
     if(!user?.token) return <Redirect push to="/login" />
@@ -87,3 +88,5 @@ export default function Invite() {
             </Container>
     );
 }
+
+

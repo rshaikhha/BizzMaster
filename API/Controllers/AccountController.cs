@@ -293,7 +293,7 @@ namespace API.Controllers
             using (var httpClient = new HttpClient())
             {
                 var settings = _messageSerivce.GetMessageSettings();
-                var url = "https://rest.payamak-panel.com/api/SendSMS/SendSMS";
+                var url = settings.Url;
                 var data = new List<KeyValuePair<string, string>>{
                                   new KeyValuePair<string, string>("username", settings.Username),
                                   new KeyValuePair<string, string>("password", settings.Password),

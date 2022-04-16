@@ -54,10 +54,10 @@ namespace API.Controllers
 
             string message = string.Format("کد ورود شما {}", code);
             var smsres = await SendMessage(loginDto.Username, message);
-            if (smsres) {return new LoginDto { Username = loginDto.Username };} else {return NotFound();}
+            if (smsres) { return new LoginDto { Username = loginDto.Username }; } else { return NotFound(); }
         }
 
-        
+
 
         /// <summary>
         /// This method
@@ -153,7 +153,7 @@ namespace API.Controllers
 
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var result = await _userManager.ResetPasswordAsync(user,token, updateDto.NewPass);
+            var result = await _userManager.ResetPasswordAsync(user, token, updateDto.NewPass);
 
             if (!result.Succeeded)
             {
@@ -174,9 +174,9 @@ namespace API.Controllers
         public async Task<ActionResult> Invite(LoginDto loginDto)
         {
             var user = new User
-                {
-                    UserName = loginDto.Username,
-                };
+            {
+                UserName = loginDto.Username,
+            };
             var result = await _userManager.CreateAsync(user, "Aoernclsh@328472");
 
             if (!result.Succeeded)
@@ -197,11 +197,45 @@ namespace API.Controllers
 
             string message = string.Format("کد ورود شما {}", code);
             var smsres = await SendMessage(loginDto.Username, message);
-            if (smsres) {return Ok();} else {return NotFound();}
-
-            
+            if (smsres) { return Ok(); } else { return NotFound(); }
 
         }
+
+        /// this method returns all users' info in UserDto format
+        [HttpGet("users")]
+        [Authorize]
+        public async Task<IList<UserDto>> Users()
+        {
+            var users = await _userManager.GetUsersInRoleAsync("member");
+            var res = new List<UserDto>();
+            foreach (var item in users)
+            {
+                res.Add(await ToDto(item, false));
+            }
+            return res;
+        }
+
+        [HttpPost("AssignRole")]
+        [Authorize("admin")]
+        public async Task<ActionResult<UserDto>> AssignRole(UserDto userDto)
+        {
+            var user = await _userManager.FindByNameAsync(userDto.Username);
+            var result = await _userManager.AddToRolesAsync(user, userDto.Roles);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(error.Code, error.Description);
+                }
+
+                return ValidationProblem();
+            }
+
+            return await ToDto(user);
+        }
+
+        
 
         // [Authorize(Roles = "AccountManager")]
         // [HttpPost("Register")]
@@ -243,13 +277,13 @@ namespace API.Controllers
             return await ToDto(user);
         }
 
-        private async Task<UserDto> ToDto(User user)
+        private async Task<UserDto> ToDto(User user, bool token = true)
         {
-            
+
             return new UserDto
             {
                 Username = user.UserName,
-                Token = await _tokenService.GenerateToken(user),
+                Token = token ? await _tokenService.GenerateToken(user) : "",
                 Roles = (await _userManager.GetRolesAsync(user)).ToList(),
                 Avatar = user.Avatar,
                 FirstName = user.FirstName,
@@ -267,22 +301,22 @@ namespace API.Controllers
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
-        private async Task<bool> AuthorizeCode(string code, string username= "")
+        private async Task<bool> AuthorizeCode(string code, string username = "")
         {
             if (username == "" && User.Identity.Name == null) return false;
 
-            var user = username!= "" 
-                ? await _userManager.FindByNameAsync(username) 
-                : await _userManager.FindByNameAsync(User.Identity.Name) ;
-            return user!=null && user.LoginCode == code && (DateTime.Now - user.LoginCodeValidation).TotalMinutes <= 60;
+            var user = username != ""
+                ? await _userManager.FindByNameAsync(username)
+                : await _userManager.FindByNameAsync(User.Identity.Name);
+            return user != null && user.LoginCode == code && (DateTime.Now - user.LoginCodeValidation).TotalMinutes <= 60;
         }
 
-        private async Task<bool> AuthorizePassword(string Password, string username= "")
+        private async Task<bool> AuthorizePassword(string Password, string username = "")
         {
             if (username == "" && User.Identity.Name == null) return false;
 
-            var user = username!= "" 
-                ? await _userManager.FindByNameAsync(username) 
+            var user = username != ""
+                ? await _userManager.FindByNameAsync(username)
                 : await _userManager.FindByNameAsync(User.Identity.Name);
 
             return await _userManager.CheckPasswordAsync(user, Password);
@@ -324,9 +358,10 @@ namespace API.Controllers
     }
 
 
-    class SMSResult{
+    class SMSResult
+    {
         public string Value { get; set; }
-        public int RetStatus {get; set;}
+        public int RetStatus { get; set; }
         public string StrRetStatus { get; set; }
     }
 }
